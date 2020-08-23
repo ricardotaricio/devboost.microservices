@@ -18,7 +18,7 @@ namespace DevBoost.dronedelivery.Models
         public decimal Longitude { get; set; }
         public DateTime DataHora { get; set; }
         public Drone Drone { get; set; }
-        public int DroneId { get; set; }
+        //public int DroneId { get; set; }
         public DateTime PrevisaoEntrega { get; set; }
         public EnumStatusPedido Status { get; set; }
     }

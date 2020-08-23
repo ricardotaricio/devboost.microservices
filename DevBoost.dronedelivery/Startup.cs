@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DevBoost.dronedelivery.Data.Contexts;
 using DevBoost.dronedelivery.Data.Repositories;
+using DevBoost.dronedelivery.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ namespace DevBoost.dronedelivery
             services.AddControllers();
             services.AddDbContext<PedidoContext>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IDeliveryService, DeliveryService>();
             services.AddTransient(typeof(IRepository<>), typeof(EFRepository<>));
         }
 
