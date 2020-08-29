@@ -8,7 +8,7 @@ namespace DevBoost.dronedelivery.Service
 {
     public interface IDeliveryService
     {
-        bool IsPedidoValido(Pedido pedido, out double tempoTrajetoCompleto);
+        bool IsPedidoValido(Pedido pedido, out string mensagemRejeicaoPedido);
         void DespacharPedidos();
         int CalcularTempoTotalEntregaEmMinutos(IList<Pedido> pedidos, Drone drone);
     }

@@ -35,7 +35,6 @@ namespace DevBoost.dronedelivery.Controllers
                 SituacaoDroneDTO situacaoDrone = new SituacaoDroneDTO();
                 situacaoDrone.Drone = drone;
 
-                //todo: criar itinerario drone na atualização de status se ainda não existir
                 DroneItinerario droneItinerario = _unitOfWork.DroneItinerario.GetAll().Where(i => i.DroneId == drone.Id).FirstOrDefault();
 
                 if (droneItinerario == null)

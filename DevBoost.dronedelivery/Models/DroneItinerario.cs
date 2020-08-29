@@ -7,6 +7,10 @@ namespace DevBoost.dronedelivery.Models
 {
     public class DroneItinerario
     {
+        public DroneItinerario()
+        {
+
+        }
         public int Id { get; set; }
         public DateTime DataHora { get; set; }
         public Drone Drone { get; set; }

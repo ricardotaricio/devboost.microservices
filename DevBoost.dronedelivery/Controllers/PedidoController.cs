@@ -94,14 +94,11 @@ namespace DevBoost.dronedelivery.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            //todo: retornar mensagem
-            double tempoTrajetoCompleto = 0;
-            if (!_deliveryService.IsPedidoValido(pedido, out tempoTrajetoCompleto))
-                return BadRequest("Pedido rejeitado.");
+            string motivoRejeicaoPedido = string.Empty;
+            if (!_deliveryService.IsPedidoValido(pedido, out motivoRejeicaoPedido))
+                return BadRequest("Pedido rejeitado: " + motivoRejeicaoPedido);
 
             pedido.DataHora = DateTime.Now;
-            //todo: remover campo previsao entrega do banco de dados
-            //pedido.PrevisaoEntrega = pedido.DataHora.AddMinutes(Convert.ToInt32(tempoTrajetoCompleto / 2));
             pedido.Status = EnumStatusPedido.AguardandoEntregador;
 
             _unitOfWork.Pedidos.Insert(pedido);
