@@ -5,6 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Contexts\PedidoContext.cs" />
+    <Compile Remove="Data\Repositories\DroneItinerarioRepository.cs" />
+    <Compile Remove="Data\Repositories\DroneRepository.cs" />
+    <Compile Remove="Data\Repositories\EFRepository.cs" />
+    <Compile Remove="Data\Repositories\IDroneItinerarioRepository.cs" />
+    <Compile Remove="Data\Repositories\IDroneRepository.cs" />
+    <Compile Remove="Data\Repositories\IPedidoRepository.cs" />
+    <Compile Remove="Data\Repositories\IRepository.cs" />
+    <Compile Remove="Data\Repositories\IUnitOfWork.cs" />
+    <Compile Remove="Data\Repositories\PedidoRepository.cs" />
+    <Compile Remove="Data\Repositories\UnitOfWork.cs" />
+    <Compile Remove="Models\Drone.cs" />
+    <Compile Remove="Models\DroneItinerario.cs" />
+    <Compile Remove="Models\EnumStatusDrone.cs" />
+    <Compile Remove="Models\EnumStatusPedido.cs" />
+    <Compile Remove="Models\Pedido.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
@@ -17,7 +36,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Contexts\" />
+    <Folder Include="Data\Repositories\" />
+    <Folder Include="Models\" />
     <Folder Include="Service\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevBoost.DroneDelivery.Application\DevBoost.DroneDelivery.Application.csproj" />
+    <ProjectReference Include="..\DevBoost.DroneDelivery.Domain\DevBoost.DroneDelivery.Domain.csproj" />
+    <ProjectReference Include="..\DevBoost.DroneDelivery.Repository\DevBoost.DroneDelivery.Repository.csproj" />
   </ItemGroup>
 
 

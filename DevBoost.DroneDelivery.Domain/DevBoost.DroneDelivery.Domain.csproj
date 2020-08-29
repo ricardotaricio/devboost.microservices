@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interfaces\Services\DroneItinerarioService.cs" />
+    <Compile Remove="Interfaces\Services\DroneService.cs" />
+    <Compile Remove="Interfaces\Services\PedidoService.cs" />
+  </ItemGroup>
+
+</Project>

@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.dronedelivery", "DevBoost.dronedelivery\DevBoost.dronedelivery.csproj", "{43A89820-0913-41D3-B935-B564DEE66D99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.dronedelivery", "DevBoost.dronedelivery\DevBoost.dronedelivery.csproj", "{43A89820-0913-41D3-B935-B564DEE66D99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.Domain", "DevBoost.DroneDelivery.Domain\DevBoost.DroneDelivery.Domain.csproj", "{02417AD8-1BA3-4D73-A9B2-B3B74445DB73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.Repository", "DevBoost.DroneDelivery.Repository\DevBoost.DroneDelivery.Repository.csproj", "{8EB695E3-399A-46F6-B8BF-A57B6BC03F86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.Application", "DevBoost.DroneDelivery.Application\DevBoost.DroneDelivery.Application.csproj", "{4AFC70A0-DA9F-4934-AA73-30F4F20DAE63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{43A89820-0913-41D3-B935-B564DEE66D99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43A89820-0913-41D3-B935-B564DEE66D99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43A89820-0913-41D3-B935-B564DEE66D99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02417AD8-1BA3-4D73-A9B2-B3B74445DB73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02417AD8-1BA3-4D73-A9B2-B3B74445DB73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02417AD8-1BA3-4D73-A9B2-B3B74445DB73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02417AD8-1BA3-4D73-A9B2-B3B74445DB73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EB695E3-399A-46F6-B8BF-A57B6BC03F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EB695E3-399A-46F6-B8BF-A57B6BC03F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EB695E3-399A-46F6-B8BF-A57B6BC03F86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EB695E3-399A-46F6-B8BF-A57B6BC03F86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AFC70A0-DA9F-4934-AA73-30F4F20DAE63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AFC70A0-DA9F-4934-AA73-30F4F20DAE63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AFC70A0-DA9F-4934-AA73-30F4F20DAE63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AFC70A0-DA9F-4934-AA73-30F4F20DAE63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
