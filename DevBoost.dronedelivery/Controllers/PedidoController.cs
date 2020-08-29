@@ -48,7 +48,7 @@ namespace DevBoost.dronedelivery.Controllers
         //// PUT: api/Pedido/5
         //// To protect from overposting attacks, enable the specific properties you want to bind to, for
         //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutPedido(Guid id, Pedido pedido)
         {
             if (id != pedido.Id)

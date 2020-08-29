@@ -72,9 +72,11 @@ namespace DevBoost.dronedelivery
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IDroneService, DroneService>();
             services.AddScoped<IDroneItinerarioService, DroneItinerarioService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDroneItinerarioRepository, DroneItinerarioRepository>();
             services.AddScoped<IDroneRepository, DroneRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();            
+
 
             services.AddDbContext<DCDroneDelivery>(options =>
             {

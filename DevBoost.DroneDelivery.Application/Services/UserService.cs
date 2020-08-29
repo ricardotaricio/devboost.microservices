@@ -1,4 +1,5 @@
 ﻿using DevBoost.DroneDelivery.Domain.Entities;
+using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace DevBoost.DroneDelivery.Application.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         public User Authenticate(string username, string password)
         {
