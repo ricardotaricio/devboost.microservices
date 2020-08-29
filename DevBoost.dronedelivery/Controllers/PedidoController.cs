@@ -10,6 +10,7 @@ using DevBoost.dronedelivery.Models;
 using DevBoost.dronedelivery.Data.Repositories;
 using System.Device.Location;
 using DevBoost.dronedelivery.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DevBoost.dronedelivery.Controllers
 {
@@ -27,7 +28,7 @@ namespace DevBoost.dronedelivery.Controllers
         }
 
         // GET: api/Pedido
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "ADMIN,USER")]
         public async Task<ActionResult<IEnumerable<Pedido>>> GetPedido()
         {
             _deliveryService.DespacharPedidos();
@@ -36,7 +37,7 @@ namespace DevBoost.dronedelivery.Controllers
         }
 
         // GET: api/Pedido/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Roles = "ADMIN,USER")]
         public async Task<ActionResult<Pedido>> GetPedido(Guid id)
         {
             var pedido = _unitOfWork.Pedidos.GetById(id);
@@ -49,46 +50,46 @@ namespace DevBoost.dronedelivery.Controllers
             return pedido;
         }
 
-        // PUT: api/Pedido/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPedido(Guid id, Pedido pedido)
-        {
-            if (id != pedido.Id)
-            {
-                return BadRequest();
-            }
+        //// PUT: api/Pedido/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
+        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutPedido(Guid id, Pedido pedido)
+        //{
+        //    if (id != pedido.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _unitOfWork.Pedidos.Update(pedido);
+        //    _unitOfWork.Pedidos.Update(pedido);
 
-            try
-            {
-                await Task.Run(
-                () =>
-                {
-                    _unitOfWork.Save();
-                });
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PedidoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await Task.Run(
+        //        () =>
+        //        {
+        //            _unitOfWork.Save();
+        //        });
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!PedidoExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         // POST: api/Pedido
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "ADMIN,USER")]
         public async Task<ActionResult<Pedido>> PostPedido(Pedido pedido)
         {
             if (!ModelState.IsValid)
@@ -113,7 +114,7 @@ namespace DevBoost.dronedelivery.Controllers
         }
 
         // DELETE: api/Pedido/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "ADMIN,USER")]
         public async Task<ActionResult<Pedido>> DeletePedido(Guid id)
         {
             var pedido = _unitOfWork.Pedidos.GetById(id);

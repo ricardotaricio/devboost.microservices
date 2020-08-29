@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using DevBoost.dronedelivery.Data.Contexts;
 using DevBoost.dronedelivery.Models;
 using DevBoost.dronedelivery.Data.Repositories;
+using DevBoost.dronedelivery.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DevBoost.dronedelivery.Controllers
 {
@@ -23,7 +25,7 @@ namespace DevBoost.dronedelivery.Controllers
         }
 
         // GET: api/Drone
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "ADMIN,USER")]
         public async Task<ActionResult<IEnumerable<SituacaoDroneDTO>>> GetDrone()
         {
             var drones = _unitOfWork.Drones.GetAll();
@@ -53,7 +55,7 @@ namespace DevBoost.dronedelivery.Controllers
         }
 
         // GET: api/Drone/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Roles = "ADMIN,USER")]
         public async Task<ActionResult<Drone>> GetDrone(int id)
         {
             var drone = _unitOfWork.Drones.GetById(id);
