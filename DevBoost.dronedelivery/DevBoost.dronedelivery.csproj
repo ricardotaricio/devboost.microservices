@@ -4,7 +4,24 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup><!--<Compile Remove="Data\Contexts\PedidoContext.cs" />
+    <Compile Remove="Data\Repositories\DroneItinerarioRepository.cs" />
+    <Compile Remove="Data\Repositories\DroneRepository.cs" />
+    <Compile Remove="Data\Repositories\EFRepository.cs" />
+    <Compile Remove="Data\Repositories\IDroneItinerarioRepository.cs" />
+    <Compile Remove="Data\Repositories\IDroneRepository.cs" />
+    <Compile Remove="Data\Repositories\IPedidoRepository.cs" />
+    <Compile Remove="Data\Repositories\IRepository.cs" />
+    <Compile Remove="Data\Repositories\IUnitOfWork.cs" />
+    <Compile Remove="Data\Repositories\IUserRepository.cs" />
+    <Compile Remove="Data\Repositories\PedidoRepository.cs" />
+    <Compile Remove="Data\Repositories\UnitOfWork.cs" />-->
+    <!--<Compile Remove="Models\Drone.cs" />
+    <Compile Remove="Models\DroneItinerario.cs" />
+    <Compile Remove="Models\EnumStatusDrone.cs" />
+    <Compile Remove="Models\EnumStatusPedido.cs" />
+    <Compile Remove="Models\Pedido.cs" />-->
+  
     <Compile Remove="Data\Contexts\PedidoContext.cs" />
     <Compile Remove="Data\Repositories\DroneItinerarioRepository.cs" />
     <Compile Remove="Data\Repositories\DroneRepository.cs" />
@@ -14,6 +31,7 @@
     <Compile Remove="Data\Repositories\IPedidoRepository.cs" />
     <Compile Remove="Data\Repositories\IRepository.cs" />
     <Compile Remove="Data\Repositories\IUnitOfWork.cs" />
+    <Compile Remove="Data\Repositories\IUserRepository.cs" />
     <Compile Remove="Data\Repositories\PedidoRepository.cs" />
     <Compile Remove="Data\Repositories\UnitOfWork.cs" />
     <Compile Remove="Models\Drone.cs" />
@@ -21,9 +39,17 @@
     <Compile Remove="Models\EnumStatusDrone.cs" />
     <Compile Remove="Models\EnumStatusPedido.cs" />
     <Compile Remove="Models\Pedido.cs" />
+    <Compile Remove="Models\SecretToken.cs" />
+    <Compile Remove="Models\User.cs" />
+    <Compile Remove="Service\DeliveryService.cs" />
+    <Compile Remove="Service\IDeliveryService.cs" />
+    <Compile Remove="Service\IUserService.cs" />
+    <Compile Remove="Service\TokenService.cs" />
+    <Compile Remove="Service\UserService.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
@@ -32,6 +58,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.5.1" />
     <PackageReference Include="System.Device.Location.Portable" Version="1.0.0" />
   </ItemGroup>
 

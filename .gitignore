@@ -132,3 +132,6 @@ $RECYCLE.BIN/
 
 _NCrunch*
 /.vs/DevBoost.dronedelivery/v16/Server/sqlite3
+_NCrunch*
+/.vs/DevBoost.dronedelivery/DesignTimeBuild/.dtbcache.v2
+/.vs/DevBoost.dronedelivery
