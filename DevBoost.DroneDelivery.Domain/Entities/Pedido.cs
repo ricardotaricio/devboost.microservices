@@ -14,7 +14,7 @@ namespace DevBoost.dronedelivery.Domain
         public DateTime DataHora { get; set; }
         public Drone Drone { get; set; }
         public int DroneId { get; set; }
-        public DateTime PrevisaoEntrega { get; set; }
+        //public DateTime PrevisaoEntrega { get; set; }
         public EnumStatusPedido Status { get; set; }
 
         public void InformarHoraPedido(DateTime horaPedido)
@@ -22,10 +22,10 @@ namespace DevBoost.dronedelivery.Domain
             this.DataHora = horaPedido;
         }
 
-        public void InformarPrevisaoEntrega(DateTime dataPrevista)
-        {
-            this.PrevisaoEntrega = dataPrevista;
-        }
+        //public void InformarPrevisaoEntrega(DateTime dataPrevista)
+        //{
+        //    this.PrevisaoEntrega = dataPrevista;
+        //}
 
         public void InformarDrone(Drone drone)
         {

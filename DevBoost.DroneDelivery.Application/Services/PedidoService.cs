@@ -34,7 +34,7 @@ namespace DevBoost.DroneDelivery.Application.Services
 
         public async Task<IList<Pedido>> GetAll()
         {
-            DespacharPedidos();
+            await DespacharPedidos();
             return await _repositoryPedido.GetAll();
         }
 
@@ -65,16 +65,15 @@ namespace DevBoost.DroneDelivery.Application.Services
             return await _repositoryPedido.Update(pedido);
         }
 
-        public void DespacharPedidos()
+        public async Task DespacharPedidos()
         {
-            atualizarStatusDrones();
-
-            distribuirPedidos();
+            await atualizarStatusDrones();
+            await distribuirPedidos();
         }
 
-        public void atualizarStatusDrones()
+        public async Task atualizarStatusDrones()
         {
-            criarDroneItinerario();
+            await criarDroneItinerario();
 
             var droneItinerarios = _droneItinerarioRepository.GetAll().Result.Where(d => d.StatusDrone != EnumStatusDrone.Disponivel).ToList();
 
@@ -113,22 +112,20 @@ namespace DevBoost.DroneDelivery.Application.Services
                         foreach (var pedido in pedidos)
                         {
                             pedido.Status = EnumStatusPedido.Entregue;
-                            _repositoryPedido.Update(pedido);
+                            await _repositoryPedido.Update(pedido);
                         }
                     }
                 }
 
-                _droneItinerarioRepository.Update(droneItinerario);
+                await _droneItinerarioRepository.Update(droneItinerario);
             }
 
         }
 
-        private void distribuirPedidos()
+        private async Task distribuirPedidos()
         {
             // pedidos mais antigos vao primeiro
-            var pedidos = _repositoryPedido.GetAll().Result
-                .Where(p => p.Status == EnumStatusPedido.AguardandoEntregador)
-                .OrderBy(p => p.DataHora).ToList();
+            var pedidos = await _repositoryPedido.GetPedidosEmAberto();
 
             if (!pedidos.Any())
                 return;
@@ -139,7 +136,7 @@ namespace DevBoost.DroneDelivery.Application.Services
 
             foreach (var droneItinerario in droneItinerarios)
             {
-                droneItinerario.Drone = _droneRepository.GetById(droneItinerario.DroneId).Result;
+                droneItinerario.Drone = await _droneRepository.GetById(droneItinerario.DroneId);
             }
 
             var dronesDisponiveis = droneItinerarios.Select(d => d.Drone).OrderByDescending(d => d.Capacidade).ToList();
@@ -248,22 +245,22 @@ namespace DevBoost.DroneDelivery.Application.Services
                     droneItinerario.DroneId = drone.Id;
                     droneItinerario.StatusDrone = EnumStatusDrone.EmTransito;
 
-                    _droneRepository.Update(drone);
-                    _droneItinerarioRepository.Update(droneItinerario);
-                    
+                    await _droneRepository.Update(drone);
+                    await _droneItinerarioRepository.Update(droneItinerario);
+                                                           
                     foreach (var pedido in item.Value)
                     {
                         pedido.Drone = drone;
                         pedido.Status = EnumStatusPedido.EmTransito;
 
-                        _repositoryPedido.Update(pedido);
+                        await _repositoryPedido.Update(pedido);
                     }
                 }
             }
 
         }
 
-        private void criarDroneItinerario()
+        private async Task criarDroneItinerario()
         {
             var dronesId = _droneRepository.GetAll().Result.Select(d => d.Id).ToList();
 
@@ -278,7 +275,7 @@ namespace DevBoost.DroneDelivery.Application.Services
                 droneItinerario.InformarDataHora(DateTime.Now);
                 droneItinerario.InformarStatusDrone(EnumStatusDrone.Disponivel);
                 droneItinerario.InformarDrone(_droneRepository.GetById(droneId).Result);
-                _droneItinerarioRepository.Insert(droneItinerario);                
+                await _droneItinerarioRepository.Insert(droneItinerario);                
             }
         }
                 

@@ -39,16 +39,16 @@ namespace DevBoost.dronedelivery.Controllers
                 SituacaoDroneDTO situacaoDrone = new SituacaoDroneDTO();
                 situacaoDrone.Drone = drone;
 
-                var droneItinerario = await _droneItinerarioService.GetById(drone.Id);
+                var droneItinerario =  _droneItinerarioService.GetAll().Result.SingleOrDefault(x => x.DroneId == drone.Id);
 
                 if (droneItinerario == null)
                     situacaoDrone.StatusDrone = EnumStatusDrone.Disponivel.ToString();
                 else
                     situacaoDrone.StatusDrone = droneItinerario.StatusDrone.ToString();
 
-                var pedidos = _pedidoService.GetAll().Result.Where(p => p.Drone != null && p.Status != EnumStatusPedido.Entregue && p.Drone.Id == drone.Id).ToList();
+                var pedidos = await _pedidoService.GetAll();                 
 
-                situacaoDrone.Pedidos = pedidos;
+                situacaoDrone.Pedidos = pedidos.Where(p => p.Drone != null && p.Status != EnumStatusPedido.Entregue && p.Drone.Id == drone.Id).ToList(); ;
 
                 situacaoDrones.Add(situacaoDrone);
             }
