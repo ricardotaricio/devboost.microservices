@@ -21,7 +21,7 @@ namespace DevBoost.DroneDelivery.Application.Services
                 Issuer = "DevBoost",
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Username.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 NotBefore = DateTime.Now,

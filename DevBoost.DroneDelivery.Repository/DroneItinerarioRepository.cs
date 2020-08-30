@@ -29,6 +29,8 @@ namespace DevBoost.DroneDelivery.Repository.Context
 
         public async Task<bool> Insert(DroneItinerario droneItinerario)
         {
+            _context.Entry(droneItinerario.Drone).State = EntityState.Unchanged;
+
             _context.DroneItinerario.Add(droneItinerario);
            return await _context.SaveChangesAsync() > 0;
         }

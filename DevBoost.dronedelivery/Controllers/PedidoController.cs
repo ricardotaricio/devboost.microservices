@@ -9,6 +9,8 @@ using DevBoost.dronedelivery.Domain;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using DevBoost.dronedelivery.Domain.Enum;
+using DevBoost.DroneDelivery.Domain.Entities;
+using DevBoost.dronedelivery.DTO;
 
 namespace DevBoost.dronedelivery.Controllers
 {
@@ -18,16 +20,20 @@ namespace DevBoost.dronedelivery.Controllers
     {
         //private readonly IUnitOfWork _unitOfWork;
         private readonly IPedidoService _pedidoService;
+        private readonly IUserService _userService;
 
-        public PedidoController(IPedidoService pedidoService)
+        public PedidoController(IPedidoService pedidoService, IUserService userService)
         {
             _pedidoService = pedidoService;
+            _userService = userService;
         }
 
         // GET: api/Pedido
         [HttpGet, Authorize(Roles = "ADMIN,USER")]
         public async Task<ActionResult<IEnumerable<Pedido>>> GetPedido()
-        {            
+        {
+            await _pedidoService.DespacharPedidos();
+
             return Ok(await _pedidoService.GetAll());
         }
 
@@ -42,96 +48,40 @@ namespace DevBoost.dronedelivery.Controllers
                 return NotFound();
             }
 
-            return pedido;
-        }
-
-        //// PUT: api/Pedido/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPedido(Guid id, Pedido pedido)
-        {
-            if (id != pedido.Id)
-            {
-                return BadRequest();
-            }
-
-            await _pedidoService.Update(pedido);
-                        
-            //_unitOfWork.Pedidos.Update(pedido);
-
-            //try
-            //{
-            //    await Task.Run(
-            //    () =>
-            //    {
-            //        _unitOfWork.Save();
-            //    });
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!PedidoExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            return NoContent();
+            return Ok(pedido);
         }
 
         // POST: api/Pedido
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost, Authorize(Roles = "ADMIN,USER")]
-        public async Task<ActionResult<Pedido>> PostPedido(Pedido pedido)
+        public async Task<ActionResult<Pedido>> PostPedido(PedidoDTO pedidoDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
+
+            string username = User.Identities.FirstOrDefault().Name;
+
+            User user = await _userService.GetByUserName(username);
+
+            Cliente cliente = user.Cliente;
+
+            if (user.Cliente == null)
+                return BadRequest("Usuário não é um Cliente");
+
+            Pedido pedido = new Pedido();
+            pedido.InformarPeso(pedidoDTO.Peso);
+            pedido.InformarCliente(cliente);
+            pedido.InformarHoraPedido(DateTime.Now);
+            pedido.InformarStatus(EnumStatusPedido.AguardandoEntregador);
 
             string motivoRejeicaoPedido = string.Empty;
             if (!_pedidoService.IsPedidoValido(pedido, out motivoRejeicaoPedido))
                 return BadRequest("Pedido rejeitado: " + motivoRejeicaoPedido);
 
-            pedido.InformarHoraPedido(DateTime.Now);
-            pedido.InformarStatus(EnumStatusPedido.AguardandoEntregador);
-
             await _pedidoService.Insert(pedido);
                         
             return CreatedAtAction("GetPedido", new { id = pedido.Id }, pedido);
-        }
-
-        // DELETE: api/Pedido/5
-        [HttpDelete("{id}"), Authorize(Roles = "ADMIN,USER")]
-        public async Task<ActionResult<Pedido>> DeletePedido(Guid id)
-        {
-
-            var pedido = await _pedidoService.GetById(id);
-
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-
-            var result = await _pedidoService.Delete(pedido);
-
-            if (!result)
-                return BadRequest();
-
-            return Ok(pedido);
-        }
-
-        private bool PedidoExists(Guid id)
-        {
-            //var pedido = _unitOfWork.Pedidos.GetById(id);
-
-            //if (pedido == null)
-            //    return false;
-
-            return true;
         }
     }
 }

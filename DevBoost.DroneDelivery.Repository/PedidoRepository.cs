@@ -30,12 +30,16 @@ namespace DevBoost.DroneDelivery.Repository
             return await _context.Pedido
                 .AsNoTracking()
                 .Include(p => p.Drone)
+                .Include(p => p.Cliente)
                 .ToListAsync();
         }
 
         public async Task<Pedido> GetById(Guid id)
         {
-            return await _context.Pedido.FindAsync(id);
+            return await _context.Pedido
+                .Include(p => p.Cliente)
+                .Where(p => p.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Pedido> GetById(int id)
@@ -45,7 +49,12 @@ namespace DevBoost.DroneDelivery.Repository
 
         public async Task<bool> Insert(Pedido pedido)
         {
+            _context.Entry(pedido.Cliente).State = EntityState.Unchanged;
+            
+            //_context.Entry(pedido.Drone).State = EntityState.Unchanged;
+
             _context.Pedido.Add(pedido);
+
             return await _context.SaveChangesAsync() > 0;
         }
 
@@ -58,12 +67,17 @@ namespace DevBoost.DroneDelivery.Repository
                         
         public async Task<IList<Pedido>> GetPedidosEmAberto()
         {
-            return await _context.Pedido.AsNoTracking().Where(p => p.Status == EnumStatusPedido.AguardandoEntregador).ToListAsync();
+            return await _context.Pedido.Include(p => p.Cliente).AsNoTracking().Where(p => p.Status == EnumStatusPedido.AguardandoEntregador).ToListAsync();
         }
 
         public async Task<IList<Pedido>> GetPedidosEmTransito()
         {
-            return await _context.Pedido.AsNoTracking().Where(p => p.Status == EnumStatusPedido.EmTransito).ToListAsync();
+            return await _context.Pedido
+                .Include(p => p.Cliente)
+                .Include(p => p.Drone)
+                .AsNoTracking()
+                .Where(p => p.Status == EnumStatusPedido.EmTransito)
+                .ToListAsync();
         }
 
         public void Dispose()

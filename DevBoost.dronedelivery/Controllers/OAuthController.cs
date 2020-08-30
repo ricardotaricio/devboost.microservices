@@ -21,7 +21,7 @@ namespace DevBoost.dronedelivery.Controllers
         [Route("login")]
         public IActionResult Authenticate([FromBody] UserDTO model)
         {
-            var user = _userService.Authenticate(model.UserName, model.Password);
+            var user = _userService.Authenticate(model.UserName, model.Password).Result;
 
             if (user == null)
                 return NotFound(new { message = "Usuário ou senha inválidos" });

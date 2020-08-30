@@ -1,4 +1,6 @@
-﻿using DevBoost.dronedelivery.Domain.Enum;
+﻿
+using DevBoost.dronedelivery.Domain.Enum;
+using DevBoost.DroneDelivery.Domain.Entities;
 using System;
 
 namespace DevBoost.dronedelivery.Domain
@@ -9,13 +11,14 @@ namespace DevBoost.dronedelivery.Domain
 
         public Guid Id { get; set; }
         public int Peso { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        //public decimal Latitude { get; set; }
+        //public decimal Longitude { get; set; }
         public DateTime DataHora { get; set; }
         public Drone Drone { get; set; }
-        public int DroneId { get; set; }
+        public int? DroneId { get; set; }
         //public DateTime PrevisaoEntrega { get; set; }
         public EnumStatusPedido Status { get; set; }
+        public Cliente Cliente { get; private set; }
 
         public void InformarHoraPedido(DateTime horaPedido)
         {
@@ -35,6 +38,16 @@ namespace DevBoost.dronedelivery.Domain
         public void InformarStatus(EnumStatusPedido status)
         {
             this.Status = status;
+        }
+
+        public void InformarCliente(Cliente cliente)
+        {
+            this.Cliente = cliente;
+        }
+
+        public void InformarPeso(int peso)
+        {
+            this.Peso = peso;
         }
     }
 }

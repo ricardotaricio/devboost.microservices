@@ -10,10 +10,11 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Services
     {
         Task<IList<Pedido>> GetAll();
         Task<Pedido> GetById(Guid id);
-        Task<Pedido> GetById(int id);
         Task<bool> Insert(Pedido pedido);
         Task<Pedido> Update(Pedido pedido);
         Task<bool> Delete(Pedido pedido);
         bool IsPedidoValido(Pedido pedido, out string mensagemRejeicaoPedido);
+        Task DespacharPedidos();
+        Task<IList<Pedido>> GetPedidosEmTransito();
     }
 }

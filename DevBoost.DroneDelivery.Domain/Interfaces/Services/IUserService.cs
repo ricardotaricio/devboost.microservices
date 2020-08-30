@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Domain.Interfaces.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
-
-        List<User> GetAll();
+        Task<User> Authenticate(string username, string password);
+        Task<User> GetByUserName(string username);
+        Task<bool> Insert(User user);
     }
 }
