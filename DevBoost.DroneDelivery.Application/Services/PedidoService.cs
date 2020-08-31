@@ -93,6 +93,8 @@ namespace DevBoost.DroneDelivery.Application.Services
                         droneItinerario.StatusDrone = EnumStatusDrone.Disponivel;
                         droneItinerario.Drone.AutonomiaRestante = droneItinerario.Drone.Autonomia;
                         droneItinerario.DataHora = DateTime.Now;
+
+                        await _droneItinerarioRepository.Update(droneItinerario);
                     }
                 }
                 else if (droneItinerario.StatusDrone == EnumStatusDrone.EmTransito)
@@ -119,18 +121,27 @@ namespace DevBoost.DroneDelivery.Application.Services
                             pedido.Status = EnumStatusPedido.Entregue;
                             await _repositoryPedido.Update(pedido);
                         }
+
+                        await _droneItinerarioRepository.Update(droneItinerario);
                     }
                 }
-
-                await _droneItinerarioRepository.Update(droneItinerario);
             }
 
         }
 
         private async Task distribuirPedidos()
         {
-            // pedidos mais antigos vao primeiro
-            var pedidos = await _repositoryPedido.GetPedidosEmAberto();
+            IList<Pedido> pedidos = new List<Pedido>();
+
+            try
+            {
+                // pedidos mais antigos vao primeiro
+                pedidos = _repositoryPedido.GetPedidosEmAberto().Result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             if (!pedidos.Any())
                 return;
@@ -144,7 +155,7 @@ namespace DevBoost.DroneDelivery.Application.Services
                 droneItinerario.Drone = await _droneRepository.GetById(droneItinerario.DroneId);
             }
 
-            var dronesDisponiveis = droneItinerarios.Select(d => d.Drone).OrderByDescending(d => d.Capacidade).ToList();
+            var dronesDisponiveis = droneItinerarios.Select(d => d.Drone).OrderBy(d => d.Capacidade).ToList();
 
             if (!dronesDisponiveis.Any())
                 return;
