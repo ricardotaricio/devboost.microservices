@@ -20,10 +20,10 @@ namespace DevBoost.DroneDelivery.Domain.Entities
             Cliente = cliente;
         }
 
-        public Guid Id { get; private set; }
-        public string UserName { get; private set; }
-        public string Password { get; private set; }
-        public string Role { get; private set; }
-        public Cliente Cliente { get; private set; }
+        public Guid Id { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
+        public Cliente Cliente { get; set; }
     }
 }
