@@ -62,7 +62,7 @@ namespace DevBoost.dronedelivery.Controllers
 
         // GET: api/Drone/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Drone>> GetDrone(int id)
+        public async Task<IActionResult> GetDrone(int id)
         {
             var drone = await _droneService.GetById(id);
 
@@ -71,7 +71,7 @@ namespace DevBoost.dronedelivery.Controllers
                 return NotFound();
             }
 
-            return drone;
+            return Ok(drone);
         }
         /*
         // PUT: api/Drone/5

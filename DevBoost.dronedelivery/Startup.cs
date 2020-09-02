@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DevBoost.DroneDelivery.Application.Resources;
+using DevBoost.DroneDelivery.CrossCutting.IOC;
 
 namespace DevBoost.dronedelivery
 {
@@ -31,18 +32,9 @@ namespace DevBoost.dronedelivery
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //services.AddDbContext<PedidoContext>();
-            //services.AddTransient<IUnitOfWork, UnitOfWork>();
-            //services.AddTransient<IDeliveryService, DeliveryService>();
-            //services.AddTransient(typeof(IRepository<>), typeof(EFRepository<>));
-            //services.AddTransient<IUserService, UserService>();
+           
 
-            //services.AddSwaggerGen(c => c.SwaggerDoc(name: "v1", new OpenApiInfo
-            //{
-            //    Title = "Drone Delivery",
-            //    Version = "v1",
-            //}));
-
+            services.Register(Configuration);
 
             services.AddSwaggerGen(c =>
             {
@@ -100,24 +92,14 @@ namespace DevBoost.dronedelivery
             //services.AddTransient<IUnitOfWork, UnitOfWork>();
             //services.AddTransient(typeof(IRepository<>), typeof(EFRepository<>));
 
-            services.AddTransient<DCDroneDelivery>();
-            services.AddScoped<IPedidoService, PedidoService>();
-            services.AddScoped<IDroneService, DroneService>();
-            services.AddScoped<IDroneItinerarioService, DroneItinerarioService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IClienteService, ClienteService>();
-            services.AddScoped<IDroneItinerarioRepository, DroneItinerarioRepository>();
-            services.AddScoped<IDroneRepository, DroneRepository>();
-            services.AddScoped<IPedidoRepository, PedidoRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IClienteRepository, ClienteRepository>();
 
 
-            services.AddDbContext<DCDroneDelivery>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-                    m => m.MigrationsAssembly("DroneDelivery"));
-            });
+            
+
+            //services.AddDbContext<DCDroneDelivery>(options =>
+            //{
+            //    options.UseInMemoryDatabase(databaseName: "teste");
+            //});
 
         }
 
