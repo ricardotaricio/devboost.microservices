@@ -37,6 +37,8 @@ namespace DevBoost.DroneDelivery.API.Controllers
         [HttpGet("{id}"), Authorize(Roles = "ADMIN,USER")]
         public async Task<IActionResult> GetPedido(Guid id)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
+
             var pedido = await _pedidoService.GetById(id);
 
             if (pedido == null)
@@ -51,8 +53,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
         [HttpPost, Authorize(Roles = "ADMIN,USER")]
         public async Task<IActionResult> PostPedido(AdicionarPedidoViewModel pedidoViewModel)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
 
             string username = User.Identities.FirstOrDefault().Name;
 

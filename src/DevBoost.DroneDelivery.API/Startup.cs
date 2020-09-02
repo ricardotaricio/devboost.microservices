@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DevBoost.DroneDelivery.Application.Resources;
 using DevBoost.DroneDelivery.CrossCutting.IOC;
+using DevBoost.DroneDelivery.Infrastructure.Swagger;
 
 namespace DevBoost.DroneDelivery.API
 {
@@ -28,36 +29,6 @@ namespace DevBoost.DroneDelivery.API
            
 
             services.Register(Configuration);
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Drone Delivery",
-                    Version = "v1"
-                });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Por favor, insira JWT no campo",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                   {
-                     new OpenApiSecurityScheme
-                     {
-                       Reference = new OpenApiReference
-                       {
-                         Type = ReferenceType.SecurityScheme,
-                         Id = "Bearer"
-                       }
-                      },
-                      new string[] { }
-                    }
-                  });
-            });
-
 
 
             var key = Encoding.ASCII.GetBytes(SecretToken.Key);
@@ -104,9 +75,7 @@ namespace DevBoost.DroneDelivery.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Drone Delivery"); });
-
+            app.SwaggerAdd();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

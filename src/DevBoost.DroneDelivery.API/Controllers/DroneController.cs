@@ -74,8 +74,9 @@ namespace DevBoost.DroneDelivery.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostDrone(AdicionarDroneViewModel droneViewModel)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+
+
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
 
             var drone = new Drone()
             {
@@ -90,11 +91,13 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
             if (result)
             {
-                var droneItinerario = new DroneItinerario();
-                droneItinerario.DataHora = System.DateTime.Now;
-                droneItinerario.Drone = drone;
-                droneItinerario.DroneId = drone.Id;
-                droneItinerario.StatusDrone = EnumStatusDrone.Disponivel;
+                var droneItinerario = new DroneItinerario
+                {
+                    DataHora = System.DateTime.Now,
+                    Drone = drone,
+                    DroneId = drone.Id,
+                    StatusDrone = EnumStatusDrone.Disponivel
+                };
 
                 await _droneItinerarioService.Insert(droneItinerario);
             }

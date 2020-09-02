@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Domain.Entities;
@@ -44,8 +45,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AdicionarClienteViewModel  adicionarClienteView)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
 
             User userExistente = await _userService.GetByUserName(adicionarClienteView.UserName);
             if (userExistente != null)
