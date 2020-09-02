@@ -1,5 +1,4 @@
-﻿using DevBoost.dronedelivery.Domain;
-using DevBoost.dronedelivery.Domain.Enumerators;
+﻿using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DevBoost.dronedelivery.Domain
+namespace DevBoost.DroneDelivery.Domain.Entities
 {
     public class Drone
     {

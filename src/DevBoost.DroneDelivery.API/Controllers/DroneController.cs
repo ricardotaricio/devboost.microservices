@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
-using DevBoost.dronedelivery.Domain;
 using DevBoost.DroneDelivery.API.DTO;
-using DevBoost.dronedelivery.Domain.Enumerators;
+using DevBoost.DroneDelivery.Domain.Entities;
+using DevBoost.Dronedelivery.Domain.Enumerators;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using AutoBogus;
 using DevBoost.DroneDelivery.API.Controllers;
-using DevBoost.dronedelivery.Domain;
+using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using KellermanSoftware.CompareNetObjects;
 using Moq;

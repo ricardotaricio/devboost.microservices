@@ -1,8 +1,7 @@
-﻿using DevBoost.dronedelivery.Domain.Enumerators;
-using DevBoost.DroneDelivery.Domain.Entities;
+﻿using DevBoost.Dronedelivery.Domain.Enumerators;
 using System;
 
-namespace DevBoost.dronedelivery.Domain
+namespace DevBoost.DroneDelivery.Domain.Entities
 {
     public class Pedido
     {
@@ -10,12 +9,9 @@ namespace DevBoost.dronedelivery.Domain
 
         public Guid Id { get; set; }
         public int Peso { get; set; }
-        //public decimal Latitude { get; set; }
-        //public decimal Longitude { get; set; }
         public DateTime DataHora { get; set; }
         public Drone Drone { get; set; }
         public int? DroneId { get; set; }
-        //public DateTime PrevisaoEntrega { get; set; }
         public EnumStatusPedido Status { get; set; }
         public Cliente Cliente { get; private set; }
 
@@ -24,10 +20,7 @@ namespace DevBoost.dronedelivery.Domain
             this.DataHora = horaPedido;
         }
 
-        //public void InformarPrevisaoEntrega(DateTime dataPrevista)
-        //{
-        //    this.PrevisaoEntrega = dataPrevista;
-        //}
+        
 
         public void InformarDrone(Drone drone)
         {

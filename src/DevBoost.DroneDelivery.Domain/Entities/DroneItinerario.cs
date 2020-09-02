@@ -1,7 +1,7 @@
-﻿using DevBoost.dronedelivery.Domain.Enumerators;
+﻿using DevBoost.Dronedelivery.Domain.Enumerators;
 using System;
 
-namespace DevBoost.dronedelivery.Domain
+namespace DevBoost.DroneDelivery.Domain.Entities
 {
     public class DroneItinerario
     {

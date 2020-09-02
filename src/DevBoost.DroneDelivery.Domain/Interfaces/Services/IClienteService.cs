@@ -1,5 +1,4 @@
-﻿using DevBoost.dronedelivery.Domain;
-using DevBoost.DroneDelivery.Domain.Entities;
+﻿using DevBoost.DroneDelivery.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;

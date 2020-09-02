@@ -1,9 +1,5 @@
-﻿using DevBoost.dronedelivery.Domain;
-using DevBoost.DroneDelivery.Domain.Entities;
+﻿using DevBoost.DroneDelivery.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
 {

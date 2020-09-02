@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using DevBoost.DroneDelivery.API.DTO;
-using DevBoost.dronedelivery.Domain;
-using DevBoost.dronedelivery.Domain.Enumerators;
+using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
+using DevBoost.DroneDelivery.Application.ViewModels;
+using DevBoost.DroneDelivery.Domain.Entities;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -49,7 +49,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
         
         [HttpPost, Authorize(Roles = "ADMIN,USER")]
-        public async Task<IActionResult> PostPedido(PedidoDTO pedidoDTO)
+        public async Task<IActionResult> PostPedido(AdicionarPedidoViewModel pedidoViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -64,7 +64,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
                 return BadRequest("Usuário não é um Cliente");
 
             var pedido = new Pedido();
-            pedido.InformarPeso(pedidoDTO.Peso);
+            pedido.InformarPeso(pedidoViewModel.Peso);
             pedido.InformarCliente(cliente);
             pedido.InformarHoraPedido(DateTime.Now);
             pedido.InformarStatus(EnumStatusPedido.AguardandoEntregador);

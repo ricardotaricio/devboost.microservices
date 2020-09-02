@@ -1,4 +1,4 @@
-﻿using DevBoost.dronedelivery.Domain;
+﻿using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using System;
