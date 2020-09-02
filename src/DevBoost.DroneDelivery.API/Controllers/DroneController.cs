@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DevBoost.dronedelivery.DTO;
 using Microsoft.AspNetCore.Authorization;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
-using DevBoost.dronedelivery.Domain.Enum;
 using DevBoost.dronedelivery.Domain;
+using DevBoost.DroneDelivery.API.DTO;
+using DevBoost.dronedelivery.Domain.Enumerators;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -25,7 +25,6 @@ namespace DevBoost.DroneDelivery.API.Controllers
             _pedidoService = pedidoService;
         }
 
-        // GET: api/Drone
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SituacaoDroneDTO>>> GetDrone()
         {
@@ -73,43 +72,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
             return Ok(drone);
         }
-        /*
-        // PUT: api/Drone/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDrone(int id, Drone drone)
-        {
-            if (id != drone.Id)
-            {
-                return BadRequest();
-            }
-
-            _unitOfWork.Entry(drone).State = EntityState.Modified;
-
-            try
-            {
-                await _unitOfWork.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DroneExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-        */
-
-        // POST: api/Drone
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<Drone>> PostDrone(DroneDTO droneDTO)

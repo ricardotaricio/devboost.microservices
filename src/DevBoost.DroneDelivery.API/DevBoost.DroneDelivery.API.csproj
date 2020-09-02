@@ -24,11 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\DevBoost.DroneDelivery.Application\DevBoost.DroneDelivery.Application.csproj" />
-    <ProjectReference Include="..\src\DevBoost.DroneDelivery.Repository\DevBoost.DroneDelivery.Infrastructure.csproj" />
-    <ProjectReference Include="..\src\DevBoost.DroneDelivery.Application\DevBoost.DroneDelivery.Application.csproj" />
-    <ProjectReference Include="..\src\DevBoost.DroneDelivery.Domain\DevBoost.DroneDelivery.Domain.csproj" />
-   
+    <ProjectReference Include="..\DevBoost.DroneDelivery.Application\DevBoost.DroneDelivery.Application.csproj" />
+    <ProjectReference Include="..\DevBoost.DroneDelivery.Domain\DevBoost.DroneDelivery.Domain.csproj" />
+    <ProjectReference Include="..\DevBoost.DroneDelivery.Infrastructure\DevBoost.DroneDelivery.Infrastructure.csproj" />
   </ItemGroup>
 
 
