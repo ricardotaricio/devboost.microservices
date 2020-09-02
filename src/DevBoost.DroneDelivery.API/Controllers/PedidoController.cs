@@ -51,32 +51,27 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
         
         [HttpPost, Authorize(Roles = "ADMIN,USER")]
-        public async Task<IActionResult> PostPedido(AdicionarPedidoViewModel pedidoViewModel)
+        public async Task<IActionResult> AdicionarPedido(AdicionarPedidoViewModel pedidoViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
 
-            string username = User.Identities.FirstOrDefault().Name;
-
+            var username = User.Identities.FirstOrDefault().Name;
             var user = await _userService.GetByUserName(username);
-
             var cliente = user.Cliente;
 
             if (user.Cliente == null)
                 return BadRequest("Usuário não é um Cliente");
 
-            var pedido = new Pedido();
-            pedido.InformarPeso(pedidoViewModel.Peso);
+            var pedido = new Pedido(peso: pedidoViewModel.Peso, DateTime.Now, EnumStatusPedido.AguardandoEntregador);
             pedido.InformarCliente(cliente);
-            pedido.InformarHoraPedido(DateTime.Now);
-            pedido.InformarStatus(EnumStatusPedido.AguardandoEntregador);
 
-            string motivoRejeicaoPedido = string.Empty;
-            if (!_pedidoService.IsPedidoValido(pedido, out motivoRejeicaoPedido))
-                return BadRequest("Pedido rejeitado: " + motivoRejeicaoPedido);
+            var motivoRejeicaoPedido = _pedidoService.IsPedidoValido(pedido);
+            if (!String.IsNullOrEmpty(_pedidoService.IsPedidoValido(pedido)))
+                return BadRequest($"Pedido rejeitado: {motivoRejeicaoPedido}");
 
             await _pedidoService.Insert(pedido);
-                        
-            return CreatedAtAction("GetPedido", new { id = pedido.Id }, pedido);
+
+            return Ok(pedido);
         }
     }
 }

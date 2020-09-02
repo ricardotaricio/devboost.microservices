@@ -34,16 +34,6 @@ namespace DevBoost.DroneDelivery.Application.Services
 
         public async Task<bool> Insert(Cliente cliente)
         {
-            /*
-            var dronesSitema = await _droneRepository.GetAll();
-
-            if (!dronesSitema.Any(d => d.Capacidade >= cliente.Peso))
-                return await Task.Run(() => false);
-
-            //Deve colocar a regra de criação de pedido
-            */
-
-
 
             return await _repositoryCliente.Insert(cliente);
         }

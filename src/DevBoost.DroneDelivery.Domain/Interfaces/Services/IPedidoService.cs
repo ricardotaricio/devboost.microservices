@@ -13,7 +13,7 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Services
         Task<bool> Insert(Pedido pedido);
         Task<Pedido> Update(Pedido pedido);
         Task<bool> Delete(Pedido pedido);
-        bool IsPedidoValido(Pedido pedido, out string mensagemRejeicaoPedido);
+        string IsPedidoValido(Pedido pedido);
         Task DespacharPedidos();
         Task<IList<Pedido>> GetPedidosEmTransito();
     }

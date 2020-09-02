@@ -1,7 +1,9 @@
 ﻿using DevBoost.Dronedelivery.Domain.Enumerators;
+using DevBoost.DroneDelivery.Application.Extensions;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
+using DevBoost.DroneDelivery.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
@@ -17,6 +19,7 @@ namespace DevBoost.DroneDelivery.Application.Services
         private readonly IDroneRepository _droneRepository;
         private const double _latitudeLoja = -23.5880684;
         private const double _longitudeLoja = -46.6564195;
+        private Localizacao _localizacaoLoja;
 
         public PedidoService(IPedidoRepository repositoryPedido,
             IDroneItinerarioRepository droneItinerarioRepository,
@@ -25,6 +28,7 @@ namespace DevBoost.DroneDelivery.Application.Services
             _repositoryPedido = repositoryPedido;
             _droneItinerarioRepository = droneItinerarioRepository;
             _droneRepository = droneRepository;
+            _localizacaoLoja = new Localizacao(-23.5880684, -46.6564195);
         }
 
         public async Task<bool> Delete(Pedido pedido)
@@ -42,8 +46,8 @@ namespace DevBoost.DroneDelivery.Application.Services
         {
             var pedido = await _repositoryPedido.GetById(id);
 
-            if (pedido.DroneId.GetValueOrDefault() > 0)
-                pedido.Drone = await _droneRepository.GetById(pedido.DroneId.GetValueOrDefault());
+            if (pedido.DroneId > 0)
+                pedido.Drone = await _droneRepository.GetById(pedido.DroneId);
 
             return pedido;
         }
@@ -118,7 +122,7 @@ namespace DevBoost.DroneDelivery.Application.Services
 
                         foreach (var pedido in pedidos)
                         {
-                            pedido.Status = EnumStatusPedido.Entregue;
+                            pedido.InformarStatus(EnumStatusPedido.Entregue);
                             await _repositoryPedido.Update(pedido);
                         }
 
@@ -267,7 +271,7 @@ namespace DevBoost.DroneDelivery.Application.Services
                     foreach (var pedido in item.Value)
                     {
                         pedido.Drone = drone;
-                        pedido.Status = EnumStatusPedido.EmTransito;
+                        pedido.InformarStatus(EnumStatusPedido.EmTransito);
 
                         await _repositoryPedido.Update(pedido);
                     }
@@ -349,36 +353,27 @@ namespace DevBoost.DroneDelivery.Application.Services
             return tempo;
         }
 
-        public bool IsPedidoValido(Pedido pedido, out string mensagemRejeicaoPedido)
+        public string IsPedidoValido(Pedido pedido)
         {
-            mensagemRejeicaoPedido = string.Empty;
+            
 
-            // existe drone com capacidade maior que o peso do pedido (limite maximo 12kg)
-            Drone drone = _droneRepository.GetAll().Result.Where(d => d.Capacidade >= pedido.Peso).FirstOrDefault();
+            var drone = _droneRepository.GetAll().Result.Where(d => d.Capacidade >= pedido.Peso).FirstOrDefault();
 
             if (drone == null)
-            {
-                mensagemRejeicaoPedido = "Pedido acima do peso máximo aceito.";
-                return false;
-            }
+                return "Pedido acima do peso máximo aceito.";
+            
 
-            // calcular distancia do trajeto
-            // calcular tempo total (ida e volta) do trajeto (limite maximo 35m)
-            // existe um drone que atende essas condicoes
-            double distancia = calcularDistanciaEmKilometros(_latitudeLoja, _longitudeLoja, (double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude);
-            distancia = distancia * 2;
-
-            // tempo = distancia / velocidade
-            // 80km / 40km/h = 2h
-            int tempoTrajetoCompleto = calcularTempoTrajetoEmMinutos(distancia, drone.Velocidade);
+            double distancia = _localizacaoLoja.CalcularDistanciaEmKilometros(new Localizacao(pedido.Cliente.Latitude, pedido.Cliente.Longitude));
+            // double distancia = calcularDistanciaEmKilometros(_latitudeLoja, _longitudeLoja, (double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude);
+            distancia *= 2;
+            
+            int tempoTrajetoCompleto = _localizacaoLoja.CalcularTempoTrajetoEmMinutos(distancia, drone.Velocidade);
 
             if (tempoTrajetoCompleto > drone.Autonomia)
-            {
-                mensagemRejeicaoPedido = "Fora da área de entrega.";
-                return false;
-            }
+                return "Fora da área de entrega.";
+            
 
-            return true;
+            return String.Empty;
         }
     }
 }

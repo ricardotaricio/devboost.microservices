@@ -14,7 +14,7 @@ namespace DevBoost.DroneDelivery.Test.API
     public class DroneControllerTest
     {
         [Fact(DisplayName = "GetById")]
-        [Trait("PedidoControllerTest", "Controller Tests")]
+        [Trait("DroneControllerTest", "Controller Tests")]
         public async void GetById_test()
         {
             // Given
