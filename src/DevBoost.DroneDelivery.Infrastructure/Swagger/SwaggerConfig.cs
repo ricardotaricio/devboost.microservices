@@ -31,11 +31,12 @@ namespace DevBoost.DroneDelivery.Infrastructure.Swagger
 
             return services;
         }
-        public static void SwaggerAdd(this IApplicationBuilder app)
+        public static IApplicationBuilder SwaggerAdd(this IApplicationBuilder app)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Drone Delivery"); });
 
+            return app;
         }
     }
 }

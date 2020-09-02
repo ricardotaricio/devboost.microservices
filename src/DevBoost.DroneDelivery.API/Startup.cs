@@ -29,8 +29,7 @@ namespace DevBoost.DroneDelivery.API
            
 
             services.Register(Configuration);
-
-
+            services.SwaggerAdd();
             var key = Encoding.ASCII.GetBytes(SecretToken.Key);
 
             services.AddAuthentication(x =>
