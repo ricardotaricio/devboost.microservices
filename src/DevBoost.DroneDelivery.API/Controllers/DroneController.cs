@@ -7,6 +7,7 @@ using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using DevBoost.DroneDelivery.API.DTO;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.Dronedelivery.Domain.Enumerators;
+using DevBoost.DroneDelivery.Application.ViewModels;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -26,31 +27,29 @@ namespace DevBoost.DroneDelivery.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SituacaoDroneDTO>>> GetDrone()
+        public async Task<IActionResult> GetDrone()
         {
             await _pedidoService.DespacharPedidos();
 
             var drones = await _droneService.GetAll();
 
-            IList<SituacaoDroneDTO> situacaoDrones = new List<SituacaoDroneDTO>();
+            var situacaoDrones = new List<SituacaoDroneDTO>();
 
-            IList<DroneItinerario> dronesItinerario = _droneItinerarioService.GetAll().Result;
+            var dronesItinerario = _droneItinerarioService.GetAll().Result;
 
             var pedidosEmTransito = await _pedidoService.GetPedidosEmTransito();
 
             foreach (var drone in drones)
             {
-                SituacaoDroneDTO situacaoDrone = new SituacaoDroneDTO();
-                situacaoDrone.Drone = drone;
+                var situacaoDrone = new SituacaoDroneDTO { Drone = drone };
 
-                var droneItinerario =  dronesItinerario.SingleOrDefault(x => x.DroneId == drone.Id);
+                var droneItinerario = dronesItinerario.SingleOrDefault(x => x.DroneId == drone.Id);
 
                 if (droneItinerario == null)
                     situacaoDrone.StatusDrone = EnumStatusDrone.Disponivel.ToString();
                 else
                     situacaoDrone.StatusDrone = droneItinerario.StatusDrone.ToString();
 
-                //situacaoDrone.Pedidos = pedidos.Where(p => p.Drone != null && p.Status != EnumStatusPedido.Entregue && p.Drone.Id == drone.Id).ToList();
                 situacaoDrone.Pedidos = pedidosEmTransito.Where(p => p.Drone != null && p.Status != EnumStatusPedido.Entregue && p.Drone.Id == drone.Id).ToList();
 
                 situacaoDrones.Add(situacaoDrone);
@@ -59,44 +58,39 @@ namespace DevBoost.DroneDelivery.API.Controllers
             return Ok(situacaoDrones);
         }
 
-        // GET: api/Drone/5
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDrone(int id)
         {
             var drone = await _droneService.GetById(id);
 
             if (drone == null)
-            {
                 return NotFound();
-            }
 
             return Ok(drone);
         }
-        
+
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Drone>> PostDrone(DroneDTO droneDTO)
+        public async Task<IActionResult> PostDrone(AdicionarDroneViewModel droneViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            if (droneDTO.Autonomia <= 0 || droneDTO.Capacidade <= 0 || droneDTO.Carga <= 0 || droneDTO.Velocidade <= 0)
-                return BadRequest("Valores inválidos para Autonomia, Capacidade, Carga e/ou Velocidade.");
-
-            Drone drone = new Drone()
+            var drone = new Drone()
             {
-                Velocidade = droneDTO.Velocidade,
-                Autonomia = droneDTO.Autonomia,
-                AutonomiaRestante = droneDTO.Autonomia,
-                Carga = droneDTO.Carga,
-                Capacidade = droneDTO.Capacidade
+                Velocidade = droneViewModel.Velocidade,
+                Autonomia = droneViewModel.Autonomia,
+                AutonomiaRestante = droneViewModel.Autonomia,
+                Carga = droneViewModel.Carga,
+                Capacidade = droneViewModel.Capacidade
             };
 
             bool result = await _droneService.Insert(drone);
 
             if (result)
             {
-                DroneItinerario droneItinerario = new DroneItinerario();
+                var droneItinerario = new DroneItinerario();
                 droneItinerario.DataHora = System.DateTime.Now;
                 droneItinerario.Drone = drone;
                 droneItinerario.DroneId = drone.Id;

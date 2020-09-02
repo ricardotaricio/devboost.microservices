@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using DevBoost.DroneDelivery.API.DTO;
+using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -23,18 +22,16 @@ namespace DevBoost.DroneDelivery.API.Controllers
             _userService = userService;
         }
 
-        // GET: api/<ClienteController>
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cliente>>> Get()
+        public async Task<IActionResult> Get()
         {
             return Ok(await _clienteService.GetAll());
         }
 
-        // GET api/<ClienteController>/5
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cliente>> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var cliente = await _clienteService.GetById(id);
 
@@ -44,21 +41,20 @@ namespace DevBoost.DroneDelivery.API.Controllers
             return Ok(cliente);
         }
 
-        // POST api/<ClienteController>
         [HttpPost]
-        public async Task<ActionResult<Cliente>> Post([FromBody] ClienteDTO clienteDTO)
+        public async Task<IActionResult> Post([FromBody] AdicionarClienteViewModel  adicionarClienteView)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            User userExistente = await _userService.GetByUserName(clienteDTO.UserName);
+            User userExistente = await _userService.GetByUserName(adicionarClienteView.UserName);
             if (userExistente != null)
                 return BadRequest("Nome de usuário inválido");
 
-            Cliente cliente = new Cliente() { Nome = clienteDTO.Nome, Latitude = clienteDTO.Latitude, Longitude = clienteDTO.Longitude };
+            var cliente = new Cliente() { Nome = adicionarClienteView.Nome, Latitude = adicionarClienteView.Latitude, Longitude = adicionarClienteView.Longitude };
             await _clienteService.Insert(cliente);
 
-            User user = new User(Guid.Empty, clienteDTO.UserName, clienteDTO.Password, "USER", cliente);
+            User user = new User(Guid.Empty, adicionarClienteView.UserName, adicionarClienteView.Senha, "USER", cliente);
             await _userService.Insert(user);
 
             return CreatedAtAction("Get", new { id = cliente.Id }, cliente);

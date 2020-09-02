@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+
+namespace DevBoost.DroneDelivery.Application.ViewModels
+{
+    public class AdicionarDroneViewModel
+    {
+
+        [Required(ErrorMessage = "Capacidade é necessária")]
+        [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
+        public int Capacidade { get; set; }
+
+        [Required(ErrorMessage = "Velocidade é necessária")]
+        [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
+        public int Velocidade { get; set; }
+        
+        [Required(ErrorMessage = "Autonomia é necessária")]
+        [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
+        public int Autonomia { get; set; }
+
+        [Required(ErrorMessage = "Carga é necessária")]
+        [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
+        public int Carga { get; set; }
+
+    }
+}

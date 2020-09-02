@@ -1,5 +1,6 @@
 ﻿using DevBoost.DroneDelivery.API.DTO;
 using DevBoost.DroneDelivery.Application.Services;
+using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,9 +20,11 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Authenticate([FromBody] UserDTO model)
+        public IActionResult Authenticate([FromBody] LoginViewModel  loginViewModel)
         {
-            var user = _userService.Authenticate(model.UserName, model.Password).Result;
+
+
+            var user = _userService.Authenticate(loginViewModel.Nome, loginViewModel.Senha).Result;
 
             if (user == null)
                 return NotFound(new { message = "Usuário ou senha inválidos" });
