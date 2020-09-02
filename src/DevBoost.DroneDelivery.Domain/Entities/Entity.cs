@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
 {
     public abstract class Entity
     { 
-        public Entity()
+        protected Entity()
         {
             Id = Guid.NewGuid();
         }

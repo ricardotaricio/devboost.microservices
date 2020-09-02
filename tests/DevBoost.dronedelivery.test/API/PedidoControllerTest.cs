@@ -8,11 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Moq.AutoMock;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -20,9 +16,9 @@ namespace DevBoost.DroneDelivery.Test.API
 {
     public class PedidoControllerTest
     {
-        [Fact(DisplayName = "AdicionarPedido")]
+        [Fact(DisplayName = "AdicionarPedidoComSucesso")]
         [Trait("PedidoControllerTest", "Controller Tests")]
-        public async void AdicionarPedido_test()
+        public async void Pedido_AdicionarPedido_ComSucesso()
         {
             // Given
             var mocker = new AutoMocker();
@@ -52,7 +48,7 @@ namespace DevBoost.DroneDelivery.Test.API
             pedidoService.Setup(p => p.Insert(It.IsAny<Pedido>())).Returns(responeInserirPedidoTask).Verifiable();
             
             
-            var expectResponse = pedidoControllerMock.Ok(pedido);
+            var expectResponse = pedidoControllerMock.Ok(responsePedidoTask);
 
             //When
             var result = await pedidoControllerMock.AdicionarPedido(adicionarPedidoViewModel);

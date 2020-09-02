@@ -4,7 +4,6 @@ using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
@@ -82,12 +81,6 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
                 .SingleOrDefaultAsync(d => d.DroneId == id);
         }
 
-        private void DetachLocal<T>(Func<T, bool> predicate) where T : class
-        {
-            var local = _context.Set<T>().Local.Where(predicate).FirstOrDefault();
-
-            if (local != null)
-                _context.Entry(local).State = EntityState.Detached;
-        }
+        
     }
 }
