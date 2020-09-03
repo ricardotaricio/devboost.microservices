@@ -1,41 +1,41 @@
 ﻿using AutoBogus;
 using DevBoost.DroneDelivery.API.Controllers;
-using DevBoost.DroneDelivery.Application.ViewModels;
-using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Moq.AutoMock;
 using System;
-using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+using DevBoost.DroneDelivery.Domain.Entities;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Xunit;
+using System.Net;
 
 namespace DevBoost.DroneDelivery.Test.BDD.Drone
 {
     [Binding]
-    public class Drone_AdicionarUmNovoDroneSteps
+    public class Drone_ObterDronePorIdSteps
     {
-        public readonly ScenarioContext _context;
-        public Drone_AdicionarUmNovoDroneSteps(ScenarioContext context)
+        public ScenarioContext _context;
+        public Drone_ObterDronePorIdSteps(ScenarioContext context)
         {
 
             _context = context;
         }
 
-        [Given(@"Que eu possua um drone")]
-        public void DadoQueEuPossuaUmDrone()
+        [Given(@"Que eu possua um drone cadastrado")]
+        public void DadoQueEuPossuaUmDroneCadastrado()
         {
+
             var faker = AutoFaker.Create();
             var drone = faker.Generate<Domain.Entities.Drone>();
 
             _context.Set(drone);
         }
-        
-        [Given(@"O Usuario esteja logado")]
+
+        [Given(@"O usuario esteja logado")]
         public void DadoOUsuarioEstejaLogado()
         {
             var mocker = new AutoMocker();
@@ -50,31 +50,36 @@ namespace DevBoost.DroneDelivery.Test.BDD.Drone
 
             var pedidoControllerMock = mocker.CreateInstance<PedidoController>();
             pedidoControllerMock.ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() { User = new ClaimsPrincipal(identity) } };
+
+
         }
-        
-        [When(@"O usuario adicionar um drone")]
-        public async Task QuandoOUsuarioAdicionarUmDroneAsync()
+
+        [When(@"Eu solicitar um drone por Id")]
+        public async Task QuandoEuSolicitarUmDronePorId()
         {
+
             var mocker = new AutoMocker();
             var faker = AutoFaker.Create();
             var baseControllerMock = mocker.CreateInstance<DroneController>();
             var droneService = mocker.GetMock<IDroneService>();
-            var adicionarDroneViewModel = faker.Generate<AdicionarDroneViewModel>();
-            droneService.Setup(r => r.Insert(It.IsAny<Domain.Entities.Drone>())).Returns(Task.FromResult(true)).Verifiable();
+
+            droneService.Setup(r => r.GetById(It.IsAny<Int32>())).Returns(Task.FromResult(_context.Get<Domain.Entities.Drone>())).Verifiable();
+
+
 
             //When
-            var resut = await baseControllerMock.PostDrone(adicionarDroneViewModel);
-            _context.Set(resut);
+            var resut = await baseControllerMock.GetDrone(It.IsAny<Int32>());
+            _context.Set(resut.Result);
         }
 
-        [Then(@"Recebe uma confirmação")]
-        public void EntaoRecebeUmaConfirmacao()
+        [Then(@"O drone será retornado")]
+        public void EntaoODroneSeraRetornado()
         {
             //Then
             var result = _context.Get<ActionResult>();
 
-            Assert.Equal(HttpStatusCode.Created, (HttpStatusCode)Convert.ToInt32(((CreatedAtActionResult)result).StatusCode));
-        }
+            Assert.Equal(HttpStatusCode.OK, (HttpStatusCode)Convert.ToInt32(((OkObjectResult)result).StatusCode));
 
+        }
     }
 }

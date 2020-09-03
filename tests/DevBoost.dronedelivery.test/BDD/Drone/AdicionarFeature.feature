@@ -4,8 +4,7 @@ Eu desejo cadastrar
 um novo drone
 
 Cenário: Adicionar drone com sucesso
-Dado Que eu possua um drone
-E O Usuario esteja logado
+Dado O Usuario esteja logado
 Quando O usuario adicionar um drone 
-Então O drone será cadastrado
+Então Recebe uma confirmação
 

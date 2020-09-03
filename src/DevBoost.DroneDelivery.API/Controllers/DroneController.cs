@@ -60,7 +60,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDrone(int id)
+        public async Task<ActionResult<Drone>> GetDrone(int id)
         {
             var drone = await _droneService.GetById(id);
 
@@ -72,7 +72,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PostDrone(AdicionarDroneViewModel droneViewModel)
+        public async Task<ActionResult> PostDrone(AdicionarDroneViewModel droneViewModel)
         {
 
 

@@ -3,9 +3,11 @@ using DevBoost.DroneDelivery.API.Controllers;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using KellermanSoftware.CompareNetObjects;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Moq.AutoMock;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -37,9 +39,11 @@ namespace DevBoost.DroneDelivery.Test.API
             var result = await baseControllerMock.GetDrone(It.IsAny<Int32>());
 
             //Then
-            var comparison = new CompareLogic();
+            
             droneService.Verify(mock => mock.GetById(It.IsAny<Int32>()), Times.Once());
-            Assert.True(comparison.Compare(expectResponse, result).AreEqual);
+            Assert.Equal((HttpStatusCode)expectResponse.StatusCode, (HttpStatusCode)Convert.ToInt32(((OkObjectResult)result.Result).StatusCode));
+
         }
+
     }
 }

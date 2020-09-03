@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Moq.AutoMock;
+using System;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
@@ -30,7 +32,7 @@ namespace DevBoost.DroneDelivery.Test.API
             {  new Claim(ClaimTypes.Name, usuario.UserName.ToString()),
                new Claim(ClaimTypes.Role, usuario.Role.ToString())
             });
-            var claims = new ClaimsPrincipal(identity);
+            
 
             var pedidoControllerMock = mocker.CreateInstance<PedidoController>();
             pedidoControllerMock.ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() { User = new ClaimsPrincipal(identity) }  };  
@@ -58,7 +60,7 @@ namespace DevBoost.DroneDelivery.Test.API
             var comparison = new CompareLogic();
             pedidoService.Verify(mock => mock.Insert(It.IsAny<Pedido>()), Times.Once());
 
-            Assert.True(comparison.Compare(expectResponse, result).AreEqual);
+            Assert.Equal(expectResponse.StatusCode, ((OkObjectResult)result).StatusCode);
         }
     }
 }
