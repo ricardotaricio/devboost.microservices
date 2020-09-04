@@ -74,5 +74,35 @@ namespace DevBoost.DroneDelivery.Test.Application
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
         }
+
+        [Fact(DisplayName = "Insert")]
+        [Trait("DroneServiceTest", "Service Tests")]
+        public async void Insert_test()
+        {
+            // Given
+            var mocker = new AutoMocker();
+            var droneServiceMock = mocker.CreateInstance<DroneService>();
+
+            var faker = AutoFaker.Create();
+
+            var drone = faker.Generate<Drone>();
+
+            var responseDroneTask = Task.Factory.StartNew(() => true);
+
+            var expectResponse = true;
+
+            var droneRepository = mocker.GetMock<IDroneRepository>();
+
+            droneRepository.Setup(r => r.Insert(It.IsAny<Drone>())).Returns(responseDroneTask).Verifiable();
+
+            //When
+            var result = await droneServiceMock.Insert(drone);
+
+            //Then
+            droneRepository.Verify(mock => mock.Insert(It.IsAny<Drone>()), Times.Once());
+
+            CompareLogic comparer = new CompareLogic();
+            Assert.True(comparer.Compare(expectResponse, result).AreEqual);
+        }
     }
 }
