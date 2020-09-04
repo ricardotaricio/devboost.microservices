@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Domain.Interfaces.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository:IRepository<Usuario>
     {
-        Task<User> GetByUserNameEPassword(string username, string password);
-        Task<User> GetByUserName(string username);
-        Task<bool> Insert(User user);
+        Task<Usuario> ObterCredenciais(string username, string password);
+        Task<Usuario> ObterPorNome(string username);
     }
 }

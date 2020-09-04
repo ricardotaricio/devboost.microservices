@@ -25,14 +25,14 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult> Get()
         {
             return Ok(await _clienteService.GetAll());
         }
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<ActionResult> Get(Guid id)
         {
             var cliente = await _clienteService.GetById(id);
 
@@ -47,14 +47,14 @@ namespace DevBoost.DroneDelivery.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
 
-            User userExistente = await _userService.GetByUserName(adicionarClienteView.UserName);
+            Usuario userExistente = await _userService.GetByUserName(adicionarClienteView.UserName);
             if (userExistente != null)
                 return BadRequest("Nome de usuário inválido");
 
             var cliente = new Cliente() { Nome = adicionarClienteView.Nome, Latitude = adicionarClienteView.Latitude, Longitude = adicionarClienteView.Longitude };
             await _clienteService.Insert(cliente);
 
-            User user = new User(Guid.Empty, adicionarClienteView.UserName, adicionarClienteView.Senha, "USER", cliente);
+            Usuario user = new Usuario(Guid.Empty, adicionarClienteView.UserName, adicionarClienteView.Senha, "USER", cliente);
             await _userService.Insert(user);
 
             return CreatedAtAction("Get", new { id = cliente.Id }, cliente);

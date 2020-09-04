@@ -11,7 +11,7 @@ namespace DevBoost.DroneDelivery.Application.Services
 {
     public static class TokenService
     {
-        public static string GenerateToken(User user)
+        public static string GenerateToken(Usuario user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(SecretToken.Key);

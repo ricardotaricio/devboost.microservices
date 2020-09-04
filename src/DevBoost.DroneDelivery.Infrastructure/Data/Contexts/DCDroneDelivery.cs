@@ -6,8 +6,9 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
 {
     [ExcludeFromCodeCoverage]
 
-    public class DCDroneDelivery : DbContext
+    public class DCDroneDelivery : BaseDbContext
     {
+
         public DCDroneDelivery(DbContextOptions options) : base(options)
         {
         }
@@ -15,7 +16,8 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
         public DbSet<Pedido> Pedido { get; set; }
         public DbSet<Drone> Drone { get; set; }
         public DbSet<DroneItinerario> DroneItinerario { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<Usuario> User { get; set; }
+        public virtual DbSet<Cliente> Cliente { get; set; }
+
     }
 }

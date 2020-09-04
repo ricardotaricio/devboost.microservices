@@ -10,4 +10,10 @@
     <Compile Remove="Interfaces\Services\PedidoService.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoBogus" Version="2.10.0" />
+    <PackageReference Include="Moq.AutoMock" Version="2.0.1" />
+    <PackageReference Include="SpecFlow" Version="3.4.3" />
+  </ItemGroup>
+
 </Project>

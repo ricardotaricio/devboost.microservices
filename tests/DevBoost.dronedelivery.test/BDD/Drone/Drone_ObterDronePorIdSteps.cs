@@ -16,14 +16,11 @@ using System.Net;
 namespace DevBoost.DroneDelivery.Test.BDD.Drone
 {
     [Binding]
-    public class Drone_ObterDronePorIdSteps
+    public class Drone_ObterDronePorIdSteps : Cenario
     {
-        public ScenarioContext _context;
-        public Drone_ObterDronePorIdSteps(ScenarioContext context)
-        {
-
-            _context = context;
-        }
+       
+        //public Drone_ObterDronePorIdSteps(ScenarioContext context, AutoMocker mocker, AutoFaker faker) : base(context, faker, mocker) { }
+        public Drone_ObterDronePorIdSteps(ScenarioContext context) : base(context) { }
 
         [Given(@"Que eu possua um drone cadastrado")]
         public void DadoQueEuPossuaUmDroneCadastrado()
@@ -40,7 +37,7 @@ namespace DevBoost.DroneDelivery.Test.BDD.Drone
         {
             var mocker = new AutoMocker();
             var faker = AutoFaker.Create();
-            var usuario = faker.Generate<User>();
+            var usuario = faker.Generate<Usuario>();
 
             var identity = new ClaimsIdentity(new Claim[]
             {  new Claim(ClaimTypes.Name, usuario.UserName.ToString()),

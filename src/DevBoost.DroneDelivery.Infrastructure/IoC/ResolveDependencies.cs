@@ -1,4 +1,5 @@
-﻿using DevBoost.DroneDelivery.Application.Services;
+﻿using AutoBogus;
+using DevBoost.DroneDelivery.Application.Services;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
@@ -6,6 +7,7 @@ using DevBoost.DroneDelivery.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Moq.AutoMock;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.CrossCutting.IOC
@@ -17,7 +19,7 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
         public static IServiceCollection Register(this IServiceCollection services, IConfiguration  configuration)
         {
 
-            services.AddTransient<DCDroneDelivery>();
+            
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IDroneService, DroneService>();
             services.AddScoped<IDroneItinerarioService, DroneItinerarioService>();
@@ -28,6 +30,7 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            
 
             services.AddDbContext<DCDroneDelivery>(options =>
             {

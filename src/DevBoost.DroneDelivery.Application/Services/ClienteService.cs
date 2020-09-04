@@ -3,7 +3,6 @@ using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Application.Services
@@ -17,19 +16,24 @@ namespace DevBoost.DroneDelivery.Application.Services
             _repositoryCliente = repositoryCliente;
         }
 
-        public async Task<IList<Cliente>> GetAll()
+       
+
+        public async Task<IEnumerable<Cliente>> GetAll()
         {
-            return await _repositoryCliente.GetAll();
+            return await _repositoryCliente.ObterTodos();
         }
 
         public async Task<Cliente> GetById(Guid id)
         {
-            return await _repositoryCliente.GetById(id);
+            return await _repositoryCliente.ObterPorId(id);
         }
 
         public async Task<bool> Insert(Cliente cliente)
         {
-            return await _repositoryCliente.Insert(cliente);
+            await _repositoryCliente.Adicionar(cliente);
+            return await _repositoryCliente.UnitOfWork.Commit();
         }
+
+        
     }
 }

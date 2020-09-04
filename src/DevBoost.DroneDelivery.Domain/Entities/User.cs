@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
 {
     [ExcludeFromCodeCoverage]
-    public class User
+    public class Usuario
     {
-        public User()
+        public Usuario()
         {
 
         }
 
-        public User(Guid id, string username, string password, string role, Cliente cliente)
+        public Usuario(Guid id, string username, string password, string role, Cliente cliente)
         {
             Id = id;
             UserName = username;

@@ -16,52 +16,47 @@ namespace DevBoost.DroneDelivery.Application.Services
             _repositoryUser = repositoryUser;
         }
 
-        public async Task<User> Authenticate(string username, string password)
+        public async Task<Usuario> Authenticate(string username, string password)
         {
             password = getHash(password);
 
-            return await _repositoryUser.GetByUserNameEPassword(username, password);
+            return await _repositoryUser.ObterCredenciais(username, password);
 
-            //var user = GetAll().FirstOrDefault(u => u.Username == username && u.Password == password);
-            //return user;
         }
 
-        public async Task<User> GetByUserName(string username)
+        public async Task<Usuario> GetByUserName(string username)
         {
-            return await _repositoryUser.GetByUserName(username);
+            return await _repositoryUser.ObterPorNome(username);
         }
 
-        public async Task<bool> Insert(User user)
+        public async Task<bool> Insert(Usuario user)
         {
             user.Password = getHash(user.Password);
 
-            return await _repositoryUser.Insert(user);
+            await _repositoryUser.Adicionar(user);
+            return await _repositoryUser.UnitOfWork.Commit();
         }
 
         private static string getHash(string input)
         {
             string key = "dronedelivery";
 
-            input = input + key;
+            input += key;
 
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
             var sBuilder = new StringBuilder();
 
             using (SHA256 sha256Hash = SHA256.Create())
             {
-                // Convert the input string to a byte array and compute the hash.
+                
                 byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
-                // Loop through each byte of the hashed data
-                // and format each one as a hexadecimal string.
                 for (int i = 0; i < data.Length; i++)
                 {
                     sBuilder.Append(data[i].ToString("x2"));
                 }
             }
 
-            // Return the hexadecimal string.
+            
             return sBuilder.ToString();
         }
     }
