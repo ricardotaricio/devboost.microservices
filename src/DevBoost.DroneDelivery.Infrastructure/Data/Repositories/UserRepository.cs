@@ -7,34 +7,27 @@ using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<Usuario>, IUserRepository
     {
         private readonly DCDroneDelivery _context;
 
-        public UserRepository(DCDroneDelivery context)
+        public UserRepository(DCDroneDelivery context): base(context)
         {
-            this._context = context;
+            _context = context;
         }
 
-        public async Task<User> GetByUserName(string username)
+        public async Task<Usuario> ObterPorNome(string username)
         {
-            return _context.User
+            return await _context.User
                 .Where(u => u.UserName == username)
                 .Include(u => u.Cliente)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetByUserNameEPassword(string username, string password)
+        public async Task<Usuario> ObterCredenciais(string username, string password)
         {
             return await _context.User.AsNoTracking().Where(u => u.UserName == username && u.Password == password).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> Insert(User user)
-        {
-            _context.Entry(user.Cliente).State = EntityState.Unchanged;
-
-            _context.User.Add(user);
-            return await _context.SaveChangesAsync() > 0;
-        }
     }
 }

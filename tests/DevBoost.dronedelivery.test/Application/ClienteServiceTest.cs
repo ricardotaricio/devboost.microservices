@@ -34,14 +34,14 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var clienteRepository = mocker.GetMock<IClienteRepository>();
 
-            clienteRepository.Setup(r => r.GetById(It.IsAny<Guid>())).Returns(responseClienteTask).Verifiable();
+            clienteRepository.Setup(r => r.ObterPorId(It.IsAny<Guid>())).Returns(responseClienteTask).Verifiable();
 
             //When
             var result = await clienteServiceMock.GetById(It.IsAny<Guid>());
 
             //Then
 
-            clienteRepository.Verify(mock => mock.GetById(It.IsAny<Guid>()), Times.Once());
+            clienteRepository.Verify(mock => mock.ObterPorId(It.IsAny<Guid>()), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
@@ -57,7 +57,7 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var faker = AutoFaker.Create();
 
-            var clientes = faker.Generate<IList<Cliente>>();
+            var clientes = faker.Generate<IEnumerable<Cliente>>();
 
             var responseClientesTask = Task.Factory.StartNew(() => clientes);
 
@@ -65,13 +65,13 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var clienteRepository = mocker.GetMock<IClienteRepository>();
 
-            clienteRepository.Setup(r => r.GetAll()).Returns(responseClientesTask).Verifiable();
+            clienteRepository.Setup(r => r.ObterTodos()).Returns(responseClientesTask).Verifiable();
 
             //When
             var result = await clienteServiceMock.GetAll();
 
             //Then
-            clienteRepository.Verify(mock => mock.GetAll(), Times.Once());
+            clienteRepository.Verify(mock => mock.ObterTodos(), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
@@ -90,18 +90,20 @@ namespace DevBoost.DroneDelivery.Test.Application
             var cliente = faker.Generate<Cliente>();
 
             var responseClienteTask = Task.Factory.StartNew(() => true);
-
+            var responseAdicionarClienteTask = Task.Factory.StartNew(() => cliente);
+            
             var expectResponse = true;
 
             var clienteRepository = mocker.GetMock<IClienteRepository>();
 
-            clienteRepository.Setup(r => r.Insert(It.IsAny<Cliente>())).Returns(responseClienteTask).Verifiable();
+            clienteRepository.Setup(r => r.Adicionar(It.IsAny<Cliente>())).Returns(responseAdicionarClienteTask).Verifiable();
+            clienteRepository.Setup(r => r.UnitOfWork.Commit()).Returns(responseClienteTask).Verifiable();
 
             //When
             var result = await clienteServiceMock.Insert(cliente);
 
             //Then
-            clienteRepository.Verify(mock => mock.Insert(It.IsAny<Cliente>()), Times.Once());
+            //clienteRepository.Verify(mock => mock.Adicionar(It.IsAny<Cliente>()), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);

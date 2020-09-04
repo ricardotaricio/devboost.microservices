@@ -5,8 +5,8 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<User> Authenticate(string username, string password);
-        Task<User> GetByUserName(string username);
-        Task<bool> Insert(User user);
+        Task<Usuario> Authenticate(string username, string password);
+        Task<Usuario> GetByUserName(string username);
+        Task<bool> Insert(Usuario user);
     }
 }

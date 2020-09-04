@@ -44,7 +44,7 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
             {
                 ClienteRepository clienteRepository = new ClienteRepository(contexto);
                 //When
-                var cliente = await clienteRepository.GetById(expectResponse.Id);
+                var cliente = await clienteRepository.ObterPorId(expectResponse.Id);
 
                 //Then
                 CompareLogic comparer = new CompareLogic();
@@ -83,11 +83,11 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
                 ClienteRepository clienteRepository = new ClienteRepository(contexto);
 
                 //When
-                var allClientes = await clienteRepository.GetAll();
+                var allClientes = await clienteRepository.ObterTodos();
 
                 //Then
                 CompareLogic comparer = new CompareLogic();
-                Assert.True(comparer.Compare(expectResponse, allClientes).AreEqual);
+                Assert.True(comparer.Compare(expectResponse, allClientes.ToList()).AreEqual);
             }
         }
 
@@ -110,7 +110,7 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
 
             bool expectResponse;
             bool result;
-            
+
             using (var contexto = new DCDroneDelivery(options))
             {
                 contexto.Cliente.Update(cliente);
@@ -120,7 +120,7 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
             using (var contexto = new DCDroneDelivery(options))
             {
                 var clienteRepository = new ClienteRepository(contexto);
-                await clienteRepository.Update(cliente);
+                await clienteRepository.Atualizar(cliente);
                 result = contexto.SaveChanges() > 0;
             }
 
@@ -149,8 +149,9 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
             using (var contexto = new DCDroneDelivery(options))
             {
                 //when
-                ClienteRepository clienteRepository = new ClienteRepository(contexto);
-                var insertCliente = await clienteRepository.Insert(clienteNovo);
+                var clienteRepository = new ClienteRepository(contexto);
+                await clienteRepository.Adicionar(clienteNovo);
+                var insertCliente = await clienteRepository.UnitOfWork.Commit();
 
                 //then
                 Assert.True(insertCliente);

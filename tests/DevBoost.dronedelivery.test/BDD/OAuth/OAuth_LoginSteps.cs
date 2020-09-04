@@ -27,7 +27,7 @@ namespace DevBoost.DroneDelivery.Test.BDD.OAuth
         public void DadoQueOClientePossuaUmUsuarioCadastrado()
         {
             var faker = AutoFaker.Create();
-            var user = faker.Generate<User>();
+            var user = faker.Generate<Usuario>();
 
             _context.Set(user);
         }
@@ -52,7 +52,7 @@ namespace DevBoost.DroneDelivery.Test.BDD.OAuth
             var userService = mocker.GetMock<IUserService>();
             var loginViewModel = faker.Generate<LoginViewModel>();
 
-            userService.Setup(r => r.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(_context.Get<Domain.Entities.User>())).Verifiable();
+            userService.Setup(r => r.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(_context.Get<Domain.Entities.Usuario>())).Verifiable();
 
             //When
             var resut = baseControllerMock.Authenticate(loginViewModel);

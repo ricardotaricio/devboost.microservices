@@ -26,7 +26,7 @@ namespace DevBoost.DroneDelivery.Test.API
             var mocker = new AutoMocker();
             var faker = AutoFaker.Create();
             var adicionarPedidoViewModel = faker.Generate<AdicionarPedidoViewModel>();
-            var usuario = faker.Generate<User>();
+            var usuario = faker.Generate<Usuario>();
 
             var identity = new ClaimsIdentity(new Claim[]
             {  new Claim(ClaimTypes.Name, usuario.UserName.ToString()),

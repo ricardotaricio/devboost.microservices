@@ -25,7 +25,7 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var faker = AutoFaker.Create();
 
-            var user = faker.Generate<User>();
+            var user = faker.Generate<Usuario>();
 
             var responseUserTask = Task.Factory.StartNew(() => user);
 
@@ -33,13 +33,13 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var userRepository = mocker.GetMock<IUserRepository>();
 
-            userRepository.Setup(r => r.GetByUserName(It.IsAny<string>())).Returns(responseUserTask).Verifiable();
+            userRepository.Setup(r => r.ObterPorNome(It.IsAny<string>())).Returns(responseUserTask).Verifiable();
 
             //When
             var result = await userServiceMock.GetByUserName(It.IsAny<string>());
 
             //Then
-            userRepository.Verify(mock => mock.GetByUserName(It.IsAny<string>()), Times.Once());
+            userRepository.Verify(mock => mock.ObterPorNome(It.IsAny<string>()), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
@@ -55,7 +55,7 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var faker = AutoFaker.Create();
 
-            var user = faker.Generate<User>();
+            var user = faker.Generate<Usuario>();
 
             var responseUserTask = Task.Factory.StartNew(() => user);
 
@@ -63,13 +63,13 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var userRepository = mocker.GetMock<IUserRepository>();
 
-            userRepository.Setup(r => r.GetByUserNameEPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(responseUserTask).Verifiable();
+            userRepository.Setup(r => r.ObterCredenciais(It.IsAny<string>(), It.IsAny<string>())).Returns(responseUserTask).Verifiable();
 
             //When
             var result = await userServiceMock.Authenticate(It.IsAny<string>(), It.IsAny<string>());
 
             //Then
-            userRepository.Verify(mock => mock.GetByUserNameEPassword(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            userRepository.Verify(mock => mock.ObterCredenciais(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
@@ -85,21 +85,21 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var faker = AutoFaker.Create();
 
-            var user = faker.Generate<User>();
+            var user = faker.Generate<Usuario>();
 
-            var responseUserTask = Task.Factory.StartNew(() => true);
+            var responseUserTask =  true;
 
             var expectResponse = true;
 
             var userRepository = mocker.GetMock<IUserRepository>();
 
-            userRepository.Setup(r => r.Insert(It.IsAny<User>())).Returns(responseUserTask).Verifiable();
+            userRepository.Setup(r => r.UnitOfWork.Commit()).ReturnsAsync(responseUserTask).Verifiable();
 
             //When
             var result = await userServiceMock.Insert(user);
 
             //Then
-            userRepository.Verify(mock => mock.Insert(It.IsAny<User>()), Times.Once());
+            userRepository.Verify(mock => mock.Adicionar(It.IsAny<Usuario>()), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);

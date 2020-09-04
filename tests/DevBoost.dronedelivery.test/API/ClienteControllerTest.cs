@@ -81,7 +81,7 @@ namespace DevBoost.DroneDelivery.Test.API
             var mocker = new AutoMocker();
             var faker = AutoFaker.Create();
             var adicionarPedidoViewModel = faker.Generate<AdicionarClienteViewModel>();
-            var usuario = faker.Generate<User>();
+            var usuario = faker.Generate<Usuario>();
             var cliente = faker.Generate<Cliente>();
             var identity = new ClaimsIdentity(new Claim[]
             {  new Claim(ClaimTypes.Name, usuario.UserName.ToString()),
@@ -97,7 +97,7 @@ namespace DevBoost.DroneDelivery.Test.API
             var usuarioService = mocker.GetMock<IUserService>();
 
             clienteService.Setup(p => p.Insert(It.IsAny<Cliente>())).Returns(responeInserirClienteTask).Verifiable();
-            usuarioService.Setup(u => u.Insert(It.IsAny<User>())).Returns(responeInserirClienteTask).Verifiable();
+            usuarioService.Setup(u => u.Insert(It.IsAny<Usuario>())).Returns(responeInserirClienteTask).Verifiable();
 
 
             var expectResponse = clienteControllerMock.CreatedAtAction("Get", new { id = cliente.Id }, cliente);

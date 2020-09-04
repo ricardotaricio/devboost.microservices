@@ -43,16 +43,16 @@ namespace DevBoost.DroneDelivery.Test.Application
             var droneRepository = mocker.GetMock<IDroneRepository>();
             var pedidoRepository = mocker.GetMock<IPedidoRepository>();
 
-            droneRepository.Setup(r => r.GetById(It.IsAny<Int32>())).Returns(responseDroneTask).Verifiable();
-            pedidoRepository.Setup(r => r.GetById(It.IsAny<Guid>())).Returns(responsePedidoTask).Verifiable();
+            droneRepository.Setup(r => r.ObterPorId(It.IsAny<Int32>())).Returns(responseDroneTask).Verifiable();
+            pedidoRepository.Setup(r => r.ObterPorId(It.IsAny<Guid>())).Returns(responsePedidoTask).Verifiable();
 
             //When
             var result = await pedidoServiceMock.GetById(It.IsAny<Guid>());
 
             //Then
 
-            droneRepository.Verify(mock => mock.GetById(It.IsAny<Int32>()), Times.Once());
-            pedidoRepository.Verify(mock => mock.GetById(It.IsAny<Guid>()), Times.Once());
+            droneRepository.Verify(mock => mock.ObterPorId(It.IsAny<Int32>()), Times.Once());
+            pedidoRepository.Verify(mock => mock.ObterPorId(It.IsAny<Guid>()), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
@@ -68,7 +68,7 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var faker = AutoFaker.Create();
 
-            var pedidos = faker.Generate<IList<Pedido>>();
+            var pedidos = faker.Generate<IEnumerable<Pedido>>();
 
             var responsePedidoTask = Task.Factory.StartNew(() => pedidos);
 
@@ -76,13 +76,13 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var pedidoRepository = mocker.GetMock<IPedidoRepository>();
 
-            pedidoRepository.Setup(r => r.GetAll()).Returns(responsePedidoTask).Verifiable();
+            pedidoRepository.Setup(r => r.ObterTodos()).Returns(responsePedidoTask).Verifiable();
 
             //When
             var result = await pedidoServiceMock.GetAll();
 
             //Then
-            pedidoRepository.Verify(mock => mock.GetAll(), Times.Once());
+            pedidoRepository.Verify(mock => mock.ObterTodos(), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
@@ -113,21 +113,22 @@ namespace DevBoost.DroneDelivery.Test.Application
             var pedidoRepository = mocker.GetMock<IPedidoRepository>();
             var droneRepository = mocker.GetMock<IDroneRepository>();
 
-            pedidoRepository.Setup(r => r.Insert(It.IsAny<Pedido>())).Returns(responsePedidoTask).Verifiable();
-            droneRepository.Setup(r => r.GetAll()).ReturnsAsync(responseDronesTask).Verifiable();
+            pedidoRepository.Setup(r => r.Adicionar(It.IsAny<Pedido>())).Returns(responsePedidoTask).Verifiable();
+            pedidoRepository.Setup(r => r.UnitOfWork.Commit()).Returns(responsePedidoTask).Verifiable();
+            droneRepository.Setup(r => r.ObterTodos()).ReturnsAsync(responseDronesTask).Verifiable();
 
             //When
             var result = await pedidoServiceMock.Insert(pedido);
 
             //Then
-            pedidoRepository.Verify(mock => mock.Insert(It.IsAny<Pedido>()), Times.Once());
-            droneRepository.Verify(mock => mock.GetAll(), Times.Once());
+            //pedidoRepository.Verify(mock => mock.Adicionar(It.IsAny<Pedido>()), Times.Once());
+            //droneRepository.Verify(mock => mock.ObterTodos(), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
         }
 
-        [Fact(DisplayName = "Insert")]
+        [Fact(DisplayName = "VerificarIsPedidoValidoComSucesso")]
         [Trait("PedidoServiceTest", "Service Tests")]
         public void Pedido_IsPedidoValido_Sucesso()
         {
@@ -159,13 +160,13 @@ namespace DevBoost.DroneDelivery.Test.Application
 
             var droneRepository = mocker.GetMock<IDroneRepository>();
 
-            droneRepository.Setup(r => r.GetAll()).ReturnsAsync(responseDroneTask).Verifiable();
+            droneRepository.Setup(r => r.ObterTodos()).ReturnsAsync(responseDroneTask).Verifiable();
 
             //When
             var result = pedidoServiceMock.IsPedidoValido(pedido);
 
             //Then
-            droneRepository.Verify(mock => mock.GetAll(), Times.Once());
+            droneRepository.Verify(mock => mock.ObterTodos(), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
