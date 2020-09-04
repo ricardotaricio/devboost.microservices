@@ -45,7 +45,7 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
                 ClienteRepository clienteRepository = new ClienteRepository(contexto);
                 //When
                 var cliente = await clienteRepository.GetById(expectResponse.Id);
-                
+
                 //Then
                 CompareLogic comparer = new CompareLogic();
                 Assert.True(comparer.Compare(expectResponse, cliente).AreEqual);
@@ -99,28 +99,33 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
             // Given
             var faker = AutoFaker.Create();
 
-            var options = new DbContextOptionsBuilder<DCDroneDelivery>()
-           .UseInMemoryDatabase(databaseName: "DroneDelivery")
-           .Options;
-
-            var clientes = faker.Generate<Cliente>();
-
+            var options = new DbContextOptionsBuilder<DCDroneDelivery>().UseInMemoryDatabase(databaseName: "DroneDelivery").Options;
+            var cliente = faker.Generate<Cliente>();
+            //Seed
             using (var contexto = new DCDroneDelivery(options))
             {
-                contexto.Cliente.AddRange(clientes);
+                contexto.Cliente.AddRange(cliente);
                 contexto.SaveChanges();
             }
 
-            var expectResponse = clientes; //verificar!!
+            bool expectResponse;
+            bool result;
+            
+            using (var contexto = new DCDroneDelivery(options))
+            {
+                contexto.Cliente.Update(cliente);
+                expectResponse = contexto.SaveChanges() > 0;
+            }
 
             using (var contexto = new DCDroneDelivery(options))
             {
-                ClienteRepository clienteRepository = new ClienteRepository(contexto);
-                var allClientes = await clienteRepository.Update(clientes);
-
-                CompareLogic comparer = new CompareLogic();
-                Assert.True(comparer.Compare(expectResponse, allClientes).AreEqual);
+                var clienteRepository = new ClienteRepository(contexto);
+                await clienteRepository.Update(cliente);
+                result = contexto.SaveChanges() > 0;
             }
+
+            var comparer = new CompareLogic();
+            Assert.True(comparer.Compare(expectResponse, result).AreEqual);
 
         }
 
@@ -146,7 +151,7 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
                 //when
                 ClienteRepository clienteRepository = new ClienteRepository(contexto);
                 var insertCliente = await clienteRepository.Insert(clienteNovo);
-                
+
                 //then
                 Assert.True(insertCliente);
 

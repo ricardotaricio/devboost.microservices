@@ -28,12 +28,6 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
         {
             return await _context.Cliente.FindAsync(id);
         }
-
-        public async Task<Cliente> GetById(int id)
-        {
-            return await _context.Cliente.FindAsync(id);
-        }
-
         public async Task<bool> Insert(Cliente cliente)
         {
             _context.Cliente.Add(cliente);
@@ -41,11 +35,9 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Cliente> Update(Cliente cliente)
+        public async Task Update(Cliente cliente)
         {
-            _context.Cliente.Update(cliente);
-            await _context.SaveChangesAsync();
-            return cliente;
+           await Task.Run(()=> _context.Cliente.Update(cliente));
         }
     }
 }
