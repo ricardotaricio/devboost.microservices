@@ -11,7 +11,5 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Services
         Task<IList<Cliente>> GetAll();
         Task<Cliente> GetById(Guid id);
         Task<bool> Insert(Cliente cliente);
-        Task<Cliente> Update(Cliente cliente);
-        Task<bool> Delete(Cliente cliente);
     }
 }

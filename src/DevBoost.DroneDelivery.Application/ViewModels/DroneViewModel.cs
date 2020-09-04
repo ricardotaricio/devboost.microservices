@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Application.ViewModels
 {
+    [ExcludeFromCodeCoverage]
+
     public class AdicionarDroneViewModel
     {
-
         [Required(ErrorMessage = "Capacidade é necessária")]
         [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
         public int Capacidade { get; set; }
@@ -20,6 +22,5 @@ namespace DevBoost.DroneDelivery.Application.ViewModels
         [Required(ErrorMessage = "Carga é necessária")]
         [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
         public int Carga { get; set; }
-
     }
 }

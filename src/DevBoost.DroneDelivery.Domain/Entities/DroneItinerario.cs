@@ -1,8 +1,10 @@
 ﻿using DevBoost.Dronedelivery.Domain.Enumerators;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
 {
+    [ExcludeFromCodeCoverage]
     public class DroneItinerario
     {
         public int Id { get; set; }

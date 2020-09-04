@@ -17,12 +17,6 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public async Task<bool> Delete(DroneItinerario droneItinerario)
-        {
-            _context.DroneItinerario.Remove(droneItinerario);
-            return await _context.SaveChangesAsync() > 0;
-        }
-
         public async Task<DroneItinerario> GetById(Guid id)
         {
             return await _context.DroneItinerario.FindAsync(id);

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
 {
+    [ExcludeFromCodeCoverage]
+
     public class Drone
     {
         public Drone(){}

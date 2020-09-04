@@ -31,11 +31,6 @@ namespace DevBoost.DroneDelivery.Application.Services
             _localizacaoLoja = new Localizacao(-23.5880684, -46.6564195);
         }
 
-        public async Task<bool> Delete(Pedido pedido)
-        {
-            return await _repositoryPedido.Delete(pedido);
-        }
-
         public async Task<IList<Pedido>> GetAll()
         {
             //await DespacharPedidos();
@@ -355,13 +350,10 @@ namespace DevBoost.DroneDelivery.Application.Services
 
         public string IsPedidoValido(Pedido pedido)
         {
-            
-
             var drone = _droneRepository.GetAll().Result.Where(d => d.Capacidade >= pedido.Peso).FirstOrDefault();
 
             if (drone == null)
                 return "Pedido acima do peso máximo aceito.";
-            
 
             double distancia = _localizacaoLoja.CalcularDistanciaEmKilometros(new Localizacao(pedido.Cliente.Latitude, pedido.Cliente.Longitude));
             // double distancia = calcularDistanciaEmKilometros(_latitudeLoja, _longitudeLoja, (double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude);
@@ -371,7 +363,6 @@ namespace DevBoost.DroneDelivery.Application.Services
 
             if (tempoTrajetoCompleto > drone.Autonomia)
                 return "Fora da área de entrega.";
-            
 
             return String.Empty;
         }

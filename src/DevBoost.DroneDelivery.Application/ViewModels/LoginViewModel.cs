@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Application.ViewModels
 {
+    [ExcludeFromCodeCoverage]
+
     public class LoginViewModel
     {
-
-
-
         [Required(ErrorMessage = "Nome é necessário")]
         [StringLength(255, ErrorMessage = "Deve ter entre 2 e 255 caracteres", MinimumLength = 2)]
         [DataType(DataType.Text)]

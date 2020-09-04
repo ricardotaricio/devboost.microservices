@@ -11,9 +11,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DevBoost.DroneDelivery.Application.Resources;
 using DevBoost.DroneDelivery.CrossCutting.IOC;
 using DevBoost.DroneDelivery.Infrastructure.Swagger;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.API
 {
+    [ExcludeFromCodeCoverage]
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
