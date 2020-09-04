@@ -1,23 +1,52 @@
 ﻿using AutoBogus;
 using DevBoost.DroneDelivery.Domain.Entities;
-using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using DevBoost.DroneDelivery.Infrastructure.Data.Repositories;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Moq.AutoMock;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
 {
     public class ClienteRepositoryTest
     {
+        
+        [Fact(DisplayName = "ObterTodosClientesComSucesso")]
+        [Trait("ClienteRepositoryTest", "Repository Tests")]
+        public async void ClienteRepository_ObterTodos_ComSucesso()
+        {
+
+            // Given
+            var faker = AutoFaker.Create();
+
+            var options = new DbContextOptionsBuilder<DCDroneDelivery>()
+           .UseInMemoryDatabase(databaseName: "DroneDelivery")
+           .Options;
+
+            var clientes = faker.Generate<Cliente>(3);
+
+            using (var contexto = new DCDroneDelivery(options))
+            {
+                contexto.Cliente.AddRange(clientes);
+                await contexto.Commit();
+            }
+
+            
+            using (var contexto = new DCDroneDelivery(options))
+            {
+                ClienteRepository clienteRepository = new ClienteRepository(contexto);
+                //When
+                var cliente = clienteRepository.ObterTodos().Result.ToList();
+
+                //Then
+                Assert.True(cliente.Count >0);
+
+            }
+
+        }
+
         [Fact(DisplayName = "GetById")]
         [Trait("ClienteRepositoryTest", "Repository Tests")]
         public async void GetById_test()
@@ -56,40 +85,6 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
 
 
 
-        [Fact(DisplayName = "GetAll")]
-        [Trait("ClienteRepositoryTest", "Repository Tests")]
-        public async void GetAll_test()
-        {
-
-            // Given
-            var faker = AutoFaker.Create();
-
-            var options = new DbContextOptionsBuilder<DCDroneDelivery>()
-           .UseInMemoryDatabase(databaseName: "DroneDelivery")
-           .Options;
-
-            var clientes = faker.Generate<Cliente>(10);
-
-            using (var contexto = new DCDroneDelivery(options))
-            {
-                contexto.Cliente.AddRange(clientes);
-                contexto.SaveChanges();
-            }
-
-            var expectResponse = clientes;
-
-            using (var contexto = new DCDroneDelivery(options))
-            {
-                ClienteRepository clienteRepository = new ClienteRepository(contexto);
-
-                //When
-                var allClientes = await clienteRepository.ObterTodos();
-
-                //Then
-                CompareLogic comparer = new CompareLogic();
-                Assert.True(comparer.Compare(expectResponse, allClientes.ToList()).AreEqual);
-            }
-        }
 
 
         [Fact(DisplayName = "Update")]
@@ -143,8 +138,6 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
            .Options;
 
             var clienteNovo = faker.Generate<Cliente>();
-
-            var expectResponse = clienteNovo; //verificar!!
 
             using (var contexto = new DCDroneDelivery(options))
             {

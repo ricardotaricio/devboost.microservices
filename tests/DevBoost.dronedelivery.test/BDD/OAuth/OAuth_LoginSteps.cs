@@ -15,19 +15,18 @@ using Xunit;
 namespace DevBoost.DroneDelivery.Test.BDD.OAuth
 {
     [Binding]
-    public class OAuth_LoginSteps
+    public class OAuth_LoginSteps : Cenario
     {
-        public ScenarioContext _context;
-        public OAuth_LoginSteps(ScenarioContext context)
-        {
-            _context = context;
-        }
+
+        public OAuth_LoginSteps(ScenarioContext context) : base( context) { }
+       
 
         [Given(@"Que o cliente possua um usuário cadastrado")]
         public void DadoQueOClientePossuaUmUsuarioCadastrado()
         {
             var faker = AutoFaker.Create();
             var user = faker.Generate<Usuario>();
+
 
             _context.Set(user);
         }

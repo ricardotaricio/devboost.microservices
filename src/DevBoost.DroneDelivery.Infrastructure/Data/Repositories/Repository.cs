@@ -53,7 +53,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
 
         public async Task<IEnumerable<T>> ObterTodos()
         {
-            return await _repo.AsNoTracking().ToListAsync();
+            return await _repo.ToListAsync();
         }
 
         public async Task<IEnumerable<T>> ObterPor(Expression<Func<T, bool>> predicate)

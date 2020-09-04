@@ -17,14 +17,11 @@ using Xunit;
 namespace DevBoost.DroneDelivery.Test.BDD.Drone
 {
     [Binding]
-    public class Drone_AdicionarUmNovoDroneSteps
+    public class Drone_AdicionarUmNovoDroneSteps: Cenario
     {
-        public readonly ScenarioContext _context;
-        public Drone_AdicionarUmNovoDroneSteps(ScenarioContext context)
-        {
-
-            _context = context;
-        }
+        
+        //public Drone_AdicionarUmNovoDroneSteps(ScenarioContext context, AutoMocker mocker, AutoFaker faker) : base(context, faker, mocker) { }
+        public Drone_AdicionarUmNovoDroneSteps(ScenarioContext context) : base(context) { }
 
         [Given(@"Que eu possua um drone")]
         public void DadoQueEuPossuaUmDrone()
