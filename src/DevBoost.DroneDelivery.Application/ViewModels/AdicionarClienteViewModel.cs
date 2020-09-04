@@ -16,12 +16,12 @@ namespace DevBoost.DroneDelivery.Application.ViewModels
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Latitude é necessária")]
-        [Range(0, double.MaxValue, ErrorMessage = "Por favor insira um número válido")]
-        public double Latitude { get; set; }
+        [Range(double.MinValue, double.MaxValue, ErrorMessage = "Por favor insira um número válido")]
+        public decimal Latitude { get; set; }
 
         [Required(ErrorMessage = "Longitude é necessária")]
-        [Range(0, double.MaxValue, ErrorMessage = "Por favor insira um número válido")]
-        public double Longitude { get; set; }
+        [Range(double.MinValue, double.MaxValue, ErrorMessage = "Por favor insira um número válido")]
+        public decimal Longitude { get; set; }
 
         [Required(ErrorMessage = "UserName é necessário")]
         [StringLength(255, ErrorMessage = "Deve ter entre 2 e 255 caracteres", MinimumLength = 2)]
