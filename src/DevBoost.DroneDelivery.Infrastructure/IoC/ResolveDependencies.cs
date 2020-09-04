@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq.AutoMock;
 using System.Diagnostics.CodeAnalysis;
-using TechTalk.SpecFlow;
 
 namespace DevBoost.DroneDelivery.CrossCutting.IOC
 {
@@ -31,7 +30,6 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
-            services.AddScoped<ScenarioContext>();
             
 
             services.AddDbContext<DCDroneDelivery>(options =>
