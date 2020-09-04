@@ -66,10 +66,10 @@ namespace DevBoost.DroneDelivery.Test.Application
             userRepository.Setup(r => r.GetByUserNameEPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(responseUserTask).Verifiable();
 
             //When
-            var result = await userServiceMock.GetByUserName(It.IsAny<string>());
+            var result = await userServiceMock.Authenticate(It.IsAny<string>(), It.IsAny<string>());
 
             //Then
-            userRepository.Verify(mock => mock.GetByUserName(It.IsAny<string>()), Times.Once());
+            userRepository.Verify(mock => mock.GetByUserNameEPassword(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
 
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
