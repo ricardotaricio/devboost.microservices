@@ -1,4 +1,5 @@
-﻿using DevBoost.DroneDelivery.Domain.Entities;
+﻿using DevBoost.DroneDelivery.Application.Resources;
+using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using System.Security.Cryptography;
@@ -18,50 +19,40 @@ namespace DevBoost.DroneDelivery.Application.Services
 
         public async Task<User> Authenticate(string username, string password)
         {
-            password = getHash(password);
+            password = GetHash(password);
 
-            return await _repositoryUser.GetByUserNameEPassword(username, password);
+            return await _repositoryUser.ObterPorUserNameEPassword(username, password);
 
-            //var user = GetAll().FirstOrDefault(u => u.Username == username && u.Password == password);
-            //return user;
         }
 
         public async Task<User> GetByUserName(string username)
         {
-            return await _repositoryUser.GetByUserName(username);
+            return await _repositoryUser.ObterPorUserName(username);
         }
 
-        public async Task<bool> Insert(User user)
+        public async Task Insert(User user)
         {
-            user.Password = getHash(user.Password);
+            user.Password = GetHash(user.Password);
 
-            return await _repositoryUser.Insert(user);
+            await _repositoryUser.Atualizar(user);
         }
 
-        private static string getHash(string input)
+        private static string GetHash(string input)
         {
-            string key = "dronedelivery";
+            string key = SecretToken.Key;
 
-            input = input + key;
+            input += key;
 
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
             var sBuilder = new StringBuilder();
-
             using (SHA256 sha256Hash = SHA256.Create())
             {
-                // Convert the input string to a byte array and compute the hash.
+                
                 byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                // Loop through each byte of the hashed data
-                // and format each one as a hexadecimal string.
                 for (int i = 0; i < data.Length; i++)
-                {
                     sBuilder.Append(data[i].ToString("x2"));
-                }
+                
             }
 
-            // Return the hexadecimal string.
             return sBuilder.ToString();
         }
     }

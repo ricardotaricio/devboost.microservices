@@ -17,42 +17,36 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
             this._context = context;
         }
 
-        public async Task<bool> Delete(Drone drone)
-        {
-            _context.Drone.Remove(drone);
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<IList<Drone>> GetAll()
+        public async Task<IEnumerable<Drone>> ObterTodos()
         {
             return await _context.Drone.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Drone> GetById(Guid id)
+        public async Task<Drone> ObterPorId(Guid id)
         {
             return await _context.Drone.FindAsync(id);
         }
 
-        public async Task<Drone> GetById(int id)
+        public async Task<Drone> ObterPorId(int id)
         {
             return await _context.Drone.FindAsync(id);
         }
 
-        public async Task<bool> Insert(Drone drone)
+        public async Task Adicionar(Drone drone)
         {
-            _context.Drone.Add(drone);
-            return await _context.SaveChangesAsync() > 0;
+          await Task.Run(()=> _context.Drone.Add(drone));
         }
 
-        public async Task<Drone> Update(Drone drone)
+        public async Task<Drone> Atualizar(Drone drone)
         {
-            _context.Drone.Update(drone);
-            await _context.SaveChangesAsync();
-            return drone;
+            var retorno = await Task.FromResult(_context.Drone.Update(drone));
+
+            return retorno.Entity;
+           
         }
 
 
-        public void Dispose()
+        public void DisposeAsync()
         {
             _context.Dispose();
         }

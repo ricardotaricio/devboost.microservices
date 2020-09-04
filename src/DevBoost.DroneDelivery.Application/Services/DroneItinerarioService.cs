@@ -16,39 +16,36 @@ namespace DevBoost.DroneDelivery.Application.Services
             _droneItinerarioRepository = droneItinerarioRepository;
         }
 
-        public async Task<bool> Delete(DroneItinerario droneItinerario)
-        {
-            return await _droneItinerarioRepository.Delete(droneItinerario);
-        }
+        
 
-        public async Task<IList<DroneItinerario>> GetAll()
+        public async Task<IEnumerable<DroneItinerario>> GetAll()
         {
-            return await _droneItinerarioRepository.GetAll();
+            return await _droneItinerarioRepository.ObterTodos();
         }
 
         public async Task<DroneItinerario> GetById(Guid id)
         {
-            return await _droneItinerarioRepository.GetById(id);
+            return await _droneItinerarioRepository.ObterPorId(id);
         }
 
         public async Task<DroneItinerario> GetById(int id)
         {
-            return await _droneItinerarioRepository.GetById(id);
+            return await _droneItinerarioRepository.ObterPorId(id);
         }
 
         public async Task<DroneItinerario> GetDroneItinerarioPorIdDrone(int id)
         {
-            return await _droneItinerarioRepository.GetDroneItinerarioPorIdDrone(id);
+            return await _droneItinerarioRepository.ObterDroneItinerarioPorIdDrone(id);
         }
 
-        public async Task<bool> Insert(DroneItinerario droneItinerario)
+        public async Task Insert(DroneItinerario droneItinerario)
         {
-            return await _droneItinerarioRepository.Insert(droneItinerario);
+            await _droneItinerarioRepository.Adicionar(droneItinerario);
         }
 
         public async Task<DroneItinerario> Update(DroneItinerario droneItinerario)
         {
-            return await _droneItinerarioRepository.Update(droneItinerario);
+            return await _droneItinerarioRepository.Atualizar(droneItinerario);
         }
     }
 }

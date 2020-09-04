@@ -87,20 +87,16 @@ namespace DevBoost.DroneDelivery.API.Controllers
                 Capacidade = droneViewModel.Capacidade
             };
 
-            bool result = await _droneService.Insert(drone);
-
-            if (result)
+            await _droneService.Insert(drone);
+            var droneItinerario = new DroneItinerario
             {
-                var droneItinerario = new DroneItinerario
-                {
-                    DataHora = System.DateTime.Now,
-                    Drone = drone,
-                    DroneId = drone.Id,
-                    StatusDrone = EnumStatusDrone.Disponivel
-                };
+                DataHora = System.DateTime.Now,
+                Drone = drone,
+                DroneId = drone.Id,
+                StatusDrone = EnumStatusDrone.Disponivel
+            };
+            await _droneItinerarioService.Insert(droneItinerario);
 
-                await _droneItinerarioService.Insert(droneItinerario);
-            }
 
             return CreatedAtAction("GetDrone", new { id = drone.Id }, drone);
         }

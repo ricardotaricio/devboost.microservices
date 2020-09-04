@@ -16,7 +16,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
             this._context = context;
         }
 
-        public async Task<User> GetByUserName(string username)
+        public async Task<User> ObterPorUserName(string username)
         {
             return _context.User
                 .Where(u => u.UserName == username)
@@ -24,17 +24,16 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
                 .FirstOrDefault();
         }
 
-        public async Task<User> GetByUserNameEPassword(string username, string password)
+        public async Task<User> ObterPorUserNameEPassword(string username, string password)
         {
             return await _context.User.AsNoTracking().Where(u => u.UserName == username && u.Password == password).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> Insert(User user)
+        public async Task Atualizar(User user)
         {
             _context.Entry(user.Cliente).State = EntityState.Unchanged;
 
-            _context.User.Add(user);
-            return await _context.SaveChangesAsync() > 0;
+          await Task.Run(() =>  _context.User.Add(user));
         }
     }
 }

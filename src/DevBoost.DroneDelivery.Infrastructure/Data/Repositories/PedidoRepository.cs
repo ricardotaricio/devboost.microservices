@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
 {
-    public class PedidoRepository : Repository, IPedidoRepository
+    public class PedidoRepository : IPedidoRepository
     {
         private readonly DCDroneDelivery _context;
 
@@ -19,13 +19,8 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
             this._context = context;
         }
 
-        public async Task<bool> Delete(Pedido pedido)
-        {
-            _context.Pedido.Remove(pedido);
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<IList<Pedido>> GetAll()
+       
+        public async Task<IEnumerable<Pedido>> ObterTodos()
         {
             return await _context.Pedido
                 .Include(p => p.Drone)
@@ -35,7 +30,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Pedido> GetById(Guid id)
+        public async Task<Pedido> ObterPorId(Guid id)
         {
             return await _context.Pedido
                 .Include(p => p.Cliente)
@@ -43,46 +38,31 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Pedido> GetById(int id)
+        public async Task<Pedido> ObterPorId(int id)
         {
             return await _context.Pedido.FindAsync(id);
         }
 
-        public async Task<bool> Insert(Pedido pedido)
+        public async Task Adicionar(Pedido pedido)
         {
             _context.Entry(pedido.Cliente).State = EntityState.Unchanged;
-            
-            //_context.Entry(pedido.Drone).State = EntityState.Unchanged;
-
-            _context.Pedido.Add(pedido);
-
-            return await _context.SaveChangesAsync() > 0;
+           await Task.Run(()=> _context.Pedido.Add(pedido));
         }
 
-        public async Task<Pedido> Update(Pedido pedido)
+        public async Task<Pedido> Atualizar(Pedido pedido)
         {
-            //bool tracking = _context.ChangeTracker.Entries<Cliente>().Any(x => x.Entity.Id == pedido.Cliente.Id);
-
-            //if (!tracking)
-            //    _context.Entry(pedido.Cliente).State = EntityState.Unchanged;
-
-            DetachLocal<Pedido>(_context, p => p.Id == pedido.Id);
-            DetachLocal<Cliente>(_context, c => c.Id == pedido.Cliente.Id);
-            DetachLocal<Drone>(_context, d => d.Id == pedido.Drone.Id);
-
-            _context.Pedido.Update(pedido);
-            await _context.SaveChangesAsync();
-            return pedido;
-        }
+            var retorno = await Task.FromResult(_context.Pedido.Update(pedido));
+            return retorno.Entity;
+        } 
                         
-        public async Task<IList<Pedido>> GetPedidosEmAberto()
+        public async Task<IEnumerable<Pedido>> ObterPedidosEmAberto()
         {
             return await _context.Pedido
                 .Include(p => p.Cliente).AsNoTracking()
                 .Where(p => p.Status == EnumStatusPedido.AguardandoEntregador).ToListAsync();
         }
 
-        public async Task<IList<Pedido>> GetPedidosEmTransito()
+        public async Task<IEnumerable<Pedido>> ObterPedidosEmTransito()
         {
             return await _context.Pedido
                 .Include(p => p.Cliente).AsNoTracking()
@@ -91,7 +71,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
                 .ToListAsync();
         }
 
-        public void Dispose()
+        public void DisposeAsync()
         {
             _context.Dispose();
         }

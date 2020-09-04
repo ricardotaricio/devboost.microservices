@@ -31,47 +31,44 @@ namespace DevBoost.DroneDelivery.Application.Services
             _localizacaoLoja = new Localizacao(-23.5880684, -46.6564195);
         }
 
-        public async Task<bool> Delete(Pedido pedido)
-        {
-            return await _repositoryPedido.Delete(pedido);
-        }
+        
 
-        public async Task<IList<Pedido>> GetAll()
+        public async Task<IEnumerable<Pedido>> GetAll()
         {
-            //await DespacharPedidos();
-            return await _repositoryPedido.GetAll();
+            
+            return await _repositoryPedido.ObterTodos();
         }
 
         public async Task<Pedido> GetById(Guid id)
         {
-            var pedido = await _repositoryPedido.GetById(id);
+            var pedido = await _repositoryPedido.ObterPorId(id);
 
             if (pedido.DroneId > 0)
-                pedido.Drone = await _droneRepository.GetById(pedido.DroneId);
+                pedido.Drone = await _droneRepository.ObterPorId(pedido.DroneId);
 
             return pedido;
         }
 
-        public async Task<bool> Insert(Pedido pedido)
+        public async Task Insert(Pedido pedido)
         {
-            var dronesSitema = await _droneRepository.GetAll();
+            var dronesSitema = await _droneRepository.ObterTodos();
 
             if (!dronesSitema.Any(d => d.Capacidade >= pedido.Peso))
-                return await Task.Run(() => false);    
+                return;    
             
             //Deve colocar a regra de criação de pedido
 
-            return await _repositoryPedido.Insert(pedido);
+             await _repositoryPedido.Adicionar(pedido);
         }
 
         public async Task<Pedido> Update(Pedido pedido)
         {
-            return await _repositoryPedido.Update(pedido);
+            return await _repositoryPedido.Atualizar(pedido);
         }
 
-        public async Task<IList<Pedido>> GetPedidosEmTransito()
+        public async Task<IEnumerable<Pedido>> GetPedidosEmTransito()
         {
-            return await _repositoryPedido.GetPedidosEmTransito();
+            return await _repositoryPedido.ObterPedidosEmTransito();
         }
 
         public async Task DespacharPedidos()
@@ -84,11 +81,11 @@ namespace DevBoost.DroneDelivery.Application.Services
         {
             await criarDroneItinerario();
 
-            var droneItinerarios = _droneItinerarioRepository.GetAll().Result.Where(d => d.StatusDrone != EnumStatusDrone.Disponivel).ToList();
+            var droneItinerarios = _droneItinerarioRepository.ObterTodos().Result.Where(d => d.StatusDrone != EnumStatusDrone.Disponivel).ToList();
 
             foreach (var droneItinerario in droneItinerarios)
             {
-                //droneItinerario.Drone = _unitOfWork.Drones.GetById(droneItinerario.DroneId);
+                
 
                 if (droneItinerario.StatusDrone == EnumStatusDrone.Carregando)
                 {
@@ -98,19 +95,19 @@ namespace DevBoost.DroneDelivery.Application.Services
                         droneItinerario.Drone.AutonomiaRestante = droneItinerario.Drone.Autonomia;
                         droneItinerario.DataHora = DateTime.Now;
 
-                        await _droneItinerarioRepository.Update(droneItinerario);
+                        await _droneItinerarioRepository.Atualizar(droneItinerario);
                     }
                 }
                 else if (droneItinerario.StatusDrone == EnumStatusDrone.EmTransito)
                 {
-                    var pedidos = _repositoryPedido.GetPedidosEmTransito().Result.Where(p => p.Status == EnumStatusPedido.EmTransito && p.Drone.Id == droneItinerario.DroneId).ToList();
+                    var pedidos = _repositoryPedido.ObterPedidosEmTransito().Result.Where(p => p.Status == EnumStatusPedido.EmTransito && p.Drone.Id == droneItinerario.DroneId).ToList();
 
-                    // int tempoEntrega = pedido.PrevisaoEntrega.Subtract(pedido.DataHora).Minutes;
+                    
                     int tempoEntrega = CalcularTempoTotalEntregaEmMinutos(pedidos, droneItinerario.Drone);
 
                     if (droneItinerario.DataHora.AddMinutes(tempoEntrega) <= DateTime.Now)
                     {
-                        // se autonomia ficar abaixo de 20%, recarrega
+                        
                         int limiteAutonomiaParaRecarga = Convert.ToInt32(Math.Ceiling(droneItinerario.Drone.Autonomia * 0.2));
 
                         if (droneItinerario.Drone.AutonomiaRestante <= limiteAutonomiaParaRecarga)
@@ -123,10 +120,10 @@ namespace DevBoost.DroneDelivery.Application.Services
                         foreach (var pedido in pedidos)
                         {
                             pedido.InformarStatus(EnumStatusPedido.Entregue);
-                            await _repositoryPedido.Update(pedido);
+                            await _repositoryPedido.Atualizar(pedido);
                         }
 
-                        await _droneItinerarioRepository.Update(droneItinerario);
+                        await _droneItinerarioRepository.Atualizar(droneItinerario);
                     }
                 }
             }
@@ -135,12 +132,12 @@ namespace DevBoost.DroneDelivery.Application.Services
 
         private async Task distribuirPedidos()
         {
-            IList<Pedido> pedidos = new List<Pedido>();
+            var pedidos = new List<Pedido>();
 
             try
             {
                 // pedidos mais antigos vao primeiro
-                pedidos = _repositoryPedido.GetPedidosEmAberto().Result;
+                pedidos = _repositoryPedido.ObterPedidosEmAberto().Result.ToList();
             }
             catch (Exception ex)
             {
@@ -150,13 +147,13 @@ namespace DevBoost.DroneDelivery.Application.Services
             if (!pedidos.Any())
                 return;
 
-            var droneItinerarios = _droneItinerarioRepository.GetAll().Result
+            var droneItinerarios = _droneItinerarioRepository.ObterTodos().Result
                 .Where(d => d.StatusDrone == EnumStatusDrone.Disponivel)
                 .ToList();
 
             foreach (var droneItinerario in droneItinerarios)
             {
-                droneItinerario.Drone = await _droneRepository.GetById(droneItinerario.DroneId);
+                droneItinerario.Drone = await _droneRepository.ObterPorId(droneItinerario.DroneId);
             }
 
             var dronesDisponiveis = droneItinerarios.Select(d => d.Drone).OrderBy(d => d.Capacidade).ToList();
@@ -265,15 +262,15 @@ namespace DevBoost.DroneDelivery.Application.Services
                     droneItinerario.DroneId = drone.Id;
                     droneItinerario.StatusDrone = EnumStatusDrone.EmTransito;
 
-                    await _droneRepository.Update(drone);
-                    await _droneItinerarioRepository.Update(droneItinerario);
+                    await _droneRepository.Atualizar(drone);
+                    await _droneItinerarioRepository.Atualizar(droneItinerario);
                                                            
                     foreach (var pedido in item.Value)
                     {
                         pedido.Drone = drone;
                         pedido.InformarStatus(EnumStatusPedido.EmTransito);
 
-                        await _repositoryPedido.Update(pedido);
+                        await _repositoryPedido.Atualizar(pedido);
                     }
                 }
             }
@@ -282,9 +279,9 @@ namespace DevBoost.DroneDelivery.Application.Services
 
         private async Task criarDroneItinerario()
         {
-            var dronesId = _droneRepository.GetAll().Result.Select(d => d.Id).ToList();
+            var dronesId = _droneRepository.ObterTodos().Result.Select(d => d.Id).ToList();
 
-            var droneItininerarios = _droneItinerarioRepository.GetAll().Result.Select(i => i.DroneId).ToList();
+            var droneItininerarios = _droneItinerarioRepository.ObterTodos().Result.Select(i => i.DroneId).ToList();
 
             var dronesSemItinerario = dronesId.Except(droneItininerarios).ToList();
 
@@ -294,8 +291,8 @@ namespace DevBoost.DroneDelivery.Application.Services
                 //droneItinerario.Drone = _unitOfWork.Drones.GetById(droneId);
                 droneItinerario.InformarDataHora(DateTime.Now);
                 droneItinerario.InformarStatusDrone(EnumStatusDrone.Disponivel);
-                droneItinerario.InformarDrone(_droneRepository.GetById(droneId).Result);
-                await _droneItinerarioRepository.Insert(droneItinerario);                
+                droneItinerario.InformarDrone(_droneRepository.ObterPorId(droneId).Result);
+                await _droneItinerarioRepository.Adicionar(droneItinerario);                
             }
         }
                 
@@ -357,14 +354,13 @@ namespace DevBoost.DroneDelivery.Application.Services
         {
             
 
-            var drone = _droneRepository.GetAll().Result.Where(d => d.Capacidade >= pedido.Peso).FirstOrDefault();
+            var drone = _droneRepository.ObterTodos().Result.Where(d => d.Capacidade >= pedido.Peso).FirstOrDefault();
 
             if (drone == null)
                 return "Pedido acima do peso máximo aceito.";
             
 
             double distancia = _localizacaoLoja.CalcularDistanciaEmKilometros(new Localizacao(pedido.Cliente.Latitude, pedido.Cliente.Longitude));
-            // double distancia = calcularDistanciaEmKilometros(_latitudeLoja, _longitudeLoja, (double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude);
             distancia *= 2;
             
             int tempoTrajetoCompleto = _localizacaoLoja.CalcularTempoTrajetoEmMinutos(distancia, drone.Velocidade);

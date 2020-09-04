@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
 {
-    public class DroneItinerarioRepository : Repository, IDroneItinerarioRepository
+    public class DroneItinerarioRepository : IDroneItinerarioRepository
     {
         private readonly DCDroneDelivery _context;
 
@@ -17,26 +17,22 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public async Task<bool> Delete(DroneItinerario droneItinerario)
-        {
-            _context.DroneItinerario.Remove(droneItinerario);
-            return await _context.SaveChangesAsync() > 0;
-        }
 
-        public async Task<DroneItinerario> GetById(Guid id)
+
+        public async Task<DroneItinerario> ObterPorId(Guid id)
         {
             return await _context.DroneItinerario.FindAsync(id);
         }
 
-        public async Task<bool> Insert(DroneItinerario droneItinerario)
+        public async Task Adicionar(DroneItinerario droneItinerario)
         {
             _context.Entry(droneItinerario.Drone).State = EntityState.Unchanged;
 
             _context.DroneItinerario.Add(droneItinerario);
-           return await _context.SaveChangesAsync() > 0;
+
         }
 
-        public async Task<IList<DroneItinerario>> GetAll()
+        public async Task<IEnumerable<DroneItinerario>> ObterTodos()
         {
             return await _context.DroneItinerario
                 .AsNoTracking()
@@ -44,7 +40,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<DroneItinerario> GetById(int id)
+        public async Task<DroneItinerario> ObterPorId(int id)
         {
             return await _context.DroneItinerario
                 .AsNoTracking()
@@ -52,35 +48,27 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
                 .SingleOrDefaultAsync(d => d.Id == id);
         }
 
-        public async Task<DroneItinerario> Update(DroneItinerario droneItinerario)
+        public async Task<DroneItinerario> Atualizar(DroneItinerario droneItinerario)
         {
-            //bool tracking = _context.ChangeTracker.Entries<DroneItinerario>().Any(x => x.Entity.Id == droneItinerario.Id);
+            _context.Attach(droneItinerario).State = EntityState.Unchanged;
+          var retorno =  await Task.Run(() => _context.DroneItinerario.Update(droneItinerario));
 
-            //if (!tracking)
-            //    _context.DroneItinerario.Update(droneItinerario);
-
-            DetachLocal<DroneItinerario>(_context, d => d.Id == droneItinerario.Id);
-            DetachLocal<Drone>(_context, d => d.Id == droneItinerario.Drone.Id);
-
-            _context.DroneItinerario.Update(droneItinerario);
-            await _context.SaveChangesAsync();
-
-            return droneItinerario;
+            return retorno.Entity;
         }
 
-        public void Dispose()
+        public void DisposeAsync()
         {
             _context.Dispose();
         }
 
-        public async Task<DroneItinerario> GetDroneItinerarioPorIdDrone(int id)
+        public async Task<DroneItinerario> ObterDroneItinerarioPorIdDrone(int id)
         {
             return await _context.DroneItinerario
                 .AsNoTracking()
                 .Include(d => d.Drone)
-                .SingleOrDefaultAsync(d => d.DroneId == id);
+                .FirstOrDefaultAsync(d => d.DroneId == id);
         }
 
-        
+
     }
 }

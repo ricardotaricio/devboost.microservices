@@ -4,6 +4,8 @@ using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
@@ -12,25 +14,21 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
     {
         private readonly DCDroneDelivery _context;
 
+        public IUnitOfWork UnitOfWork => _context;
+
         public ClienteRepository(DCDroneDelivery context)
         {
-            this._context = context;
+            _context = context;
         }
 
-        public async Task<bool> Delete(Cliente cliente)
-        {
-            _context.Cliente.Remove(cliente);
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<IList<Cliente>> GetAll()
+        public async Task<IEnumerable<Cliente>> ObterTodos()
         {
             return await _context.Cliente
                 .AsNoTracking()
                 .ToListAsync();
         }
 
-        public async Task<Cliente> GetById(Guid id)
+        public async Task<Cliente> ObterPorId(Guid id)
         {
             return await _context.Cliente.FindAsync(id);
         }
@@ -40,18 +38,47 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
             return await _context.Cliente.FindAsync(id);
         }
 
-        public async Task<bool> Insert(Cliente cliente)
+        public async Task Adicionar(Cliente cliente)
         {
-            _context.Cliente.Add(cliente);
-
-            return await _context.SaveChangesAsync() > 0;
+            await Task.Run(() => _context.Cliente.Add(cliente));
         }
 
-        public async Task<Cliente> Update(Cliente cliente)
+        public async Task Atualizar(Cliente cliente)
         {
-            _context.Cliente.Update(cliente);
-            await _context.SaveChangesAsync();
-            return cliente;
+            await Task.Run(() => _context.Cliente.Update(cliente));
         }
+
+        public async Task<IEnumerable<Cliente>> ObterPor(Expression<Func<Cliente, bool>> predicate)
+        {
+            
+            return await Task.Run(() => _context.Cliente.Where(predicate).AsNoTracking().ToListAsync());
+        }
+
+        public Task AdicionarRange(IEnumerable<Cliente> entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AtualizarRange(IEnumerable<Cliente> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Excluir(Cliente entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Cliente> ObterPorId(int id)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task DisposeAsync()
+        {
+            if (_context != null)
+                await _context.DisposeAsync();
+        }
+
+
     }
 }

@@ -7,6 +7,6 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Services
     {
         Task<User> Authenticate(string username, string password);
         Task<User> GetByUserName(string username);
-        Task<bool> Insert(User user);
+        Task Insert(User user);
     }
 }
