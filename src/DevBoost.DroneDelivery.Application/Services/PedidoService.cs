@@ -17,8 +17,8 @@ namespace DevBoost.DroneDelivery.Application.Services
         private readonly IPedidoRepository _repositoryPedido;
         private readonly IDroneItinerarioRepository _droneItinerarioRepository;
         private readonly IDroneRepository _droneRepository;
-        private const double _latitudeLoja = -23.5880684;
-        private const double _longitudeLoja = -46.6564195;
+        private const decimal _latitudeLoja = (decimal)-23.5880684;
+        private const decimal _longitudeLoja = (decimal)-46.6564195;
         private Localizacao _localizacaoLoja;
 
         public PedidoService(IPedidoRepository repositoryPedido,
@@ -161,8 +161,8 @@ namespace DevBoost.DroneDelivery.Application.Services
             double distanciaRetorno = 0;
             double distanciaPercorrida = 0;
             double distanciaTotal = 0;
-            double latitudeOrigem = 0;
-            double longitudeOrigem = 0;
+            decimal latitudeOrigem = 0;
+            decimal longitudeOrigem = 0;
             int tempoTrajetoCompleto = 0;
 
             foreach (var drone in dronesDisponiveis)
@@ -198,8 +198,8 @@ namespace DevBoost.DroneDelivery.Application.Services
                             longitudeOrigem = _longitudeLoja;
                         }
 
-                        distanciaTrajeto = CalcularDistanciaEmKilometros(latitudeOrigem, longitudeOrigem, (double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude);
-                        distanciaRetorno = CalcularDistanciaEmKilometros(pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude, _latitudeLoja, _longitudeLoja);
+                        distanciaTrajeto = CalcularDistanciaEmKilometros((double)latitudeOrigem, (double)longitudeOrigem, (double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude);
+                        distanciaRetorno = CalcularDistanciaEmKilometros((double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude, (double)_latitudeLoja, (double)_longitudeLoja);
 
                         distanciaTotal = distanciaPercorrida + distanciaTrajeto + distanciaRetorno;
 
@@ -314,8 +314,8 @@ namespace DevBoost.DroneDelivery.Application.Services
             if (!pedidos.Any())
                 return 0;
 
-            double latitudeOrigem = 0;
-            double longitudeOrigem = 0;
+            decimal latitudeOrigem = 0;
+            decimal longitudeOrigem = 0;
             double distanciaTotal = 0;
 
             foreach (var pedido in pedidos)
@@ -327,7 +327,7 @@ namespace DevBoost.DroneDelivery.Application.Services
                     longitudeOrigem = _longitudeLoja;
                 }
 
-                distanciaTotal += CalcularDistanciaEmKilometros(latitudeOrigem, longitudeOrigem, (double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude);
+                distanciaTotal += CalcularDistanciaEmKilometros((double)latitudeOrigem, (double)longitudeOrigem, (double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude);
 
                 // origem do proximo trajeto
                 latitudeOrigem = pedido.Cliente.Latitude;
@@ -335,7 +335,7 @@ namespace DevBoost.DroneDelivery.Application.Services
             }
 
             // retorno para loja
-            distanciaTotal += CalcularDistanciaEmKilometros(latitudeOrigem, longitudeOrigem, _latitudeLoja, _longitudeLoja);
+            distanciaTotal += CalcularDistanciaEmKilometros((double)latitudeOrigem, (double)longitudeOrigem, (double)_latitudeLoja, (double)_longitudeLoja);
 
             int tempo = CalcularTempoTrajetoEmMinutos(distanciaTotal, drone.Velocidade);
 
@@ -349,7 +349,7 @@ namespace DevBoost.DroneDelivery.Application.Services
             if (drone == null)
                 return "Pedido acima do peso máximo aceito.";
 
-            double distancia = _localizacaoLoja.CalcularDistanciaEmKilometros(new Localizacao(pedido.Cliente.Latitude, pedido.Cliente.Longitude));
+            double distancia = _localizacaoLoja.CalcularDistanciaEmKilometros(new Localizacao((double)pedido.Cliente.Latitude, (double)pedido.Cliente.Longitude));
             distancia *= 2;
 
             int tempoTrajetoCompleto = _localizacaoLoja.CalcularTempoTrajetoEmMinutos(distancia, drone.Velocidade);
