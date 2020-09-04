@@ -17,7 +17,7 @@ namespace DevBoost.DroneDelivery.Test.API
 {
     public class ClienteControllerTest
     {
-        [Fact(DisplayName = "GetById")]
+        [Fact(DisplayName = "ObterClientePorIdComSucesso")]
         [Trait("ClienteControllerTest", "Controller Tests")]
         public void Cliente_ObterPorId_ComSucesso()
         {
@@ -43,6 +43,34 @@ namespace DevBoost.DroneDelivery.Test.API
             //Then
 
             clienteService.Verify(mock => mock.GetById(It.IsAny<Guid>()), Times.Once());
+            Assert.Equal((HttpStatusCode)expectResponse.StatusCode, (HttpStatusCode)Convert.ToInt32(((OkObjectResult)result).StatusCode));
+        }
+        [Fact(DisplayName = "ObterTodosClientesComSucesso")]
+        [Trait("ClienteControllerTest", "Controller Tests")]
+        public void Cliente_ObterTodos_ComSucesso()
+        {
+            // Given
+            var mocker = new AutoMocker();
+            var faker = AutoFaker.Create();
+            var baseControllerMock = mocker.CreateInstance<ClienteController>();
+
+
+            var response = faker.Generate<Cliente>(5);
+
+            var responseTask = response;
+
+            var expectResponse = baseControllerMock.Ok(response);
+
+            var clienteService = mocker.GetMock<IClienteService>();
+
+            clienteService.Setup(r => r.GetAll()).ReturnsAsync(responseTask).Verifiable();
+
+            //When
+            var result = baseControllerMock.Get().Result;
+
+            //Then
+
+            clienteService.Verify(mock => mock.GetAll(), Times.Once());
             Assert.Equal((HttpStatusCode)expectResponse.StatusCode, (HttpStatusCode)Convert.ToInt32(((OkObjectResult)result).StatusCode));
         }
         [Fact(DisplayName = "AdicionarPedidoComSucesso")]

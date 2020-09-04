@@ -25,7 +25,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult> Get()
         {
             return Ok(await _clienteService.GetAll());
         }
