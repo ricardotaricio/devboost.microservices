@@ -17,7 +17,7 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
         public static IServiceCollection Register(this IServiceCollection services, IConfiguration  configuration)
         {
 
-            services.AddTransient<DCDroneDelivery>();
+            //services.AddTransient<DCDroneDelivery>();
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IDroneService, DroneService>();
             services.AddScoped<IDroneItinerarioService, DroneItinerarioService>();
