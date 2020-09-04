@@ -32,7 +32,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<ActionResult> Get(Guid id)
         {
             var cliente = await _clienteService.GetById(id);
 
