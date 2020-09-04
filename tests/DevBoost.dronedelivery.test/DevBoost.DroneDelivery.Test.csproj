@@ -11,6 +11,7 @@
     <PackageReference Include="AutoMoq" Version="2.0.0" />
     <PackageReference Include="Bogus" Version="30.0.4" />
     <PackageReference Include="CompareNETObjects" Version="4.66.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.7" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="Moq.AutoMock" Version="2.0.1" />
     <PackageReference Include="SpecFlow" Version="3.4.3" />
