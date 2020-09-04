@@ -42,7 +42,6 @@ namespace DevBoost.DroneDelivery.Test.API
             
             droneService.Verify(mock => mock.GetById(It.IsAny<Int32>()), Times.Once());
             Assert.Equal((HttpStatusCode)expectResponse.StatusCode, (HttpStatusCode)Convert.ToInt32(((OkObjectResult)result.Result).StatusCode));
-
         }
 
     }

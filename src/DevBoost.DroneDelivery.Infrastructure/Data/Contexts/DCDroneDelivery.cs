@@ -1,8 +1,11 @@
 ﻿using DevBoost.DroneDelivery.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
 {
+    [ExcludeFromCodeCoverage]
+
     public class DCDroneDelivery : DbContext
     {
         public DCDroneDelivery(DbContextOptions options) : base(options)

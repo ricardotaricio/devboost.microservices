@@ -14,6 +14,5 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Repositories
         Task<Pedido> GetById(int id);
         Task<bool> Insert(Pedido pedido);
         Task<Pedido> Update(Pedido pedido);
-        Task<bool> Delete(Pedido pedido);
     }
 }

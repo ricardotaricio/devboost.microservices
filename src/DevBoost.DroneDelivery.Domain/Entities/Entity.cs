@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
 {
+    [ExcludeFromCodeCoverage]
     public abstract class Entity
     { 
         protected Entity()

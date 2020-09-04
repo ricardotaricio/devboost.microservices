@@ -12,6 +12,5 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Repositories
         Task<Drone> GetById(int id);
         Task<bool> Insert(Drone drone);
         Task<Drone> Update(Drone drone);
-        Task<bool> Delete(Drone drone);
     }
 }

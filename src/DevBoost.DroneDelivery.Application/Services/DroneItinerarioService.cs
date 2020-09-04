@@ -16,19 +16,9 @@ namespace DevBoost.DroneDelivery.Application.Services
             _droneItinerarioRepository = droneItinerarioRepository;
         }
 
-        public async Task<bool> Delete(DroneItinerario droneItinerario)
-        {
-            return await _droneItinerarioRepository.Delete(droneItinerario);
-        }
-
         public async Task<IList<DroneItinerario>> GetAll()
         {
             return await _droneItinerarioRepository.GetAll();
-        }
-
-        public async Task<DroneItinerario> GetById(Guid id)
-        {
-            return await _droneItinerarioRepository.GetById(id);
         }
 
         public async Task<DroneItinerario> GetById(int id)

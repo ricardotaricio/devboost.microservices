@@ -12,6 +12,5 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Repositories
         Task<Cliente> GetById(Guid id);
         Task<bool> Insert(Cliente cliente);
         Task<Cliente> Update(Cliente cliente);
-        Task<bool> Delete(Cliente cliente);
     }
 }

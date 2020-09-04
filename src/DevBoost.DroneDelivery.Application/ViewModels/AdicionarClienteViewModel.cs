@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace DevBoost.DroneDelivery.Application.ViewModels
 {
+    [ExcludeFromCodeCoverage]
+
     public class AdicionarClienteViewModel
     {
         [Required(ErrorMessage = "Nome é necessário")]

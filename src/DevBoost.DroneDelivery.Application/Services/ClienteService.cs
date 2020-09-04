@@ -17,11 +17,6 @@ namespace DevBoost.DroneDelivery.Application.Services
             _repositoryCliente = repositoryCliente;
         }
 
-        public async Task<bool> Delete(Cliente cliente)
-        {
-            return await _repositoryCliente.Delete(cliente);
-        }
-
         public async Task<IList<Cliente>> GetAll()
         {
             return await _repositoryCliente.GetAll();
@@ -34,13 +29,7 @@ namespace DevBoost.DroneDelivery.Application.Services
 
         public async Task<bool> Insert(Cliente cliente)
         {
-
             return await _repositoryCliente.Insert(cliente);
-        }
-
-        public async Task<Cliente> Update(Cliente cliente)
-        {
-            return await _repositoryCliente.Update(cliente);
         }
     }
 }

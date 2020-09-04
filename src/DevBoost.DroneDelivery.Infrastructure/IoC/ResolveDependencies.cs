@@ -6,9 +6,12 @@ using DevBoost.DroneDelivery.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.CrossCutting.IOC
 {
+    [ExcludeFromCodeCoverage]
+
     public static class ResolveDependencies
     {
         public static IServiceCollection Register(this IServiceCollection services, IConfiguration  configuration)

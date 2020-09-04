@@ -15,6 +15,5 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Repositories
 
         Task<bool> Insert(DroneItinerario droneItinerario);
         Task<DroneItinerario> Update(DroneItinerario droneItinerario);
-        Task<bool> Delete(DroneItinerario droneItinerario);
     }
 }

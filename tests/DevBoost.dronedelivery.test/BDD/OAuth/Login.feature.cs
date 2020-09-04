@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace DevBoost.DroneDelivery.Test.BDD.Drone
+namespace DevBoost.DroneDelivery.Test.BDD.OAuth
 {
     using TechTalk.SpecFlow;
     using System;
@@ -19,7 +19,7 @@ namespace DevBoost.DroneDelivery.Test.BDD.Drone
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class Drone_ObterDronePorIdFeature : object, Xunit.IClassFixture<Drone_ObterDronePorIdFeature.FixtureData>, System.IDisposable
+    public partial class LoginFeature : object, Xunit.IClassFixture<LoginFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace DevBoost.DroneDelivery.Test.BDD.Drone
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "ObterDronePorId.feature"
+#line 1 "Login.feature"
 #line hidden
         
-        public Drone_ObterDronePorIdFeature(Drone_ObterDronePorIdFeature.FixtureData fixtureData, DevBoost_DroneDelivery_Test_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public LoginFeature(LoginFeature.FixtureData fixtureData, DevBoost_DroneDelivery_Test_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace DevBoost.DroneDelivery.Test.BDD.Drone
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("pt-BR"), "BDD/Drone", "Drone - Obter drone por id", "Como um usuario\r\nEu desejo Obter  \r\num drone", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("pt-BR"), "BDD/OAuth", "Login", "Eu como Cliente\r\nPara poder efetuar pedido\r\nQuero realizar login no sistema", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,14 +80,14 @@ namespace DevBoost.DroneDelivery.Test.BDD.Drone
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Obter um drone por id com sucesso")]
-        [Xunit.TraitAttribute("FeatureTitle", "Drone - Obter drone por id")]
-        [Xunit.TraitAttribute("Description", "Obter um drone por id com sucesso")]
-        public virtual void ObterUmDronePorIdComSucesso()
+        [Xunit.SkippableFactAttribute(DisplayName="Autenticar Cliente")]
+        [Xunit.TraitAttribute("FeatureTitle", "Login")]
+        [Xunit.TraitAttribute("Description", "Autenticar Cliente")]
+        public virtual void AutenticarCliente()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Obter um drone por id com sucesso", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Autenticar Cliente", null, tagsOfScenario, argumentsOfScenario);
 #line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -109,16 +109,16 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 7
-testRunner.Given("Que eu possua um drone cadastrado", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Dado ");
+testRunner.Given("Que o cliente possua um usuário cadastrado", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Dado ");
 #line hidden
 #line 8
-testRunner.And("O usuario esteja logado", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
+testRunner.When("o cliente informa seu nome de usuario correto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
 #line hidden
 #line 9
-testRunner.When("Eu solicitar um drone por Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
+testRunner.And("o cliente informa sua senha correta", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
 #line hidden
 #line 10
-testRunner.Then("O drone será retornado", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
+testRunner.Then("o cliente é autenticado", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Entao ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -131,12 +131,12 @@ testRunner.Then("O drone será retornado", ((string)(null)), ((TechTalk.SpecFlow
             
             public FixtureData()
             {
-                Drone_ObterDronePorIdFeature.FeatureSetup();
+                LoginFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                Drone_ObterDronePorIdFeature.FeatureTearDown();
+                LoginFeature.FeatureTearDown();
             }
         }
     }

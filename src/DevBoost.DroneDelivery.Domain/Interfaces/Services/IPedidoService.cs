@@ -12,7 +12,6 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Services
         Task<Pedido> GetById(Guid id);
         Task<bool> Insert(Pedido pedido);
         Task<Pedido> Update(Pedido pedido);
-        Task<bool> Delete(Pedido pedido);
         string IsPedidoValido(Pedido pedido);
         Task DespacharPedidos();
         Task<IList<Pedido>> GetPedidosEmTransito();
