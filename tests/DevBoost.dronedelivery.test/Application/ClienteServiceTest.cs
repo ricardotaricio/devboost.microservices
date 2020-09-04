@@ -76,5 +76,35 @@ namespace DevBoost.DroneDelivery.Test.Application
             CompareLogic comparer = new CompareLogic();
             Assert.True(comparer.Compare(expectResponse, result).AreEqual);
         }
+
+        [Fact(DisplayName = "Insert")]
+        [Trait("ClienteServiceTest", "Service Tests")]
+        public async void Insert_test()
+        {
+            // Given
+            var mocker = new AutoMocker();
+            var clienteServiceMock = mocker.CreateInstance<ClienteService>();
+
+            var faker = AutoFaker.Create();
+
+            var cliente = faker.Generate<Cliente>();
+
+            var responseClienteTask = Task.Factory.StartNew(() => true);
+
+            var expectResponse = true;
+
+            var clienteRepository = mocker.GetMock<IClienteRepository>();
+
+            clienteRepository.Setup(r => r.Insert(It.IsAny<Cliente>())).Returns(responseClienteTask).Verifiable();
+
+            //When
+            var result = await clienteServiceMock.Insert(cliente);
+
+            //Then
+            clienteRepository.Verify(mock => mock.Insert(It.IsAny<Cliente>()), Times.Once());
+
+            CompareLogic comparer = new CompareLogic();
+            Assert.True(comparer.Compare(expectResponse, result).AreEqual);
+        }
     }
 }
