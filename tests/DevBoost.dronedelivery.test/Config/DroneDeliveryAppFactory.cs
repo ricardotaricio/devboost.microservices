@@ -14,11 +14,6 @@ namespace DevBoost.DroneDelivery.Test.Config
             builder.UseEnvironment("Testing");
             return builder;
         }
-        //protected override void ConfigureWebHost(IWebHostBuilder builder)
-        //{
-        //    builder.UseStartup<TStartaup>();
-        //    builder.UseEnvironment("Testing");
-        //    base.ConfigureWebHost(builder); 
-        //}
+        
     }
 }

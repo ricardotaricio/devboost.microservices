@@ -35,4 +35,8 @@
     <ProjectReference Include="..\..\src\DevBoost.DroneDelivery.Infrastructure\DevBoost.DroneDelivery.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Feature\" />
+  </ItemGroup>
+
 </Project>

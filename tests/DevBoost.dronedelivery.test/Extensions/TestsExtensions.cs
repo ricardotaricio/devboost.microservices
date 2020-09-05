@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace DevBoost.DroneDelivery.Test.TestsExtensions
+namespace DevBoost.DroneDelivery.Test.Extensions
 {
     public static class TestsExtensions
     {
