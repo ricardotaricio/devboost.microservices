@@ -117,8 +117,25 @@ namespace DevBoost.DroneDelivery.Application.Services
 
                         foreach (var pedido in pedidos)
                         {
-                            pedido.InformarStatus(EnumStatusPedido.Entregue);
-                            await _repositoryPedido.Atualizar(pedido);
+                            if (pedido.Status == EnumStatusPedido.EmTransito)
+                            {
+                                if (pedido.DroneId == 0)
+                                {
+                                    pedido.DroneId = droneItinerario.DroneId;
+                                    pedido.InformarStatus(EnumStatusPedido.Entregue);
+                                    await _droneItinerarioRepository.Atualizar(droneItinerario);
+                                }
+                                else
+                                {
+                                    pedido.InformarStatus(EnumStatusPedido.Entregue);
+                                    await _droneItinerarioRepository.Atualizar(droneItinerario);
+                                }
+                            }
+                            else
+                            {
+                                pedido.InformarStatus(EnumStatusPedido.Entregue);
+                                await _repositoryPedido.Atualizar(pedido);
+                            }
                         }
 
                         await _droneItinerarioRepository.Atualizar(droneItinerario);
