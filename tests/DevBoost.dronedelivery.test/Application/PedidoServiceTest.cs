@@ -145,8 +145,8 @@ namespace DevBoost.DroneDelivery.Test.Application
                 .Generate(3);
 
             var cliente = new AutoFaker<Cliente>()
-                .RuleFor(c => c.Latitude, (decimal)-23.594987)
-                .RuleFor(c => c.Longitude, (decimal)-46.6552518).Generate();
+                .RuleFor(c => c.Latitude, -23.594987)
+                .RuleFor(c => c.Longitude, -46.6552518).Generate();
 
             // var pedido = faker.Generate<Pedido>();
             var pedido = new AutoFaker<Pedido>()

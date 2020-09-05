@@ -1,12 +1,10 @@
-﻿using DevBoost.DroneDelivery.API.DTO;
-using DevBoost.DroneDelivery.Application.Services;
-using DevBoost.DroneDelivery.Application.ViewModels;
+﻿using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
+using DevBoost.DroneDelivery.Infrastructure.Security;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -31,7 +29,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
             if (user == null)
                 return NotFound(new { message = "Usuário ou senha inválidos" });
 
-            return Ok(TokenService.GenerateToken(user));
+            return Ok(TokenGenerator.GenerateToken(user));
         }
     }
 }

@@ -17,8 +17,8 @@ namespace DevBoost.DroneDelivery.Application.Services
         private readonly IPedidoRepository _repositoryPedido;
         private readonly IDroneItinerarioRepository _droneItinerarioRepository;
         private readonly IDroneRepository _droneRepository;
-        private const decimal _latitudeLoja = (decimal)-23.5880684;
-        private const decimal _longitudeLoja = (decimal)-46.6564195;
+        private const double _latitudeLoja = -23.5880684;
+        private const double _longitudeLoja = -46.6564195;
         private Localizacao _localizacaoLoja;
 
         public PedidoService(IPedidoRepository repositoryPedido,
@@ -161,8 +161,8 @@ namespace DevBoost.DroneDelivery.Application.Services
             double distanciaRetorno = 0;
             double distanciaPercorrida = 0;
             double distanciaTotal = 0;
-            decimal latitudeOrigem = 0;
-            decimal longitudeOrigem = 0;
+            double latitudeOrigem = 0;
+            double longitudeOrigem = 0;
             int tempoTrajetoCompleto = 0;
 
             foreach (var drone in dronesDisponiveis)
@@ -314,8 +314,8 @@ namespace DevBoost.DroneDelivery.Application.Services
             if (!pedidos.Any())
                 return 0;
 
-            decimal latitudeOrigem = 0;
-            decimal longitudeOrigem = 0;
+            double latitudeOrigem = 0;
+            double longitudeOrigem = 0;
             double distanciaTotal = 0;
 
             foreach (var pedido in pedidos)

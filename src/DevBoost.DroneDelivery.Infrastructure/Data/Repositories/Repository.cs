@@ -23,13 +23,13 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
         }
         public async Task Adicionar(T entity)
         {
-            _repo.Attach(entity).State = EntityState.Unchanged;
+           
             await Task.Run(() => _repo.Add(entity));
         }
 
         public async Task Atualizar(T entity)
         {
-            _repo.Attach(entity).State = EntityState.Unchanged;
+            
             await Task.Run(() => _repo.Update(entity));
 
         }
