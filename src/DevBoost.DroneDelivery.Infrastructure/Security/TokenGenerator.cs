@@ -16,6 +16,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Security
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Audience = TokenConfig.ValidoEm,
                 Issuer = TokenConfig.Emissor,
                 Subject = new ClaimsIdentity(new Claim[]
                 {

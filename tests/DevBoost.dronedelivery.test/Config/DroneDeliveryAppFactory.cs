@@ -1,16 +1,24 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
 
 namespace DevBoost.DroneDelivery.Test.Config
 {
     public class DroneDeliveryAppFactory<TStartaup> : WebApplicationFactory<TStartaup> where TStartaup :class
     {
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        protected override IHostBuilder CreateHostBuilder()
         {
-            builder.UseStartup<TStartaup>();
+            var builder = Host.CreateDefaultBuilder().ConfigureWebHostDefaults(x =>{ x.UseStartup<TStartaup>().UseTestServer();});
             builder.UseEnvironment("Testing");
-            base.ConfigureWebHost(builder); 
+            return builder;
         }
+        //protected override void ConfigureWebHost(IWebHostBuilder builder)
+        //{
+        //    builder.UseStartup<TStartaup>();
+        //    builder.UseEnvironment("Testing");
+        //    base.ConfigureWebHost(builder); 
+        //}
     }
 }
