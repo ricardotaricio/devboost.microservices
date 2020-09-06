@@ -1,7 +1,7 @@
 ﻿using DevBoost.DroneDelivery.API;
 using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Test.Config;
-using DevBoost.DroneDelivery.Test.TestsExtensions;
+using DevBoost.DroneDelivery.Test.Extensions;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;

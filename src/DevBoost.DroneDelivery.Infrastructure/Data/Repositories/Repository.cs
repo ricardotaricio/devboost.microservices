@@ -1,4 +1,5 @@
-﻿using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
+﻿using DevBoost.DroneDelivery.Core.Domain.Interfaces.Repositories;
+using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,24 +24,21 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
         }
         public async Task Adicionar(T entity)
         {
-           
-            await Task.Run(() => _repo.Add(entity));
+            _repo.Add(entity);
         }
 
         public async Task Atualizar(T entity)
         {
-            
-            await Task.Run(() => _repo.Update(entity));
-
+            _repo.Update(entity);
         }
 
-        public void Dispose()
-        {
-            if (_context != null)
-                _context.Dispose();
+        //public void Dispose()
+        //{
+        //    //if (_context != null)
+        //    //    _context.Dispose();
 
-            GC.SuppressFinalize(this);
-        }
+        //    //GC.SuppressFinalize(this);
+        //}
 
         public async Task<T> ObterPorId(Guid id)
         {

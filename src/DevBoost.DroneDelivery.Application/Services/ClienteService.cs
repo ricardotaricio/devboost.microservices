@@ -16,8 +16,6 @@ namespace DevBoost.DroneDelivery.Application.Services
             _repositoryCliente = repositoryCliente;
         }
 
-       
-
         public async Task<IEnumerable<Cliente>> GetAll()
         {
             return await _repositoryCliente.ObterTodos();

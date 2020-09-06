@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace DevBoost.DroneDelivery.Application.Services
+{
+    public class ClienteService : IClienteService
+    {
+        private readonly IClienteRepository _repositoryCliente;
+
+        public ClienteService(IClienteRepository repositoryCliente)
+        {
+            _repositoryCliente = repositoryCliente;
+        }
+
+       
+
+        public async Task<IEnumerable<Cliente>> GetAll()
+        {
+            return await _repositoryCliente.ObterTodos();
+        }
+
+        public async Task<Cliente> GetById(Guid id)
+        {
+            return await _repositoryCliente.ObterPorId(id);
+        }
+
+        public async Task<bool> Insert(Cliente cliente)
+        {
+            await _repositoryCliente.Adicionar(cliente);
+            return await _repositoryCliente.UnitOfWork.Commit();
+        }
+
+        
+    }
+}

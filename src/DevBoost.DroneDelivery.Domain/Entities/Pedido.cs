@@ -1,4 +1,5 @@
 ﻿using DevBoost.Dronedelivery.Domain.Enumerators;
+using DevBoost.DroneDelivery.Core.Domain.Entities;
 using System;
 using System.Diagnostics.CodeAnalysis;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DevBoost.DroneDelivery.Domain.Entities
+namespace DevBoost.DroneDelivery.Infrastructure.Security
 {
     public class Token
     {
