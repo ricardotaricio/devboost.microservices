@@ -11,6 +11,11 @@ namespace DevBoost.DroneDelivery.Core.Domain.Entities
         private List<Event> _notificacoes;
         public IReadOnlyCollection<Event> Notificacoes => _notificacoes?.AsReadOnly();
 
+        protected Entity(Guid id)
+        {
+            Id = id;
+        }
+
         protected Entity()
         {
             Id = Guid.NewGuid();

@@ -47,9 +47,8 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.Commands
         {
             if (!ValidarComando(message)) return false;
 
-            PagamentoCartao pagamentoCartao = new PagamentoCartao()
+            PagamentoCartao pagamentoCartao = new PagamentoCartao(message.PagamentoId)
             {
-                Id = message.PagamentoId,
                 Situacao = message.SituacaoPagamneto,
                 PedidoId = message.PedidoId,
                 Valor = message.Valor

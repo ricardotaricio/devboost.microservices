@@ -3,7 +3,7 @@ using System;
 
 namespace DevBoost.DroneDelivery.Core.Domain.Messages
 {
-    public abstract class Event : Message, INotification
+    public class Event : Message, INotification
     {
         public Event(Guid entityId)
         {
