@@ -1,8 +1,17 @@
-# DevBoost.dronedelivery_v2.ricardotaricio
+# DevBoost.dronedelivery.microservices
 
-Consultar API's disponíveis via Swagger.
+**GRUPO 1**
 
-Usuário pré-cadastrado no banco de dados pra viabilizar o cadastro de drones: 
-username: admin
-senha: 1234
+* Priscila
+* Odair
+* André
+* Ricardo
+
+
+
+*Consultar API's disponíveis via Swagger.*
+
+Usuário pré-cadastrado no banco de dados pra viabilizar o cadastro de drones:
+* username: admin
+* senha: 1234
 
