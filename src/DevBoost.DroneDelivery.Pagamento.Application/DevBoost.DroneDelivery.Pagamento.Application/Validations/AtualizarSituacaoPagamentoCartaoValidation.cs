@@ -1,8 +1,6 @@
 ﻿using DevBoost.DroneDelivery.Pagamento.Application.Commands;
 using FluentValidation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevBoost.DroneDelivery.Pagamento.Application.Validations
 {

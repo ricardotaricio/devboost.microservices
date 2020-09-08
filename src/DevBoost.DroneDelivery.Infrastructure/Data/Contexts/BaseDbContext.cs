@@ -8,6 +8,11 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
 {
     public class BaseDbContext : DbContext, IUnitOfWork
     {
+
+        public BaseDbContext()
+        {
+                
+        }
         private readonly IMediatrHandler _bus;
 
         public BaseDbContext(DbContextOptions options, IMediatrHandler bus) : base(options)

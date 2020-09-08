@@ -1,4 +1,5 @@
-﻿using DevBoost.DroneDelivery.Domain.Entities;
+﻿using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
     {
         private readonly DCDroneDelivery _context;
 
-        public UserRepository(DCDroneDelivery context): base(context)
+        public UserRepository(DCDroneDelivery context, IMediatrHandler bus) : base(context)
         {
             _context = context;
         }

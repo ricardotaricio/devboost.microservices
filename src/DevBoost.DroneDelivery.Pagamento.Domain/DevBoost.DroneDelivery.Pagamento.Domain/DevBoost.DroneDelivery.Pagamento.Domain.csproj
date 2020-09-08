@@ -8,4 +8,8 @@
     <ProjectReference Include="..\..\DevBoost.DroneDelivery.Core.Domain\DevBoost.DroneDelivery.Core.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
 </Project>

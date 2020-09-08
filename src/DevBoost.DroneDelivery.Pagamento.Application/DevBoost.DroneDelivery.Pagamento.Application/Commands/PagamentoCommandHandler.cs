@@ -1,6 +1,8 @@
-﻿using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+﻿using AutoMapper;
+using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
 using DevBoost.DroneDelivery.Pagamento.Application.Events;
+using DevBoost.DroneDelivery.Pagamento.Application.Queries;
 using DevBoost.DroneDelivery.Pagamento.Domain.Entites;
 using DevBoost.DroneDelivery.Pagamento.Domain.Enumerators;
 using DevBoost.DroneDelivery.Pagamento.Domain.Interfaces.Repositories;
@@ -14,51 +16,38 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.Commands
     {
         private readonly IMediatrHandler _bus;
         private readonly IPagamentoRepository _pagamentoRepository;
-
-        public PagamentoCommandHandler(IMediatrHandler bus, IPagamentoRepository pagamentoRepository)
+        private readonly IPagamentoQueries _pagamentoQueries;
+        private readonly IMapper _mapper;
+        public PagamentoCommandHandler(IMediatrHandler bus, IPagamentoRepository pagamentoRepository, IPagamentoQueries pagamentoQueries, IMapper mapper)
         {
             _bus = bus;
             _pagamentoRepository = pagamentoRepository;
+            _pagamentoQueries = pagamentoQueries;
+            _mapper = mapper;
         }
 
         public async Task<bool> Handle(AdicionarPagamentoCartaoCommand message, CancellationToken cancellationToken)
         {
             if (!ValidarComando(message)) return false;
 
-            PagamentoCartao pagamentoCartao = new PagamentoCartao()
-            {
-                PedidoId = message.PedidoId,
-                Valor = message.Valor,
-                Cartao = message.Cartao,
-                Situacao = SituacaoPagamento.Aguardando
-            };
-
+            var pagamentoCartao = _mapper.Map<PagamentoCartao>(message);
             await _pagamentoRepository.Adicionar(pagamentoCartao);
-
-            var pagamentoAdicionado = await _pagamentoRepository.UnitOfWork.Commit();
-
-            if (pagamentoAdicionado)
-                await _bus.PublicarEvento(new ProcessarPagamentoCartaoEvent(pagamentoCartao.Id));
-
-            return pagamentoAdicionado;
+            
+            pagamentoCartao.AdicionarEvento(new ProcessarPagamentoCartaoEvent(pagamentoCartao.Id));
+            return await _pagamentoRepository.UnitOfWork.Commit();
         }
 
         public async Task<bool> Handle(AtualizarSituacaoPagamentoCartaoCommand message, CancellationToken cancellationToken)
         {
             if (!ValidarComando(message)) return false;
 
-            PagamentoCartao pagamentoCartao = new PagamentoCartao(message.PagamentoId)
-            {
-                Situacao = message.SituacaoPagamneto,
-                PedidoId = message.PedidoId,
-                Valor = message.Valor
-            };
+            var pagamento = await _pagamentoQueries.ObterPorId(message.PagamentoId);
+            pagamento.Situacao = message.SituacaoPagamneto;
+            
+            await _pagamentoRepository.Atualizar(pagamento);
 
-            await _pagamentoRepository.Atualizar(pagamentoCartao);
+            return await _pagamentoRepository.UnitOfWork.Commit();
 
-            var pagamentoAtualizado = await _pagamentoRepository.UnitOfWork.Commit();
-
-            return pagamentoAtualizado;
         }
 
         private bool ValidarComando(Command message)

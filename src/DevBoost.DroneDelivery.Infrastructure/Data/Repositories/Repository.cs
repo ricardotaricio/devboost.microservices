@@ -29,7 +29,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
 
         public async Task Atualizar(T entity)
         {
-            _repo.Update(entity);
+           _repo.Update(entity);
         }
 
         //public void Dispose()

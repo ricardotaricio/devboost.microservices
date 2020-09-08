@@ -1,8 +1,6 @@
 ﻿using DevBoost.DroneDelivery.Pagamento.Domain.Entites;
 using DevBoost.DroneDelivery.Pagamento.Domain.Interfaces.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Pagamento.Application.Queries
