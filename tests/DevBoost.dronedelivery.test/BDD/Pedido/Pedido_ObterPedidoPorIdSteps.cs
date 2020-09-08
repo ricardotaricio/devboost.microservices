@@ -1,5 +1,6 @@
 ﻿using AutoBogus;
 using DevBoost.DroneDelivery.Domain.Entities;
+using DevBoost.DroneDelivery.Test.Model;
 using Moq.AutoMock;
 using TechTalk.SpecFlow;
 

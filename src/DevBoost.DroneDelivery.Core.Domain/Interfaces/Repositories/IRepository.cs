@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace DevBoost.DroneDelivery.Domain.Interfaces.Repositories
+namespace DevBoost.DroneDelivery.Core.Domain.Interfaces.Repositories
 {
-    public interface IRepository<T> : IDisposable where T : class
+    //IDisposable
+    public interface IRepository<T> where T : class
     {
         Task<IEnumerable<T>> ObterTodos();
         Task<T> ObterPorId(Guid id);

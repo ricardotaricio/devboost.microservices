@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DevBoost.DroneDelivery.Domain.Interfaces.Repositories
+namespace DevBoost.DroneDelivery.Core.Domain.Interfaces.Repositories
 {
     public interface IUnitOfWork
     {

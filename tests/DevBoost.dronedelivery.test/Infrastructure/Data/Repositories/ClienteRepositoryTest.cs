@@ -1,4 +1,5 @@
 ﻿using AutoBogus;
+using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using DevBoost.DroneDelivery.Infrastructure.Data.Repositories;
@@ -20,21 +21,21 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
 
             // Given
             var faker = AutoFaker.Create();
-
+            var bus = faker.Generate<IMediatrHandler>();
             var options = new DbContextOptionsBuilder<DCDroneDelivery>()
            .UseInMemoryDatabase(databaseName: "DroneDelivery")
            .Options;
 
             var clientes = faker.Generate<Cliente>(3);
 
-            using (var contexto = new DCDroneDelivery(options))
+            using (var contexto = new DCDroneDelivery(options, bus))
             {
                 contexto.Cliente.AddRange(clientes);
                 await contexto.Commit();
             }
 
             
-            using (var contexto = new DCDroneDelivery(options))
+            using (var contexto = new DCDroneDelivery(options, bus))
             {
                 ClienteRepository clienteRepository = new ClienteRepository(contexto);
                 //When
@@ -54,14 +55,14 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
 
             // Given
             var faker = AutoFaker.Create();
-
+            var bus = faker.Generate<IMediatrHandler>();
             var options = new DbContextOptionsBuilder<DCDroneDelivery>()
            .UseInMemoryDatabase(databaseName: "DroneDelivery")
            .Options;
 
             var clientes = faker.Generate<Cliente>(3);
 
-            using (var contexto = new DCDroneDelivery(options))
+            using (var contexto = new DCDroneDelivery(options, bus))
             {
                 contexto.Cliente.AddRange(clientes);
                 contexto.SaveChanges();
@@ -69,7 +70,7 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
 
             var expectResponse = clientes.FirstOrDefault();
 
-            using (var contexto = new DCDroneDelivery(options))
+            using (var contexto = new DCDroneDelivery(options, bus))
             {
                 ClienteRepository clienteRepository = new ClienteRepository(contexto);
                 //When
@@ -93,11 +94,11 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
         {
             // Given
             var faker = AutoFaker.Create();
-
+            var bus = faker.Generate<IMediatrHandler>();
             var options = new DbContextOptionsBuilder<DCDroneDelivery>().UseInMemoryDatabase(databaseName: "DroneDelivery").Options;
             var cliente = faker.Generate<Cliente>();
             //Seed
-            using (var contexto = new DCDroneDelivery(options))
+            using (var contexto = new DCDroneDelivery(options, bus))
             {
                 contexto.Cliente.AddRange(cliente);
                 contexto.SaveChanges();
@@ -106,13 +107,13 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
             bool expectResponse;
             bool result;
 
-            using (var contexto = new DCDroneDelivery(options))
+            using (var contexto = new DCDroneDelivery(options, bus))
             {
                 contexto.Cliente.Update(cliente);
                 expectResponse = contexto.SaveChanges() > 0;
             }
 
-            using (var contexto = new DCDroneDelivery(options))
+            using (var contexto = new DCDroneDelivery(options, bus))
             {
                 var clienteRepository = new ClienteRepository(contexto);
                 await clienteRepository.Atualizar(cliente);
@@ -132,14 +133,14 @@ namespace DevBoost.DroneDelivery.Test.Infrastructure.Data.Repositories
         {
             // Given
             var faker = AutoFaker.Create();
-
+            var bus = faker.Generate<IMediatrHandler>();
             var options = new DbContextOptionsBuilder<DCDroneDelivery>()
            .UseInMemoryDatabase(databaseName: "DroneDelivery")
            .Options;
 
             var clienteNovo = faker.Generate<Cliente>();
 
-            using (var contexto = new DCDroneDelivery(options))
+            using (var contexto = new DCDroneDelivery(options, bus))
             {
                 //when
                 var clienteRepository = new ClienteRepository(contexto);

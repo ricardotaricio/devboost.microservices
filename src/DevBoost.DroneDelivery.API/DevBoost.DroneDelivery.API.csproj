@@ -20,12 +20,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.5.1" />
-    <PackageReference Include="System.Device.Location.Portable" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DevBoost.DroneDelivery.Application\DevBoost.DroneDelivery.Application.csproj" />
-    <ProjectReference Include="..\DevBoost.DroneDelivery.Domain\DevBoost.DroneDelivery.Domain.csproj" />
     <ProjectReference Include="..\DevBoost.DroneDelivery.Infrastructure\DevBoost.DroneDelivery.Infrastructure.csproj" />
   </ItemGroup>
 

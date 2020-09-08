@@ -2,7 +2,7 @@
 using Moq.AutoMock;
 using TechTalk.SpecFlow;
 
-namespace DevBoost.DroneDelivery.Domain.Entities
+namespace DevBoost.DroneDelivery.Test.Model
 {
     public class Cenario
     {
