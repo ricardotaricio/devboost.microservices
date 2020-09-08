@@ -28,9 +28,8 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
 
         public async Task Atualizar(T entity)
         {
-            
-            await Task.Run(() => _repo.Update(entity));
-            await _context.Commit();
+            _context.Entry(entity).State = EntityState.Modified;
+            await Task.Run(() => _context.Commit());            
         }
 
         public void Dispose()

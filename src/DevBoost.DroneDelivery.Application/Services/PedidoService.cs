@@ -84,7 +84,6 @@ namespace DevBoost.DroneDelivery.Application.Services
             foreach (var droneItinerario in droneItinerarios)
             {
 
-
                 if (droneItinerario.StatusDrone == EnumStatusDrone.Carregando)
                 {
                     if (DateTime.Now.Subtract(droneItinerario.DataHora).TotalMinutes >= droneItinerario.Drone.Carga)
@@ -115,30 +114,15 @@ namespace DevBoost.DroneDelivery.Application.Services
 
                         droneItinerario.DataHora = DateTime.Now;
 
+                        await _droneItinerarioRepository.Atualizar(droneItinerario);
+
                         foreach (var pedido in pedidos)
                         {
-                            if (pedido.Status == EnumStatusPedido.EmTransito)
-                            {
-                                if (pedido.DroneId == 0)
-                                {
-                                    pedido.DroneId = droneItinerario.DroneId;
-                                    pedido.InformarStatus(EnumStatusPedido.Entregue);
-                                    await _droneItinerarioRepository.Atualizar(droneItinerario);
-                                }
-                                else
-                                {
-                                    pedido.InformarStatus(EnumStatusPedido.Entregue);
-                                    await _droneItinerarioRepository.Atualizar(droneItinerario);
-                                }
-                            }
-                            else
-                            {
-                                pedido.InformarStatus(EnumStatusPedido.Entregue);
-                                await _repositoryPedido.Atualizar(pedido);
-                            }
+                            pedido.InformarStatus(EnumStatusPedido.Entregue);
+                            await _repositoryPedido.Atualizar(pedido);
                         }
 
-                        await _droneItinerarioRepository.Atualizar(droneItinerario);
+                      
                     }
                 }
             }
@@ -273,7 +257,9 @@ namespace DevBoost.DroneDelivery.Application.Services
                     droneItinerario.StatusDrone = EnumStatusDrone.EmTransito;
 
                     await _droneRepository.Atualizar(drone);
+
                     await _droneItinerarioRepository.Atualizar(droneItinerario);
+
 
                     foreach (var pedido in item.Value)
                     {
