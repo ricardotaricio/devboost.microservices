@@ -10,6 +10,7 @@ using DevBoost.DroneDelivery.CrossCutting.IOC;
 using DevBoost.DroneDelivery.Infrastructure.Swagger;
 using System.Diagnostics.CodeAnalysis;
 using DevBoost.DroneDelivery.Infrastructure.Security;
+using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 
 namespace DevBoost.DroneDelivery.API
 {
@@ -27,8 +28,8 @@ namespace DevBoost.DroneDelivery.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-           
 
+            services.AddDbContext<DCDroneDelivery>();
             services.Register(Configuration);
             services.SwaggerAdd();
 

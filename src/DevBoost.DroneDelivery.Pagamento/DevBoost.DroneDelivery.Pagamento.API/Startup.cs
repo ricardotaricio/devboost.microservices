@@ -1,4 +1,5 @@
 using DevBoost.DroneDelivery.CrossCutting.IOC;
+using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using DevBoost.DroneDelivery.Infrastructure.Security;
 using DevBoost.DroneDelivery.Infrastructure.Swagger;
 using MediatR;
@@ -26,7 +27,7 @@ namespace DevBoost.DroneDelivery.Pagamento.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            
             services.AddMediatR(typeof(Startup));
 
             services.Register(Configuration);

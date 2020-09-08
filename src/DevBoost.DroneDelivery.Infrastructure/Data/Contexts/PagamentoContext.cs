@@ -14,7 +14,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
         {
 
         }
-        public PagamentoContext(DbContextOptions options, IMediatrHandler bus) : base(options, bus)
+        public PagamentoContext(DbContextOptions<PagamentoContext> options, IMediatrHandler bus) : base(options, bus)
         {
         }
 

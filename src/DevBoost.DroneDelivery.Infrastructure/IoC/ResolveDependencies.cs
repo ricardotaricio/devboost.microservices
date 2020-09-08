@@ -41,6 +41,9 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPagamentoRepository, PagamentoRepository>();
+            
+
+            TokenGenerator.TokenConfig = configuration.GetSection("Token").Get<Token>();
 
             var assembly = AppDomain.CurrentDomain.Load("DevBoost.DroneDelivery.Pagamento.Application");
             services.AddMediatR(assembly);
@@ -53,17 +56,11 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
 
             services.AddAutoMapper(typeof(DtoToCommandMappingProfile), typeof(CommandToDomainMappingProfile), typeof(ViewModelToCommandMappingProfile), typeof(DomainToDtoMappingProfile));
 
+            services.AddDbContext<PagamentoContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            TokenGenerator.TokenConfig = configuration.GetSection("Token").Get<Token>();
-
-
-            services.AddDbContext<DCDroneDelivery>(options =>
-            {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    m => m.MigrationsAssembly("DevBoost.DroneDelivery.Infrastructure"));
-            });
+            services.AddDbContext<DCDroneDelivery>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             
-            services.AddDbContext<PagamentoContext>();
+
 
             return services;
         }
