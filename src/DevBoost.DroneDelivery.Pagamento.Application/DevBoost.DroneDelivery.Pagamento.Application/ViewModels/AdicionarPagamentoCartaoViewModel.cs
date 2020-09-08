@@ -1,5 +1,4 @@
-﻿using DevBoost.DroneDelivery.Pagamento.Domain.ValueObjects;
-using System;
+﻿using System;
 
 namespace DevBoost.DroneDelivery.Pagamento.Application.ViewModels
 {
@@ -7,6 +6,9 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.ViewModels
     {
         public Guid PedidoId { get; set; }
         public double Valor { get; set; }
-        public Cartao Cartao { get; set; }
+        public string BandeiraCartao { get;  set; }
+        public string NumeroCartao { get;  set; }
+        public short MesVencimentoCartao { get;  set; }
+        public short AnoVencimentoCartao { get;  set; }
     }
 }

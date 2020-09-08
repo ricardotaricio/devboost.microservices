@@ -1,10 +1,6 @@
 ﻿using DevBoost.DroneDelivery.Pagamento.Domain.Entites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Mappings
 {
@@ -14,11 +10,13 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Mappings
         {
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.PedidoId);
-            builder.Property(p => p.Valor);
+            builder.Property(p => p.PedidoId).IsRequired();
+            builder.Property(p => p.Valor).IsRequired();
             builder.Property(p => p.Situacao);
 
-            builder.Ignore(p => p.Cartao);
+
+            builder.HasOne(c => c.Cartao)
+                .WithOne(p => p.PagamentoCartao).HasForeignKey<PagamentoCartao>(c => c.CartaoId);
 
             builder.ToTable("Pagamento");
         }

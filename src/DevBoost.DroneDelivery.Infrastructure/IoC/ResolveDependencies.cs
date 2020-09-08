@@ -1,7 +1,9 @@
-﻿using DevBoost.DroneDelivery.Application.Services;
+﻿using AutoMapper;
+using DevBoost.DroneDelivery.Application.Services;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
+using DevBoost.DroneDelivery.Infrastructure.AutoMapper;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using DevBoost.DroneDelivery.Infrastructure.Data.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Security;
@@ -9,9 +11,8 @@ using DevBoost.DroneDelivery.Pagamento.Application.Bus;
 using DevBoost.DroneDelivery.Pagamento.Application.Commands;
 using DevBoost.DroneDelivery.Pagamento.Application.Events;
 using DevBoost.DroneDelivery.Pagamento.Application.Handlers;
-using DevBoost.DroneDelivery.Pagamento.Application.Interfaces.Services;
+
 using DevBoost.DroneDelivery.Pagamento.Application.Queries;
-using DevBoost.DroneDelivery.Pagamento.Application.Services;
 using DevBoost.DroneDelivery.Pagamento.Domain.Interfaces.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,7 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             services.AddScoped<IDroneItinerarioService, DroneItinerarioService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IClienteService, ClienteService>();
-            services.AddScoped<IPagamentoService, PagamentoService>();
+            
             services.AddScoped<IDroneItinerarioRepository, DroneItinerarioRepository>();
             services.AddScoped<IDroneRepository, DroneRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
@@ -50,6 +51,8 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             services.AddScoped<INotificationHandler<ProcessarPagamentoCartaoEvent>, PagamentoHandler>();
             services.AddScoped<IPagamentoQueries, PagamentoQueries>();
 
+            services.AddAutoMapper(typeof(DtoToCommandMappingProfile), typeof(CommandToDomainMappingProfile), typeof(ViewModelToCommandMappingProfile), typeof(DomainToDtoMappingProfile));
+
 
             TokenGenerator.TokenConfig = configuration.GetSection("Token").Get<Token>();
 
@@ -57,9 +60,9 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             services.AddDbContext<DCDroneDelivery>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    m => m.MigrationsAssembly("DroneDelivery"));
+                    m => m.MigrationsAssembly("DevBoost.DroneDelivery.Infrastructure"));
             });
-
+            
             services.AddDbContext<PagamentoContext>();
 
             return services;

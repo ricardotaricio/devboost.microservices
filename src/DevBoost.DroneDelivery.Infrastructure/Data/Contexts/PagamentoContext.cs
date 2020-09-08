@@ -1,4 +1,5 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using DevBoost.DroneDelivery.Core.Domain.Messages;
 using DevBoost.DroneDelivery.Pagamento.Domain.Entites;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
@@ -9,6 +10,10 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
     [ExcludeFromCodeCoverage]
     public class PagamentoContext : BaseDbContext
     {
+        public PagamentoContext()
+        {
+
+        }
         public PagamentoContext(DbContextOptions options, IMediatrHandler bus) : base(options, bus)
         {
         }
@@ -27,6 +32,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Event>();
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(PagamentoContext).Assembly);
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) 
@@ -36,5 +42,6 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
         }
 
         public DbSet<PagamentoCartao> PagamentoCartao { get; set; }
+        public DbSet<Cartao>  Cartao { get; set; }
     }
 }
