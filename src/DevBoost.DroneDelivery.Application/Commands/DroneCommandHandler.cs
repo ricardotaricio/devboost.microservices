@@ -5,7 +5,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DevBoost.DroneDelivery.Application.Handles.Drones
+namespace DevBoost.DroneDelivery.Application.Commands
 {
     public class DroneCommandHandler : IRequestHandler<AdicionarDroneCommand, bool>
     {

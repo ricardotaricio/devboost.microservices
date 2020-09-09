@@ -1,14 +1,13 @@
-﻿using DevBoost.DroneDelivery.Application.Commands;
-using DevBoost.DroneDelivery.Domain.Interfaces;
+﻿using DevBoost.DroneDelivery.Domain.Interfaces;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.Entities;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DevBoost.DroneDelivery.Application.Handles.Pedidos
+namespace DevBoost.DroneDelivery.Application.Commands
 {
-    public class PedidoCommandHandler : IRequestHandler<AdicionarPedidoCommand, bool>, IRequestHandler<ValidarAutorizacaoPagamentoCommand, bool>
+    public class PedidoCommandHandler : IRequestHandler<AdicionarPedidoCommand, bool>, IRequestHandler<AtualizarSituacaoPedidoCommand, bool>
     {
         private readonly IPedidoRepository _repositoryPedido;
         private readonly IUsuarioAutenticado _usuarioAutenticado;
@@ -36,9 +35,16 @@ namespace DevBoost.DroneDelivery.Application.Handles.Pedidos
             return await _repositoryPedido.UnitOfWork.Commit();
         }
 
-        public async Task<bool> Handle(ValidarAutorizacaoPagamentoCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AtualizarSituacaoPedidoCommand message, CancellationToken cancellationToken)
         {
-            await _repositoryPedido.Atualizar(request.Pedido);
+            if (!message.EhValido()) return false;
+
+            var pedido = await _repositoryPedido.ObterPorId(message.PedidoId);
+            if (pedido == null) return false;
+
+            pedido.AtualizarStatus(message.StatusPedido);
+            await _repositoryPedido.Atualizar(pedido);
+
             return await _repositoryPedido.UnitOfWork.Commit();
         }
     }

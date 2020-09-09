@@ -1,19 +1,20 @@
 ﻿using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
 using DevBoost.DroneDelivery.Domain.Entities;
+using System;
 
 namespace DevBoost.DroneDelivery.Application.Commands
 {
-    public class ValidarAutorizacaoPagamentoCommand : Command
+    public class AtualizarSituacaoPedidoCommand : Command
     {
 
-        public ValidarAutorizacaoPagamentoCommand(Pedido pedido, EnumStatusPedido statusPedido)
+        public AtualizarSituacaoPedidoCommand(Guid pedidoId , EnumStatusPedido statusPedido)
         {
-            Pedido = pedido;
+            PedidoId = pedidoId;
             StatusPedido = statusPedido;
         }
 
-        public Pedido Pedido { get; private set; }
+        public Guid PedidoId { get; private set; }
 
         public EnumStatusPedido StatusPedido { get; private set; }
 

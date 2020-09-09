@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DevBoost.DroneDelivery.Application.Handles.Usuarios
+namespace DevBoost.DroneDelivery.Application.Commands
 {
     public class UsuarioCommandHandler
     {
