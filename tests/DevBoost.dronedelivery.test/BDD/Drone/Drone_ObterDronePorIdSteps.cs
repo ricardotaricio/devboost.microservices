@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 using System.Net;
+using DevBoost.DroneDelivery.Test.Model;
 
 namespace DevBoost.DroneDelivery.Test.BDD.Drone
 {

@@ -32,7 +32,6 @@
     <ProjectReference Include="..\..\src\DevBoost.DroneDelivery.API\DevBoost.DroneDelivery.API.csproj" />
     <ProjectReference Include="..\..\src\DevBoost.DroneDelivery.Application\DevBoost.DroneDelivery.Application.csproj" />
     <ProjectReference Include="..\..\src\DevBoost.DroneDelivery.Domain\DevBoost.DroneDelivery.Domain.csproj" />
-    <ProjectReference Include="..\..\src\DevBoost.DroneDelivery.Infrastructure\DevBoost.DroneDelivery.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
