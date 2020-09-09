@@ -1,8 +1,10 @@
 ﻿
 using DevBoost.DroneDelivery.Core.Domain.Entities;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Pagamento.Domain.Entites
 {
+    [ExcludeFromCodeCoverage]
     public class Cartao : Entity
     {
 

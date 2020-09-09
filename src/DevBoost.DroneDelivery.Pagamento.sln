@@ -23,11 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Pagamento.Infrastructure", "DevBoost.DroneDelivery.Pagamento.Infrastructure\DevBoost.DroneDelivery.Pagamento.Infrastructure.csproj", "{33175554-B186-41E9-9578-FB20556E2E90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.Pagamento.API.Tests", "..\tests\DevBoost.DroneDelivery.Pagamento.API.Tests\DevBoost.DroneDelivery.Pagamento.API.Tests.csproj", "{2D1E278A-D291-4DA0-8955-9768D33AAB32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Pagamento.API.Tests", "..\tests\DevBoost.DroneDelivery.Pagamento.API.Tests\DevBoost.DroneDelivery.Pagamento.API.Tests.csproj", "{2D1E278A-D291-4DA0-8955-9768D33AAB32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.Pagamento.Application.Tests", "..\tests\DevBoost.DroneDelivery.Pagamento.Application.Tests\DevBoost.DroneDelivery.Pagamento.Application.Tests.csproj", "{ED4FF894-2563-4559-BD48-3E443A9B97ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Pagamento.Application.Tests", "..\tests\DevBoost.DroneDelivery.Pagamento.Application.Tests\DevBoost.DroneDelivery.Pagamento.Application.Tests.csproj", "{ED4FF894-2563-4559-BD48-3E443A9B97ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.Pagamento.Infrastructure.Tests", "..\tests\DevBoost.DroneDelivery.Pagamento.Infrastructure.Tests\DevBoost.DroneDelivery.Pagamento.Infrastructure.Tests.csproj", "{99C1B50E-B1D0-43F9-95E0-96241930B543}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Pagamento.Infrastructure.Tests", "..\tests\DevBoost.DroneDelivery.Pagamento.Infrastructure.Tests\DevBoost.DroneDelivery.Pagamento.Infrastructure.Tests.csproj", "{99C1B50E-B1D0-43F9-95E0-96241930B543}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

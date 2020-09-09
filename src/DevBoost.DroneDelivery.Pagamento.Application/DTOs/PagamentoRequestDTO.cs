@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace DevBoost.DroneDelivery.Pagamento.Application.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public class PagamentoRequestDTO
     {
         public Guid PagamentoId { get; set; }
