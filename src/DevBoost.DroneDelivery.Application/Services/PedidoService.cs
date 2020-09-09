@@ -132,7 +132,6 @@ namespace DevBoost.DroneDelivery.Application.Services
         {
             var pedidos = new List<Pedido>();
 
-
             // pedidos mais antigos vao primeiro
             pedidos = _repositoryPedido.ObterPedidosEmAberto().Result.ToList();
 

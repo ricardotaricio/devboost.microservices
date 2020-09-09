@@ -21,7 +21,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=DroneDelivery;Trusted_Connection=true;")
+                    .UseSqlServer("Server=NTB040\\SQLEXPRESS;Database=DroneDelivery;Trusted_Connection=true;")
                     .UseLazyLoadingProxies(false);
             }
 

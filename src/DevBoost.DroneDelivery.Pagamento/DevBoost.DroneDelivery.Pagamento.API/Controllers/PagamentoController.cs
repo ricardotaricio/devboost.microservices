@@ -23,7 +23,6 @@ namespace DevBoost.DroneDelivery.Pagamento.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PagamentoCartaoPost(AdicionarPagamentoCartaoViewModel viewModel)
         {
-
             // TODO: Verificar como retornar motivo da rejeição do pagamento a partir do service pra não precisar validar aqui, apenas no service.
             var enviado = await _bus.EnviarComando(_mapper.Map<AdicionarPagamentoCartaoCommand>(viewModel));
 

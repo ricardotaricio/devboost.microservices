@@ -7,6 +7,9 @@ using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Domain.Entities;
+using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using DevBoost.DroneDelivery.Application.Commands;
+using AutoMapper;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -17,6 +20,8 @@ namespace DevBoost.DroneDelivery.API.Controllers
         
         private readonly IPedidoService _pedidoService;
         private readonly IUserService _userService;
+        private IMediatrHandler _bus;
+        private IMapper _mapper;
 
         public PedidoController(IPedidoService pedidoService, IUserService userService)
         {
@@ -55,6 +60,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
 
+
             var username = User.Identities.FirstOrDefault().Name;
             var user = await _userService.GetByUserName(username);
             var cliente = user.Cliente;
@@ -62,7 +68,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
             if (user.Cliente == null)
                 return BadRequest("Usuário não é um Cliente");
 
-            var pedido = new Pedido(peso: pedidoViewModel.Peso, DateTime.Now, EnumStatusPedido.AguardandoEntregador);
+            var pedido = new Pedido(peso: pedidoViewModel.Peso, DateTime.Now, EnumStatusPedido.AguardandoPagamento, valor: pedidoViewModel.Valor);
             pedido.InformarCliente(cliente);
 
             var motivoRejeicaoPedido = _pedidoService.IsPedidoValido(pedido);
@@ -73,5 +79,6 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
             return Ok(pedido);
         }
+
     }
 }
