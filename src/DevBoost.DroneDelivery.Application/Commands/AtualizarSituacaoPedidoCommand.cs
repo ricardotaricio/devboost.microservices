@@ -1,6 +1,5 @@
 ﻿using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
-using DevBoost.DroneDelivery.Domain.Entities;
 using System;
 
 namespace DevBoost.DroneDelivery.Application.Commands

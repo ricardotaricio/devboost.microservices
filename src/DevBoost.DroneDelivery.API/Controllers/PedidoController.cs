@@ -10,6 +10,11 @@ using DevBoost.DroneDelivery.Domain.Entities;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using MediatR;
+using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using AutoMapper;
+using DevBoost.DroneDelivery.Application.Commands;
+using DevBoost.DroneDelivery.Application.Events;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -17,17 +22,19 @@ namespace DevBoost.DroneDelivery.API.Controllers
     [ApiController]
     public class PedidoController : ControllerBase
     {
-        
+
         private readonly IPedidoService _pedidoService;
         private readonly IUserService _userService;
-
-        public PedidoController(IPedidoService pedidoService, IUserService userService)
+        private readonly IMediatrHandler _mediator;
+        private readonly IMapper _mapper;
+        public PedidoController(IMediator mediator, IPedidoService pedidoService, IUserService userService)
         {
             _pedidoService = pedidoService;
             _userService = userService;
+            _mediator = mediator;
         }
 
-        
+
         [HttpGet, Authorize(Roles = "ADMIN,USER")]
         public async Task<IActionResult> GetPedido()
         {
@@ -36,7 +43,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
             return Ok(await _pedidoService.GetAll());
         }
 
-       
+
         [HttpGet("{id}"), Authorize(Roles = "ADMIN,USER")]
         public async Task<IActionResult> GetPedido(Guid id)
         {
@@ -99,13 +106,9 @@ namespace DevBoost.DroneDelivery.API.Controllers
         }
 
         [HttpPatch]
-        public async Task<IActionResult> AtualizarSituacaoPedido(AtualizarSituacaoPedidoViewModel atualizarSituacaoPedidoViewModel)
+        public async Task<IActionResult> AtualizarSituacaoPedido(AtualizarSituacaoPedidoViewModel viewModel)
         {
-            var pedidoAtualizado = await _pedidoService.AtualizarSituacaoPedido(atualizarSituacaoPedidoViewModel.PedidoId, atualizarSituacaoPedidoViewModel.SituacaoPagamento);
-
-            if (!pedidoAtualizado)
-                return BadRequest();
-
+            await _mediator.PublicarEvento(new PagementoPedidoProcessadoEvent(viewModel.PedidoId, viewModel.SituacaoPagamento));
             return Ok();
         }
     }
