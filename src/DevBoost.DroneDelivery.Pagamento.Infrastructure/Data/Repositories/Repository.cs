@@ -31,13 +31,13 @@ namespace DevBoost.DroneDelivery.Pagamento.Infrastructure.Data.Repositories
            _repo.Update(entity);
         }
 
-        //public void Dispose()
-        //{
-        //    //if (_context != null)
-        //    //    _context.Dispose();
+        public void Dispose()
+        {
+            if (_context != null)
+                _context.Dispose();
 
-        //    //GC.SuppressFinalize(this);
-        //}
+            GC.SuppressFinalize(this);
+        }
 
         public async Task<T> ObterPorId(Guid id)
         {
