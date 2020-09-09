@@ -1,7 +1,9 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using DevBoost.DroneDelivery.Core.Domain.Messages;
 using DevBoost.DroneDelivery.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
 {
@@ -20,15 +22,26 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             if (!optionsBuilder.IsConfigured)
             {
+                
                 optionsBuilder
-                    .UseSqlServer("Server=NTB040\\SQLEXPRESS;Database=DroneDelivery;Trusted_Connection=true;")
+                    .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=DroneDelivery;Trusted_Connection=true;")
                     .UseLazyLoadingProxies(false);
             }
 
-            
             base.OnConfiguring(optionsBuilder);
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Ignore<Event>();
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DCDroneDelivery).Assembly);
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+                relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+
+            base.OnModelCreating(modelBuilder);
         }
         public DbSet<Pedido> Pedido { get; set; }
         public DbSet<Drone> Drone { get; set; }

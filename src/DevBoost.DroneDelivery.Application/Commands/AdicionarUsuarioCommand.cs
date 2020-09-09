@@ -1,25 +1,28 @@
-﻿using DevBoost.DroneDelivery.Core.Domain.Messages;
+﻿using DevBoost.DroneDelivery.Application.Validations;
+using DevBoost.DroneDelivery.Core.Domain.Messages;
+using System;
 
 namespace DevBoost.DroneDelivery.Application.Commands
 {
     public class AdicionarUsuarioCommand : Command
     {
-        public AdicionarUsuarioCommand(string nome, double latitude, double longitude, string userName, string password, string role)
+        public AdicionarUsuarioCommand(string userName, string password,Guid clienteId, string role)
         {
-            Nome = nome;
-            Latitude = latitude;
-            Longitude = longitude;
             UserName = userName;
             Password = password;
             Role = role;
-
+            ClienteId = clienteId;
         }
 
-        public string Nome { get; private set; }
-        public double Latitude { get; private set; }
-        public double Longitude { get; private set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
+        public string UserName { get; private set; }
+        public string Password { get; private set; }
+        public string Role { get; private set; }
+        public Guid  ClienteId { get; private set; }
+
+        public override bool EhValido()
+        {
+            ValidationResult = new AdicionarUsuarioValidation().Validate(this);
+            return ValidationResult.IsValid;
+        }
     }
 }

@@ -1,20 +1,23 @@
-﻿using System;
+﻿using DevBoost.DroneDelivery.Core.Domain.Entities;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
 {
     [ExcludeFromCodeCoverage]
 
-    public class Cliente
+    public class Cliente : Entity
     {
-        public Cliente()
-        {
 
+        public Cliente(string nome, double latitude, double longitude) : base()
+        {
+            Nome = nome;
+            Latitude = latitude;
+            Longitude = longitude;
         }
 
-        public Guid Id { get; set; }
-        public string Nome { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public string Nome { get; private set; }
+        public double Latitude { get; private set; }
+        public double Longitude { get; private set; }
     }
 }
