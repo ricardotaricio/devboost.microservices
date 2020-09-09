@@ -2,14 +2,11 @@
 using DevBoost.DroneDelivery.Application.Services;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
-using DevBoost.DroneDelivery.Domain.Interfaces.Services;
-using DevBoost.DroneDelivery.Domain.ValueObjects;
 using KellermanSoftware.CompareNetObjects;
 using Moq;
 using Moq.AutoMock;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

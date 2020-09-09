@@ -9,6 +9,8 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Contexts
 
     public class DCDroneDelivery : BaseDbContext
     {
+
+        private IMediatrHandler _Bus;
         public DCDroneDelivery()
         {
 

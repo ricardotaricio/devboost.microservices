@@ -5,7 +5,7 @@
         Entregue=1,
         AguardandoEntregador=2,
         EmTransito=3,
-        AguardandoPagamento = 4,
-        PagamentoNegado = 5
+        AguardandoPagamento=4,
+        PagamentoRejeitado=5
     }
 }
