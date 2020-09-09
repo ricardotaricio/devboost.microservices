@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace DevBoost.DroneDelivery.Core.Domain.Interfaces.Repositories
 {
     //IDisposable
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> : IDisposable where T : class
     {
         Task<IEnumerable<T>> ObterTodos();
         Task<T> ObterPorId(Guid id);

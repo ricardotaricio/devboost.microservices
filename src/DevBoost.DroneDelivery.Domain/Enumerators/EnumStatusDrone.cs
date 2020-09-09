@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace DevBoost.Dronedelivery.Domain.Enumerators
 {
+    //TODO: Padronizar nome de enums
     public enum EnumStatusDrone
     {
         Disponivel = 1,

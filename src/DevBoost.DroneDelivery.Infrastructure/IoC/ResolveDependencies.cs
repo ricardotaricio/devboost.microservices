@@ -1,4 +1,8 @@
 ﻿using AutoMapper;
+using DevBoost.DroneDelivery.Application.Bus;
+using DevBoost.DroneDelivery.Application.Commands;
+using DevBoost.DroneDelivery.Application.Events;
+using DevBoost.DroneDelivery.Application.Queries;
 using DevBoost.DroneDelivery.Application.Services;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
@@ -7,13 +11,6 @@ using DevBoost.DroneDelivery.Infrastructure.AutoMapper;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using DevBoost.DroneDelivery.Infrastructure.Data.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Security;
-using DevBoost.DroneDelivery.Pagamento.Application.Bus;
-using DevBoost.DroneDelivery.Pagamento.Application.Commands;
-using DevBoost.DroneDelivery.Pagamento.Application.Events;
-using DevBoost.DroneDelivery.Pagamento.Application.Handlers;
-
-using DevBoost.DroneDelivery.Pagamento.Application.Queries;
-using DevBoost.DroneDelivery.Pagamento.Domain.Interfaces.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -40,23 +37,31 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
-            services.AddScoped<IPagamentoRepository, PagamentoRepository>();
             
+            
+            services.AddScoped<IClienteQueries, ClienteQueries>();
+
+            services.AddScoped<INotificationHandler<ClienteAdiconadoEvent>, ClienteEventHandler>();
+
+            services.AddScoped<IRequestHandler<AdicionarClienteCommand, bool>, ClienteCommandHandler>();
+            services.AddScoped<IRequestHandler<AdicionarUsuarioCommand, bool>, UsuarioCommandHandler>();
+
+
 
             TokenGenerator.TokenConfig = configuration.GetSection("Token").Get<Token>();
 
-            var assembly = AppDomain.CurrentDomain.Load("DevBoost.DroneDelivery.Pagamento.Application");
+            var assembly = AppDomain.CurrentDomain.Load("DevBoost.DroneDelivery.Application");
             services.AddMediatR(assembly);
             services.AddTransient<IMediatrHandler, MediatrHandler>();
 
-            services.AddScoped<IRequestHandler<AdicionarPagamentoCartaoCommand, bool>, PagamentoCommandHandler>();
-            services.AddScoped<IRequestHandler<AtualizarSituacaoPagamentoCartaoCommand, bool>, PagamentoCommandHandler>();
-            services.AddScoped<INotificationHandler<ProcessarPagamentoCartaoEvent>, PagamentoHandler>();
-            services.AddScoped<IPagamentoQueries, PagamentoQueries>();
+            
+            services.AddAutoMapper(typeof(DtoToCommandMappingProfile), 
+                typeof(CommandToDomainMappingProfile), 
+                typeof(ViewModelToCommandMappingProfile), 
+                typeof(DomainToDtoMappingProfile),
+                typeof(ViewModelToDomainMappingProfile));
 
-            services.AddAutoMapper(typeof(DtoToCommandMappingProfile), typeof(CommandToDomainMappingProfile), typeof(ViewModelToCommandMappingProfile), typeof(DomainToDtoMappingProfile));
-
-            services.AddDbContext<PagamentoContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            
 
             services.AddDbContext<DCDroneDelivery>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             

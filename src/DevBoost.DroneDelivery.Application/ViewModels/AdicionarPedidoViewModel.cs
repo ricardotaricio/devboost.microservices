@@ -10,5 +10,11 @@ namespace DevBoost.DroneDelivery.Application.ViewModels
         [Required(ErrorMessage = "Peso é necessário")]
         [Range(1, 12, ErrorMessage = "Pedido fora do peso aceito.")]
         public int Peso { get; set; }
+
+        public string NumeroCartao { get; set; }
+        public string Bandeira { get; set; }
+        public short MesVencimento { get; set; }
+        public short AnoVencimento { get; set; }
+        public double Valor { get; set; }
     }
 }

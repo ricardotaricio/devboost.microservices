@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using DevBoost.DroneDelivery.Pagamento.Application.Commands;
-using DevBoost.DroneDelivery.Pagamento.Domain.Entites;
-using DevBoost.DroneDelivery.Pagamento.Domain.Enumerators;
+using DevBoost.DroneDelivery.Application.Commands;
+using DevBoost.DroneDelivery.Domain.Entities;
 
 namespace DevBoost.DroneDelivery.Infrastructure.AutoMapper
 {
@@ -9,17 +8,16 @@ namespace DevBoost.DroneDelivery.Infrastructure.AutoMapper
     {
         public CommandToDomainMappingProfile()
         {
-            CreateMap<AdicionarPagamentoCartaoCommand, PagamentoCartao>()
-                .ForMember(d => d.Cartao,
-                o => o.MapFrom(o => new Cartao()
-                {
-                    Numero = o.NumeroCartao,
-                    MesVencimento = o.MesVencimentoCartao,
-                    AnoVencimento = o.AnoVencimentoCartao,
-                    Bandeira = o.BandeiraCartao,
+            CreateMap<AdicionarUsuarioCommand, Usuario>()
+                .ConstructUsing(u => new Usuario(u.UserName, u.Password,u.Role, u.ClienteId)).ReverseMap();
 
-                }))
-                .ForMember(d => d.Situacao, o => o.MapFrom(o => SituacaoPagamento.Aguardando));
+            CreateMap<AdicionarClienteCommand,Cliente>()
+                .ConstructUsing(c => new Cliente(c.Nome,c.Latitude,c.Longitude)).ReverseMap();
+           
+            CreateMap<AdicionarClienteCommand, Usuario>()
+                .ConstructUsing(c => new Usuario(c.Usuario,c.Senha,"",c.Id)).ReverseMap();
+
+
         }
 
     }

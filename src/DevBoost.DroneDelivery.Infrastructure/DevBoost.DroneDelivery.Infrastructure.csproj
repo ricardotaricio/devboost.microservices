@@ -7,6 +7,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="MediatR" Version="8.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
@@ -31,6 +33,11 @@
     <ProjectReference Include="..\DevBoost.DroneDelivery.Domain\DevBoost.DroneDelivery.Domain.csproj" />
     <ProjectReference Include="..\DevBoost.DroneDelivery.Pagamento.Application\DevBoost.DroneDelivery.Pagamento.Application\DevBoost.DroneDelivery.Pagamento.Application.csproj" />
     <ProjectReference Include="..\DevBoost.DroneDelivery.Pagamento.Domain\DevBoost.DroneDelivery.Pagamento.Domain\DevBoost.DroneDelivery.Pagamento.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Mappings\" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

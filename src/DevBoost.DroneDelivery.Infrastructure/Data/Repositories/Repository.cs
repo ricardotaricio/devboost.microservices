@@ -58,5 +58,10 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
         {
             return await _repo.Where(predicate).AsNoTracking().ToListAsync();
         }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
+        }
     }
 }
