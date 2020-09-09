@@ -46,8 +46,8 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.Commands
             
             await _pagamentoRepository.Atualizar(pagamento);
 
+            pagamento.AdicionarEvento(new AtualizarSituacaoPedidoEvent(pagamento.PedidoId, pagamento.Id, pagamento.Situacao));
             return await _pagamentoRepository.UnitOfWork.Commit();
-
         }
 
         private bool ValidarComando(Command message)

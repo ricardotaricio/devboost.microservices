@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enumerators\" />
     <Folder Include="ValueObjects\" />
   </ItemGroup>
 

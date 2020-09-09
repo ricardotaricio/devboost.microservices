@@ -12,15 +12,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DevBoost.DroneDelivery.Pagamento.Application.Handlers
+namespace DevBoost.DroneDelivery.Pagamento.Application.Events
 {
-    public class PagamentoHandler : INotificationHandler<ProcessarPagamentoCartaoEvent>
+    public class PagamentoEventHandler : INotificationHandler<ProcessarPagamentoCartaoEvent>
     {
         private readonly IPagamentoQueries _pagamentoQueries;
         private readonly IMediatrHandler _bus;
         private readonly IMapper _mapper;
 
-        public PagamentoHandler(IPagamentoQueries pagamentoQueries, IMediatrHandler bus, IMapper mapper)
+        public PagamentoEventHandler(IPagamentoQueries pagamentoQueries, IMediatrHandler bus, IMapper mapper)
         {
             _pagamentoQueries = pagamentoQueries;
             _bus = bus;
@@ -47,6 +47,14 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.Handlers
                     await _bus.EnviarComando(_mapper.Map<AtualizarSituacaoPagamentoCartaoCommand>(objResponse));
                 }
             }
+        }
+
+        public async Task Handle(AtualizarSituacaoPedidoEvent message, CancellationToken cancellationToken)
+        {
+            var body = _mapper.Map<AtualizarSituacaoPedidoDTO>(message);
+
+            using (HttpClient client = new HttpClient())
+                await client.PatchAsync("https://localhost/api/pedido", new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
         }
     }
 }

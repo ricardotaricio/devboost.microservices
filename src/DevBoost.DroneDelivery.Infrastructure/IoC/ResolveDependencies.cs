@@ -10,8 +10,6 @@ using DevBoost.DroneDelivery.Infrastructure.Security;
 using DevBoost.DroneDelivery.Pagamento.Application.Bus;
 using DevBoost.DroneDelivery.Pagamento.Application.Commands;
 using DevBoost.DroneDelivery.Pagamento.Application.Events;
-using DevBoost.DroneDelivery.Pagamento.Application.Handlers;
-
 using DevBoost.DroneDelivery.Pagamento.Application.Queries;
 using DevBoost.DroneDelivery.Pagamento.Domain.Interfaces.Repositories;
 using MediatR;
@@ -51,7 +49,7 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
 
             services.AddScoped<IRequestHandler<AdicionarPagamentoCartaoCommand, bool>, PagamentoCommandHandler>();
             services.AddScoped<IRequestHandler<AtualizarSituacaoPagamentoCartaoCommand, bool>, PagamentoCommandHandler>();
-            services.AddScoped<INotificationHandler<ProcessarPagamentoCartaoEvent>, PagamentoHandler>();
+            services.AddScoped<INotificationHandler<ProcessarPagamentoCartaoEvent>, PagamentoEventHandler>();
             services.AddScoped<IPagamentoQueries, PagamentoQueries>();
 
             services.AddAutoMapper(typeof(DtoToCommandMappingProfile), typeof(CommandToDomainMappingProfile), typeof(ViewModelToCommandMappingProfile), typeof(DomainToDtoMappingProfile));

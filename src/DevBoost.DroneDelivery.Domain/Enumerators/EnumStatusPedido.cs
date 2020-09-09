@@ -9,6 +9,8 @@ namespace DevBoost.Dronedelivery.Domain.Enumerators
     {
         Entregue=1,
         AguardandoEntregador=2,
-        EmTransito=3
+        EmTransito=3,
+        AguardandoPagamento=4,
+        PagamentoRejeitado=5
     }
 }

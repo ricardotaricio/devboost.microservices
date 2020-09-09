@@ -7,6 +7,9 @@ using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Domain.Entities;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -49,7 +52,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
             return Ok(pedido);
         }
 
-        
+        // TODO: Refatorar
         [HttpPost, Authorize(Roles = "ADMIN,USER")]
         public async Task<IActionResult> AdicionarPedido(AdicionarPedidoViewModel pedidoViewModel)
         {
@@ -62,16 +65,48 @@ namespace DevBoost.DroneDelivery.API.Controllers
             if (user.Cliente == null)
                 return BadRequest("Usuário não é um Cliente");
 
-            var pedido = new Pedido(peso: pedidoViewModel.Peso, DateTime.Now, EnumStatusPedido.AguardandoEntregador);
+            var pedido = new Pedido(peso: pedidoViewModel.Peso, DateTime.Now, EnumStatusPedido.AguardandoPagamento);
             pedido.InformarCliente(cliente);
 
             var motivoRejeicaoPedido = _pedidoService.IsPedidoValido(pedido);
             if (!String.IsNullOrEmpty(_pedidoService.IsPedidoValido(pedido)))
                 return BadRequest($"Pedido rejeitado: {motivoRejeicaoPedido}");
 
-            await _pedidoService.Insert(pedido);
+            bool pedidoInserido = await _pedidoService.Insert(pedido);
+
+            if (!pedidoInserido)
+                return BadRequest();
+
+            using (HttpClient client = new HttpClient())
+            {
+                var body = new AdicionarPagamentoCartaoViewModel()
+                {
+                    PedidoId = pedido.Id,
+                    Valor = pedidoViewModel.Valor,
+                    NumeroCartao = pedidoViewModel.NumeroCartao,
+                    BandeiraCartao = pedidoViewModel.Bandeira,
+                    MesVencimentoCartao = pedidoViewModel.MesVencimento,
+                    AnoVencimentoCartao = pedidoViewModel.AnoVencimento
+                };
+
+                var response = await client.PostAsync("https://localhost/api/pagamento", new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
+
+                if (!response.IsSuccessStatusCode)
+                    return BadRequest();
+            }
 
             return Ok(pedido);
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> AtualizarSituacaoPedido(AtualizarSituacaoPedidoViewModel atualizarSituacaoPedidoViewModel)
+        {
+            var pedidoAtualizado = await _pedidoService.AtualizarSituacaoPedido(atualizarSituacaoPedidoViewModel.PedidoId, atualizarSituacaoPedidoViewModel.SituacaoPagamento);
+
+            if (!pedidoAtualizado)
+                return BadRequest();
+
+            return Ok();
         }
     }
 }
