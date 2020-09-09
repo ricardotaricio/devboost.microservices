@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using DevBoost.DroneDelivery.Application.Bus;
+using DevBoost.DroneDelivery.Application.Commands;
+using DevBoost.DroneDelivery.Application.Events;
+using DevBoost.DroneDelivery.Application.Queries;
 using DevBoost.DroneDelivery.Application.Services;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
@@ -34,17 +37,29 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
-          
             
+            
+            services.AddScoped<IClienteQueries, ClienteQueries>();
+
+            services.AddScoped<INotificationHandler<ClienteAdiconadoEvent>, ClienteEventHandler>();
+
+            services.AddScoped<IRequestHandler<AdicionarClienteCommand, bool>, ClienteCommandHandler>();
+            services.AddScoped<IRequestHandler<AdicionarUsuarioCommand, bool>, UsuarioCommandHandler>();
+
+
 
             TokenGenerator.TokenConfig = configuration.GetSection("Token").Get<Token>();
 
-            var assembly = AppDomain.CurrentDomain.Load("DevBoost.DroneDelivery.Pagamento.Application");
+            var assembly = AppDomain.CurrentDomain.Load("DevBoost.DroneDelivery.Application");
             services.AddMediatR(assembly);
             services.AddTransient<IMediatrHandler, MediatrHandler>();
 
             
-            services.AddAutoMapper(typeof(DtoToCommandMappingProfile), typeof(CommandToDomainMappingProfile), typeof(ViewModelToCommandMappingProfile), typeof(DomainToDtoMappingProfile));
+            services.AddAutoMapper(typeof(DtoToCommandMappingProfile), 
+                typeof(CommandToDomainMappingProfile), 
+                typeof(ViewModelToCommandMappingProfile), 
+                typeof(DomainToDtoMappingProfile),
+                typeof(ViewModelToDomainMappingProfile));
 
             
 
