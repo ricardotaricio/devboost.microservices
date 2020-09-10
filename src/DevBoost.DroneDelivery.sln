@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.API.Tests", "..\tests\DevBoost.DroneDelivery.API.Tests\DevBoost.DroneDelivery.API.Tests.csproj", "{55FD26C1-95F2-40FF-9AE0-CD277C4E2BDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.ApplicationI.Tests", "..\tests\DevBoost.DroneDelivery.ApplicationI.Tests\DevBoost.DroneDelivery.ApplicationI.Tests.csproj", "{0A6F3C79-1090-45C4-925F-3B0C32455996}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.Application.Tests", "..\tests\DevBoost.DroneDelivery.ApplicationI.Tests\DevBoost.DroneDelivery.Application.Tests.csproj", "{0A6F3C79-1090-45C4-925F-3B0C32455996}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBoost.DroneDelivery.Domain.Tests", "..\tests\DevBoost.DroneDelivery.Domain.Tests\DevBoost.DroneDelivery.Domain.Tests.csproj", "{0133B5FF-1898-481C-B5DB-E26B8A269D74}"
 EndProject
