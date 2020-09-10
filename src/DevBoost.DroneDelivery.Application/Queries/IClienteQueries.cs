@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Application.Queries
 {
+
     public interface IClienteQueries
     {
         Task<ClienteViewModel> ObterPorId(Guid id);

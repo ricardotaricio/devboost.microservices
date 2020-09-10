@@ -1,13 +1,11 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Application.Bus
 {
+
     public class MediatrHandler : IMediatrHandler
     {
         private readonly IMediator _mediator;

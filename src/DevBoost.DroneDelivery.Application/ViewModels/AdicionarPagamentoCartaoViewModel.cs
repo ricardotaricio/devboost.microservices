@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Application.ViewModels
 {
+
+    [ExcludeFromCodeCoverage]
     public class AdicionarPagamentoCartaoViewModel
     {
         public Guid PedidoId { get; set; }

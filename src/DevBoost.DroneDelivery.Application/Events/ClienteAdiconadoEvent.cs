@@ -1,8 +1,10 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Messages;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Application.Events
 {
+    [ExcludeFromCodeCoverage]
     public class ClienteAdiconadoEvent : Event
     {
 

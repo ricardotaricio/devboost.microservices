@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Application.Events
 {
+
     public class PagementoEventHandler : INotificationHandler<PagementoPedidoProcessadoEvent>
     {
         private readonly IMediatrHandler _mediatr;

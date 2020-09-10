@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Application.Events
 {
-    [ExcludeFromCodeCoverage]
+    
     public class DroneEventHandler : INotificationHandler<AutonomiaAtualizadaDroneEvent>,INotificationHandler<DroneAdicionadoEvent>
     {
         private IMediatrHandler _mediatr;

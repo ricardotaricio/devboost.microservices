@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 namespace DevBoost.DroneDelivery.Application.ViewModels
 {
     [ExcludeFromCodeCoverage]
-
     public class AdicionarClienteViewModel
     {
         [Required(ErrorMessage = "Nome é necessário")]

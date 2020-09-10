@@ -1,10 +1,11 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Enumerators;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Application.ViewModels
 {
+
+    [ExcludeFromCodeCoverage]
     public class AtualizarSituacaoPedidoViewModel
     {
         public Guid PedidoId { get; set; }

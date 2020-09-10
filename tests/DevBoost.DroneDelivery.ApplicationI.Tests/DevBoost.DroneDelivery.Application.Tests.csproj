@@ -16,7 +16,6 @@
   <ItemGroup>
     <Folder Include="Integrado\" />
     <Folder Include="BDD\" />
-    <Folder Include="Unitario\" />
   </ItemGroup>
 
 </Project>

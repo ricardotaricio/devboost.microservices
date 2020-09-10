@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 namespace DevBoost.DroneDelivery.Application.ViewModels
 {
     [ExcludeFromCodeCoverage]
-
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Nome é necessário")]

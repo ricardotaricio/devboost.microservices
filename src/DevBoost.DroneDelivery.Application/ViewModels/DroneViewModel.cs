@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 namespace DevBoost.DroneDelivery.Application.ViewModels
 {
     [ExcludeFromCodeCoverage]
-
     public class DroneViewModel
     {
         [Required(ErrorMessage = "Capacidade é necessária")]
