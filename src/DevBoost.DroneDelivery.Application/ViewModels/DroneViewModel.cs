@@ -5,7 +5,7 @@ namespace DevBoost.DroneDelivery.Application.ViewModels
 {
     [ExcludeFromCodeCoverage]
 
-    public class AdicionarDroneViewModel
+    public class DroneViewModel
     {
         [Required(ErrorMessage = "Capacidade é necessária")]
         [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
@@ -22,5 +22,10 @@ namespace DevBoost.DroneDelivery.Application.ViewModels
         [Required(ErrorMessage = "Carga é necessária")]
         [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
         public int Carga { get; set; }
+
+
+        [Required(ErrorMessage = "Autonomia restante é necessária")]
+        [Range(0, int.MaxValue, ErrorMessage = "Por favor insira um número válido")]
+        public int AutonomiaRestante { get; private set; }
     }
 }

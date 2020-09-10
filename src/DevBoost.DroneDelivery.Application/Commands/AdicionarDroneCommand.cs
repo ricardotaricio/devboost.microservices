@@ -1,7 +1,6 @@
 ﻿using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Application.Validations;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
-using DevBoost.DroneDelivery.Domain.Entities;
 using System;
 
 namespace DevBoost.DroneDelivery.Application.Commands
@@ -16,7 +15,7 @@ namespace DevBoost.DroneDelivery.Application.Commands
             Carga = carga;
             AutonomiaRestante = autonomia;
             StatusDrone = EnumStatusDrone.Disponivel;
-            DataHora = System.DateTime.Now;
+            DataHora = DateTime.Now;
 
         }
 
@@ -27,9 +26,7 @@ namespace DevBoost.DroneDelivery.Application.Commands
         public int AutonomiaRestante { get; private set; }
         public EnumStatusDrone StatusDrone { get; private set; }
         public DateTime DataHora { get; private set; }
-        public Drone Drone { get; private set; }
-
-
+        
         public override bool EhValido()
         {
             ValidationResult = new AdicionarDroneValidation().Validate(this);

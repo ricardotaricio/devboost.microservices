@@ -15,8 +15,13 @@ namespace DevBoost.DroneDelivery.Infrastructure.AutoMapper
                 .ConstructUsing(c => new Cliente(c.Nome,c.Latitude,c.Longitude)).ReverseMap();
            
             CreateMap<AdicionarClienteCommand, Usuario>()
-                .ConstructUsing(c => new Usuario(c.Usuario,c.Senha,"",c.Id)).ReverseMap();
+                .ConstructUsing(c => new Usuario(c.Usuario,c.Senha,string.Empty,c.Id)).ReverseMap();
 
+            CreateMap<AdicionarDroneCommand, Drone>()
+                .ConstructUsing(d => new Drone(d.Capacidade,d.Velocidade,d.Autonomia,d.AutonomiaRestante,d.Carga)).ReverseMap();
+
+            CreateMap<AdicionarDroneItinerarioCommand, DroneItinerario>()
+                .ConstructUsing(i => new DroneItinerario(i.DataHora,i.DroneId,i.StatusDrone)).ReverseMap();
 
         }
 

@@ -1,18 +1,26 @@
 ﻿using DevBoost.Dronedelivery.Domain.Enumerators;
+using DevBoost.DroneDelivery.Core.Domain.Entities;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
 {
     [ExcludeFromCodeCoverage]
-    public class DroneItinerario
+    public class DroneItinerario : Entity
     {
-        public int Id { get; set; }
-        public DateTime DataHora { get; set; }
-        public Drone Drone { get; set; }
-        public int DroneId { get; set; }
-        public EnumStatusDrone StatusDrone { get; set; }
+        public DroneItinerario(DateTime dataHora,Guid droneId, EnumStatusDrone statusDrone)
+        {
+            DataHora = dataHora;
+            DroneId = droneId;
+            StatusDrone = statusDrone;
+        }
 
+        public DateTime DataHora { get; private set; }
+        
+        public Guid DroneId { get; private set; }
+        public EnumStatusDrone StatusDrone { get; private set; }
+
+        public Drone Drone { get; set; }
         public void InformarStatusDrone(EnumStatusDrone statusDrone)
         {
             this.StatusDrone = statusDrone;

@@ -30,7 +30,7 @@ namespace DevBoost.DroneDelivery.Application.Commands
         {
             if (!ValidarComando(message)) return false;
 
-           
+           //TODO: criptografar senha!!
             var usuario = _mapper.Map<Usuario>(message);
 
             await _usuariorRepository.Adicionar(usuario);

@@ -2,8 +2,6 @@
 using DevBoost.DroneDelivery.Application.Validations;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevBoost.DroneDelivery.Application.Commands
 {

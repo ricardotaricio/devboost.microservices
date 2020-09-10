@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using DevBoost.DroneDelivery.Domain.Interfaces.Services;
-using DevBoost.DroneDelivery.API.DTO;
-using DevBoost.DroneDelivery.Domain.Entities;
-using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Application.ViewModels;
+using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using AutoMapper;
+using DevBoost.DroneDelivery.Application.Commands;
+using DevBoost.DroneDelivery.Application.Queries;
+using System;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -15,54 +14,58 @@ namespace DevBoost.DroneDelivery.API.Controllers
     [ApiController]
     public class DroneController : ControllerBase
     {
-        private readonly IDroneService _droneService;
-        private readonly IDroneItinerarioService _droneItinerarioService;
-        private readonly IPedidoService _pedidoService;
 
-        public DroneController(IDroneService droneService, IDroneItinerarioService droneItinerarioService, IPedidoService pedidoService)
+    
+        private readonly IMediatrHandler _mediatr;
+        private readonly IMapper _mapper;
+        private readonly IDroneQueries _droneQueries;
+
+        public DroneController(IMediatrHandler mediatr, IMapper mapper, IDroneQueries droneQueries)
         {
-            _droneService = droneService;
-            _droneItinerarioService = droneItinerarioService;
-            _pedidoService = pedidoService;
+            _mediatr = mediatr;
+            _mapper = mapper;
+            _droneQueries = droneQueries;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetDrone()
         {
-            await _pedidoService.DespacharPedidos();
+            //await _pedidoService.DespacharPedidos();
 
-            var drones = await _droneService.GetAll();
+            //var drones = await _droneQueries.ObterTodos();
 
-            var situacaoDrones = new List<SituacaoDroneDTO>();
+            //var situacaoDrones = new List<SituacaoDroneDTO>();
 
-            var dronesItinerario = _droneItinerarioService.GetAll().Result;
 
-            var pedidosEmTransito = await _pedidoService.GetPedidosEmTransito();
+            //var dronesItinerario = _droneItinerarioService.GetAll().Result;
 
-            foreach (var drone in drones)
-            {
-                var situacaoDrone = new SituacaoDroneDTO { Drone = drone };
+            //var pedidosEmTransito = await _pedidoService.GetPedidosEmTransito();
 
-                var droneItinerario = dronesItinerario.SingleOrDefault(x => x.DroneId == drone.Id);
+            //foreach (var drone in drones)
+            //{
+            //    var situacaoDrone = new SituacaoDroneDTO { Drone = drone };
 
-                if (droneItinerario == null)
-                    situacaoDrone.StatusDrone = EnumStatusDrone.Disponivel.ToString();
-                else
-                    situacaoDrone.StatusDrone = droneItinerario.StatusDrone.ToString();
+            //    var droneItinerario = dronesItinerario.SingleOrDefault(x => x.DroneId == drone.Id);
 
-                situacaoDrone.Pedidos = pedidosEmTransito.Where(p => p.Drone != null && p.Status != EnumStatusPedido.Entregue && p.Drone.Id == drone.Id).ToList();
+            //    if (droneItinerario == null)
+            //        situacaoDrone.StatusDrone = EnumStatusDrone.Disponivel.ToString();
+            //    else
+            //        situacaoDrone.StatusDrone = droneItinerario.StatusDrone.ToString();
 
-                situacaoDrones.Add(situacaoDrone);
-            }
+            //    situacaoDrone.Pedidos = pedidosEmTransito.Where(p => p.Drone != null && p.Status != EnumStatusPedido.Entregue && p.Drone.Id == drone.Id).ToList();
 
-            return Ok(situacaoDrones);
+            //    situacaoDrones.Add(situacaoDrone);
+            //}
+
+            //return Ok(situacaoDrones);
+            return Ok();
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Drone>> GetDrone(int id)
+        public async Task<IActionResult> GetDrone(Guid id)
         {
-            var drone = await _droneService.GetById(id);
+            var drone = await _droneQueries.ObterPorId(id);
 
             if (drone == null)
                 return NotFound();
@@ -70,39 +73,17 @@ namespace DevBoost.DroneDelivery.API.Controllers
             return Ok(drone);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
-        public async Task<ActionResult> PostDrone(AdicionarDroneViewModel droneViewModel)
+        public async Task<IActionResult> PostDrone(AdicionarDroneViewModel droneViewModel)
         {
+            var suvesso = await _mediatr.EnviarComando(_mapper.Map<AdicionarDroneCommand>(droneViewModel));
+
+            if (!suvesso) return BadRequest();
+
+            return Ok();
 
 
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
-
-            var drone = new Drone()
-            {
-                Velocidade = droneViewModel.Velocidade,
-                Autonomia = droneViewModel.Autonomia,
-                AutonomiaRestante = droneViewModel.Autonomia,
-                Carga = droneViewModel.Carga,
-                Capacidade = droneViewModel.Capacidade
-            };
-
-            bool result = await _droneService.Insert(drone);
-
-            if (result)
-            {
-                var droneItinerario = new DroneItinerario
-                {
-                    DataHora = System.DateTime.Now,
-                    Drone = drone,
-                    DroneId = drone.Id,
-                    StatusDrone = EnumStatusDrone.Disponivel
-                };
-
-                await _droneItinerarioService.Insert(droneItinerario);
-            }
-
-            return CreatedAtAction("GetDrone", new { id = drone.Id }, drone);
         }
     }
 }

@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DevBoost.DroneDelivery.Core.Domain.Entities;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
 {
     [ExcludeFromCodeCoverage]
 
-    public class Drone
+    public class Drone : Entity
     {
         public Drone(){}
 
-        public int Id { get; set; }
-        public int Capacidade { get; set; }
-        public int Velocidade { get; set; }
-        public int Autonomia { get; set; }
-        public int AutonomiaRestante { get; set; }
-        public int Carga { get; set; }
+        public Drone(int capacidade, int velocidade, int autonomia, int autonomiaRestante, int carga)
+        {
+            Capacidade = capacidade;
+            Velocidade = velocidade;
+            Autonomia = autonomia;
+            AutonomiaRestante = autonomiaRestante;
+            Carga = carga;
+        }
+
+        public int Capacidade { get; private set; }
+        public int Velocidade { get; private set; }
+        public int Autonomia { get; private set; }
+        public int AutonomiaRestante { get; private set; }
+        public int Carga { get; private set; }
 
         public void InformarAutonomiaRestante(int autonomia)
         {

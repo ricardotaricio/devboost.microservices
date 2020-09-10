@@ -1,5 +1,4 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Entities;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
@@ -19,5 +18,6 @@ namespace DevBoost.DroneDelivery.Domain.Entities
         public string Nome { get; private set; }
         public double Latitude { get; private set; }
         public double Longitude { get; private set; }
+
     }
 }

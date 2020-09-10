@@ -26,26 +26,51 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
     {
         public static IServiceCollection Register(this IServiceCollection services, IConfiguration configuration)
         {
+            //TODO: Matar esses services!!!
             services.AddScoped<IPedidoService, PedidoService>();
-            services.AddScoped<IDroneService, DroneService>();
-            services.AddScoped<IDroneItinerarioService, DroneItinerarioService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IClienteService, ClienteService>();
+ 
             
             services.AddScoped<IDroneItinerarioRepository, DroneItinerarioRepository>();
             services.AddScoped<IDroneRepository, DroneRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
-            
-            
+
+            //Queries Cliente
             services.AddScoped<IClienteQueries, ClienteQueries>();
 
+            //Queries Drone
+            services.AddScoped<IDroneQueries, DroneQueries>();
+
+            //Event liente
             services.AddScoped<INotificationHandler<ClienteAdiconadoEvent>, ClienteEventHandler>();
 
+            //Event Drone
+            services.AddScoped<INotificationHandler<AutonomiaAtualizadaDroneEvent>, DroneEventHandler>();
+            services.AddScoped<INotificationHandler<DroneAdicionadoEvent>, DroneEventHandler>();
+            services.AddScoped<INotificationHandler<AutonomiaAtualizadaDroneEvent>, DroneEventHandler>();
+
+
+            //Command Cliente 
             services.AddScoped<IRequestHandler<AdicionarClienteCommand, bool>, ClienteCommandHandler>();
+
+
+            //Command Drone 
+            services.AddScoped<IRequestHandler<AdicionarDroneCommand, bool>, DroneCommandHandler>();
+            services.AddScoped<IRequestHandler<AtualizarAutonomiaDroneCommand, bool>, DroneCommandHandler>();
+
+            //Command Usuario
             services.AddScoped<IRequestHandler<AdicionarUsuarioCommand, bool>, UsuarioCommandHandler>();
 
+            //Command Pedido
+            services.AddScoped<IRequestHandler<AdicionarPedidoCommand, bool>, PedidoCommandHandler>();
+            services.AddScoped<IRequestHandler<AtualizarSituacaoPedidoCommand, bool>, PedidoCommandHandler>();
+
+            //Command Drone Itinerario 
+            services.AddScoped<IRequestHandler<AdicionarDroneItinerarioCommand, bool>, DroneItinerarioCommandHandler>();
+
+            
 
 
             TokenGenerator.TokenConfig = configuration.GetSection("Token").Get<Token>();

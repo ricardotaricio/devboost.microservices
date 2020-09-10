@@ -2,6 +2,7 @@
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
@@ -16,7 +17,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
         }
 
 
-        public async Task<DroneItinerario> ObterDroneItinerarioPorIdDrone(int id)
+        public async Task<DroneItinerario> ObterDroneItinerarioPorIdDrone(Guid id)
         {
             return await _context.DroneItinerario
                 .AsNoTracking()

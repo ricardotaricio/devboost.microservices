@@ -32,7 +32,8 @@ namespace DevBoost.DroneDelivery.API.Controllers
         }
 
 
-        [HttpGet, Authorize(Roles = "ADMIN,USER")]
+        //[HttpGet, Authorize(Roles = "ADMIN,USER")]
+        [HttpGet]
         public async Task<IActionResult> GetPedido()
         {
             await _pedidoService.DespacharPedidos();
@@ -41,7 +42,8 @@ namespace DevBoost.DroneDelivery.API.Controllers
         }
 
 
-        [HttpGet("{id}"), Authorize(Roles = "ADMIN,USER")]
+        //[HttpGet("{id}"), Authorize(Roles = "ADMIN,USER")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetPedido(Guid id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
@@ -57,7 +59,8 @@ namespace DevBoost.DroneDelivery.API.Controllers
         }
 
         // TODO: Refatorar
-        [HttpPost, Authorize(Roles = "ADMIN,USER")]
+        //[HttpPost, Authorize(Roles = "ADMIN,USER")]
+        [HttpPost]
         public async Task<IActionResult> AdicionarPedido(AdicionarPedidoViewModel pedidoViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
@@ -101,6 +104,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
 
             return Ok(pedido);
         }
+
 
         [HttpPatch]
         public async Task<IActionResult> AtualizarSituacaoPedido(AtualizarSituacaoPedidoViewModel viewModel)

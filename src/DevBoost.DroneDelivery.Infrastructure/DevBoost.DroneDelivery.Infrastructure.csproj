@@ -31,12 +31,9 @@
     <ProjectReference Include="..\DevBoost.DroneDelivery.Application\DevBoost.DroneDelivery.Application.csproj" />
     <ProjectReference Include="..\DevBoost.DroneDelivery.Core.Domain\DevBoost.DroneDelivery.Core.Domain.csproj" />
     <ProjectReference Include="..\DevBoost.DroneDelivery.Domain\DevBoost.DroneDelivery.Domain.csproj" />
-    <ProjectReference Include="..\DevBoost.DroneDelivery.Pagamento.Application\DevBoost.DroneDelivery.Pagamento.Application\DevBoost.DroneDelivery.Pagamento.Application.csproj" />
-    <ProjectReference Include="..\DevBoost.DroneDelivery.Pagamento.Domain\DevBoost.DroneDelivery.Pagamento.Domain\DevBoost.DroneDelivery.Pagamento.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Mappings\" />
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
