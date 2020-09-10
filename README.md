@@ -1,3 +1,9 @@
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ricardotaricio_devboost.microservices&metric=coverage)](https://sonarcloud.io/dashboard?id=ricardotaricio_devboost.microservices)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ricardotaricio_devboost.microservices&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ricardotaricio_devboost.microservices)
+
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ricardotaricio_devboost.microservices&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ricardotaricio_devboost.microservices)
+
 # DevBoost.dronedelivery.microservices
 
 **GRUPO 1**
