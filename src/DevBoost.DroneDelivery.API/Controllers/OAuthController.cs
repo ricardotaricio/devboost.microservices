@@ -1,6 +1,5 @@
 ﻿using DevBoost.DroneDelivery.Application.Queries;
 using DevBoost.DroneDelivery.Application.ViewModels;
-using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using DevBoost.DroneDelivery.Infrastructure.Security;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;

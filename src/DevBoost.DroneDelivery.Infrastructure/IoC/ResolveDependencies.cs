@@ -3,10 +3,8 @@ using DevBoost.DroneDelivery.Application.Bus;
 using DevBoost.DroneDelivery.Application.Commands;
 using DevBoost.DroneDelivery.Application.Events;
 using DevBoost.DroneDelivery.Application.Queries;
-using DevBoost.DroneDelivery.Application.Services;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
-using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using DevBoost.DroneDelivery.Domain.ValueObjects;
 using DevBoost.DroneDelivery.Infrastructure.AutoMapper;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
@@ -27,10 +25,7 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
     {
         public static IServiceCollection Register(this IServiceCollection services, IConfiguration configuration)
         {
-            //TODO: Matar esses services!!!
             
-            services.AddScoped<IUserService, UserService>();
- 
             
             services.AddScoped<IDroneItinerarioRepository, DroneItinerarioRepository>();
             services.AddScoped<IDroneRepository, DroneRepository>();
