@@ -18,7 +18,7 @@ namespace DevBoost.DroneDelivery.Application.Extensions
             return distance;
         }
 
-        public static int CalcularTempoTrajetoEmMinutos(this Localizacao localizacao, double distanciaEmKilometros, int velocidadeEmKilometrosPorHora)
+        public static int CalcularTempoTrajetoEmMinutos(this double distanciaEmKilometros, int velocidadeEmKilometrosPorHora)
         {
             double tempo = distanciaEmKilometros / velocidadeEmKilometrosPorHora;
 

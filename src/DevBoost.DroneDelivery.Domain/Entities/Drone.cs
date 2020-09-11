@@ -9,13 +9,13 @@ namespace DevBoost.DroneDelivery.Domain.Entities
     {
         public Drone(){}
 
-        public Drone(int capacidade, int velocidade, int autonomia, int autonomiaRestante, int carga)
+        public Drone(int capacidade, int velocidade, int autonomia, int autonomiaRestante)
         {
             Capacidade = capacidade;
             Velocidade = velocidade;
             Autonomia = autonomia;
             AutonomiaRestante = autonomiaRestante;
-            Carga = carga;
+            Carga = 60;
         }
 
         public int Capacidade { get; private set; }

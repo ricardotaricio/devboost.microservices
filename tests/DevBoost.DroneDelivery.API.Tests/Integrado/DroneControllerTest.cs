@@ -1,4 +1,4 @@
-﻿namespace DevBoost.DroneDelivery.API.Tests.Unitario
+﻿namespace DevBoost.DroneDelivery.API.Tests.Integrado
 {
     public class DroneControllerTest
     {

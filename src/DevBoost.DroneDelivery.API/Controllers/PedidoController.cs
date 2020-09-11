@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Text;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Application.Events;
+using DevBoost.DroneDelivery.Application.Queries;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
@@ -18,16 +19,17 @@ namespace DevBoost.DroneDelivery.API.Controllers
     [ApiController]
     public class PedidoController : ControllerBase
     {
-
+        private readonly IPedidoQueries _pedidoQueries;
         private readonly IPedidoService _pedidoService;
         private readonly IUserService _userService;
         private readonly IMediatrHandler _mediator;
  
-        public PedidoController(IPedidoService pedidoService, IUserService userService, IMediatrHandler mediatr)
+        public PedidoController(IPedidoQueries pedidoQueries, IPedidoService pedidoService, IUserService userService, IMediatrHandler mediatr)
         {
             _pedidoService = pedidoService;
             _userService = userService;
             _mediator = mediatr;
+            _pedidoQueries = pedidoQueries;
         }
 
 
@@ -35,9 +37,7 @@ namespace DevBoost.DroneDelivery.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPedido()
         {
-            await _pedidoService.DespacharPedidos();
-
-            return Ok(await _pedidoService.GetAll());
+            return Ok(await _pedidoQueries.ObterTodos());
         }
 
 
@@ -45,15 +45,11 @@ namespace DevBoost.DroneDelivery.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPedido(Guid id)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
 
-            var pedido = await _pedidoService.GetById(id);
+            var pedido = await _pedidoQueries.ObterPorId(id);
 
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-
+            if (pedido == null) return NotFound();
+           
             return Ok(pedido);
         }
 
@@ -74,14 +70,16 @@ namespace DevBoost.DroneDelivery.API.Controllers
             var pedido = new Pedido(peso: pedidoViewModel.Peso, DateTime.Now, EnumStatusPedido.AguardandoPagamento, pedidoViewModel.Valor);
             pedido.InformarCliente(cliente);
 
-            var motivoRejeicaoPedido = _pedidoService.IsPedidoValido(pedido);
-            if (!String.IsNullOrEmpty(_pedidoService.IsPedidoValido(pedido)))
-                return BadRequest($"Pedido rejeitado: {motivoRejeicaoPedido}");
+            //TODO: Verificar codigo comentado!!!
 
-            bool pedidoInserido = await _pedidoService.Insert(pedido);
+            //var motivoRejeicaoPedido = _pedidoService.IsPedidoValido(pedido);
+            //if (!String.IsNullOrEmpty(_pedidoService.IsPedidoValido(pedido)))
+            //    return BadRequest($"Pedido rejeitado: {motivoRejeicaoPedido}");
 
-            if (!pedidoInserido)
-                return BadRequest();
+            //bool pedidoInserido = await _pedidoService.Insert(pedido);
+
+            //if (!pedidoInserido)
+            //    return BadRequest();
 
             using (HttpClient client = new HttpClient())
             {
@@ -109,6 +107,13 @@ namespace DevBoost.DroneDelivery.API.Controllers
         public async Task<IActionResult> AtualizarSituacaoPedido(AtualizarSituacaoPedidoViewModel viewModel)
         {
             await _mediator.PublicarEvento(new PagementoPedidoProcessadoEvent(viewModel.PedidoId, viewModel.SituacaoPagamento));
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> DespacharPedidos()
+        {
+            await _pedidoService.DespacharPedidos();
             return Ok();
         }
     }

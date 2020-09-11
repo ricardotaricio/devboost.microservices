@@ -8,13 +8,8 @@ namespace DevBoost.DroneDelivery.Domain.Interfaces.Services
 {
     public interface IPedidoService
     {
-        Task<IEnumerable<Pedido>> GetAll();
-        Task<Pedido> GetById(Guid id);
-        Task<bool> Insert(Pedido pedido);
-        Task<bool> Update(Pedido pedido);
        
-        string IsPedidoValido(Pedido pedido);
         Task DespacharPedidos();
-        Task<IEnumerable<Pedido>> GetPedidosEmTransito();
+        
     }
 }
