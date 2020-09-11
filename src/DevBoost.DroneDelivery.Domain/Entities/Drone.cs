@@ -7,7 +7,7 @@ namespace DevBoost.DroneDelivery.Domain.Entities
 
     public class Drone : Entity
     {
-        public Drone(){}
+        public Drone() { }
 
         public Drone(int capacidade, int velocidade, int autonomia, int autonomiaRestante)
         {

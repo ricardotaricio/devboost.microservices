@@ -1,22 +1,19 @@
-﻿using DevBoost.Dronedelivery.Domain.Enumerators;
-using DevBoost.DroneDelivery.Application.Validations;
+﻿using DevBoost.DroneDelivery.Application.Validations;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
-using System;
+using DevBoost.DroneDelivery.Domain.ValueObjects;
 
 namespace DevBoost.DroneDelivery.Application.Commands
 {
     public class DespacharPedidoCommand : Command
     {
-        public DespacharPedidoCommand(Guid droneId, Guid pedidoId, EnumStatusPedido statusPedido)
+        public DespacharPedidoCommand()
         {
-            DroneId = droneId;
-            PedidoId = pedidoId;
-            StatusPedido = statusPedido;
+            
+            LocalizacaoLoja = new Localizacao(-23.5880684, -46.6564195);
         }
 
-        public Guid DroneId { get; set; }
-        public Guid PedidoId { get; set; }
-        public EnumStatusPedido  StatusPedido { get; set; }
+        public Localizacao LocalizacaoLoja { get; set; }
+       
         public override bool EhValido()
         {
             ValidationResult = new DespacharPedidoValidation().Validate(this);

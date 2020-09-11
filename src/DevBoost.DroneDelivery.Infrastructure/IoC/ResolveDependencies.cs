@@ -28,7 +28,7 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
         public static IServiceCollection Register(this IServiceCollection services, IConfiguration configuration)
         {
             //TODO: Matar esses services!!!
-            services.AddScoped<IPedidoService, PedidoService>();
+            
             services.AddScoped<IUserService, UserService>();
  
             

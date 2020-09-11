@@ -7,13 +7,7 @@ namespace DevBoost.DroneDelivery.Application.Validations
     {
         public DespacharPedidoValidation()
         {
-            RuleFor(p => p.DroneId)
-              .NotEmpty()
-              .WithMessage("Drone é necessário");
-
-            RuleFor(p => p.PedidoId)
-             .NotEmpty()
-             .WithMessage("Pedido é necessária");
+            
         }
     }
 }

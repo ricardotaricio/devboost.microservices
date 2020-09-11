@@ -1,4 +1,4 @@
-﻿using DevBoost.DroneDelivery.Domain.Entities;
+﻿using DevBoost.DroneDelivery.Application.ViewModels;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,7 +10,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Security
     {
         public static Token TokenConfig { get; set; }
 
-        public static string GenerateToken(Usuario user)
+        public static string GenerateToken(UsuarioViewModel user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
