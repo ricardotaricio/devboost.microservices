@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using DevBoost.DroneDelivery.Application.ViewModels;
