@@ -1,5 +1,4 @@
 ﻿using AutoBogus;
-using DevBoost.DroneDelivery.API.Controllers;
 using DevBoost.DroneDelivery.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

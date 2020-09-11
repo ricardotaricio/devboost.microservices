@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Xunit;
 
 namespace DevBoost.DroneDelivery.Application.Tests.Unitario.Commands
 {
-    class ClienteCommandHandlerTest
+    public class ClienteCommandHandlerTest
     {
+        [Fact(DisplayName = "")]
+        [Trait("Handler", "")]
+        public void Cliente__ComSucesso()
+        {
+            //arrange:
+
+            //act:
+
+            //assert:
+        }
     }
 }

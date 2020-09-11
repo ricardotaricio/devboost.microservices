@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Xunit;
 
 namespace DevBoost.DroneDelivery.Application.Tests.Unitario.Commands
 {
-    class AtualizarAutonomiaDroneCommandTest
+    public class AtualizarAutonomiaDroneCommandTest
     {
+        [Fact(DisplayName = "AtualizarAutonomiaDroneComSucesso")]
+        [Trait("Command", "Atualizar Autonomia Drone Command")]
+        public void Drone_Adicionar_ComSucesso()
+        {
+            //arrange:
+
+            //act:
+
+            //assert:
+        }
     }
 }

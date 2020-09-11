@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Xunit;
 
 namespace DevBoost.DroneDelivery.Application.Tests.Unitario.Commands
 {
-    class AtualizarSituacaoPedidoCommandTest
+    public class AtualizarSituacaoPedidoCommandTest
     {
+        [Fact(DisplayName = "AtualizarSituacaoPedidoComSucesso")]
+        [Trait("Command", "Atualizar Situacao Pedido Command")]
+        public void Pedido_Adicionar_ComSucesso()
+        {
+            //arrange:
+
+            //act:
+
+            //assert:
+        }
     }
 }

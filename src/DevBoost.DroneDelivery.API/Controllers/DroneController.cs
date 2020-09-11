@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using AutoMapper;

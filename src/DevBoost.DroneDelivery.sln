@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infrastructure", "3 - I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.API", "DevBoost.DroneDelivery.API\DevBoost.DroneDelivery.API.csproj", "{9A266EE8-DA7F-44D1-8C33-61C48835C24C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Test", "..\tests\DevBoost.dronedelivery.test\DevBoost.DroneDelivery.Test.csproj", "{F8C834A6-25A7-4EC8-8599-F931E943FA25}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Infrastructure", "DevBoost.DroneDelivery.Infrastructure\DevBoost.DroneDelivery.Infrastructure.csproj", "{4AC09D10-1D0A-4070-9F66-D1554812DAFA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevBoost.DroneDelivery.Core.Domain", "DevBoost.DroneDelivery.Core.Domain\DevBoost.DroneDelivery.Core.Domain.csproj", "{C9E839E6-7ADA-4D95-8E35-B96EBB20FBC8}"
@@ -45,10 +43,6 @@ Global
 		{9A266EE8-DA7F-44D1-8C33-61C48835C24C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A266EE8-DA7F-44D1-8C33-61C48835C24C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A266EE8-DA7F-44D1-8C33-61C48835C24C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8C834A6-25A7-4EC8-8599-F931E943FA25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8C834A6-25A7-4EC8-8599-F931E943FA25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8C834A6-25A7-4EC8-8599-F931E943FA25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8C834A6-25A7-4EC8-8599-F931E943FA25}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4AC09D10-1D0A-4070-9F66-D1554812DAFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4AC09D10-1D0A-4070-9F66-D1554812DAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AC09D10-1D0A-4070-9F66-D1554812DAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -91,7 +85,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9A266EE8-DA7F-44D1-8C33-61C48835C24C} = {8603D09F-74A0-4ECD-9A63-D3BB5259E3CC}
-		{F8C834A6-25A7-4EC8-8599-F931E943FA25} = {E9B7C9DD-4ECD-4BF1-9047-590DFECF3776}
 		{4AC09D10-1D0A-4070-9F66-D1554812DAFA} = {636C3A7F-DC81-47AC-97BC-169D49718CFD}
 		{C9E839E6-7ADA-4D95-8E35-B96EBB20FBC8} = {1C9FCAC7-66CC-4D5D-AAE0-BF5A920D4CBF}
 		{51B81B17-93C8-4F1A-A65E-2FA3C78FF192} = {1C9FCAC7-66CC-4D5D-AAE0-BF5A920D4CBF}

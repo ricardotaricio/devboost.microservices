@@ -1,6 +1,4 @@
 ﻿using Bogus;
-using DevBoost.DroneDelivery.API;
-using DevBoost.DroneDelivery.Application.ViewModels;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System;

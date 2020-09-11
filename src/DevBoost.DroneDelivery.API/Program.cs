@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace DevBoost.DroneDelivery.API
 {
-    public class Program
+      public class Program
     {
         public static void Main(string[] args)
         {

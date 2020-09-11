@@ -24,8 +24,8 @@ namespace DevBoost.DroneDelivery.Application.Services
         private const double _latitudeLoja = -23.5880684;
         private const double _longitudeLoja = -46.6564195;
         private Localizacao _localizacaoLoja;
-        private IMediatrHandler _mediatr;
-        private IMapper _mapper;
+        private readonly IMediatrHandler  _mediatr;
+        private readonly IMapper _mapper;
         public PedidoService(IMapper mapper, IMediatrHandler mediatr, IPedidoRepository repositoryPedido,
             IDroneItinerarioRepository droneItinerarioRepository,
             IDroneRepository droneRepository)

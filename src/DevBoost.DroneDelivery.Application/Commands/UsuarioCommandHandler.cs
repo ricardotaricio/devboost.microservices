@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration;
 using DevBoost.DroneDelivery.Application.Queries;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 

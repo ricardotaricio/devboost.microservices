@@ -3,16 +3,15 @@ using DevBoost.DroneDelivery.Application.Commands;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using MediatR;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Application.Events
 {
-    
+
     public class DroneEventHandler : INotificationHandler<AutonomiaAtualizadaDroneEvent>,INotificationHandler<DroneAdicionadoEvent>
     {
-        private IMediatrHandler _mediatr;
+        private readonly IMediatrHandler _mediatr;
         public DroneEventHandler(IMediatrHandler mediatr)
         {
             _mediatr = mediatr;

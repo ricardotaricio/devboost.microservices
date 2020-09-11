@@ -1,6 +1,4 @@
 ﻿using AutoBogus;
-using DevBoost.DroneDelivery.API.Controllers;
-using DevBoost.DroneDelivery.Application.ViewModels;
 using DevBoost.DroneDelivery.Domain.Entities;
 using DevBoost.DroneDelivery.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
@@ -45,6 +43,7 @@ namespace DevBoost.DroneDelivery.Test.API
             clienteService.Verify(mock => mock.GetById(It.IsAny<Guid>()), Times.Once());
             Assert.Equal((HttpStatusCode)expectResponse.StatusCode, (HttpStatusCode)Convert.ToInt32(((OkObjectResult)result).StatusCode));
         }
+        
         [Fact(DisplayName = "ObterTodosClientesComSucesso")]
         [Trait("ClienteControllerTest", "Controller Tests")]
         public void Cliente_ObterTodos_ComSucesso()

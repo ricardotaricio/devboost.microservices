@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Xunit;
 
 namespace DevBoost.DroneDelivery.Application.Tests.Unitario.Event
 {
-    class ClienteEventHandlerTest
+    public class ClienteEventHandlerTest
     {
+        [Fact(DisplayName = "")]
+        [Trait("Event", "")]
+        public void Cliente__ComSucesso()
+        {
+            //arrange:
+
+            //act:
+
+            //assert:
+        }
     }
 }
