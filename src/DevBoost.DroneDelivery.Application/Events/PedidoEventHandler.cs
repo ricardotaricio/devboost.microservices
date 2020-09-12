@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
+using MediatR;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;

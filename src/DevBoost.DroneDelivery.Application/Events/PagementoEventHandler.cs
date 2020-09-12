@@ -2,14 +2,14 @@
 using DevBoost.DroneDelivery.Application.Commands;
 using DevBoost.DroneDelivery.Core.Domain.Enumerators;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
-using MediatR;
-using System.Threading;
+using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
+using Rebus.Handlers;
 using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Application.Events
 {
 
-    public class PagementoEventHandler : INotificationHandler<PagementoPedidoProcessadoEvent>
+    public class PagementoEventHandler : IHandleMessages<PagamentoCartaoProcessadoEvent>
     {
         private readonly IMediatrHandler _mediatr;
 
@@ -18,7 +18,8 @@ namespace DevBoost.DroneDelivery.Application.Events
             _mediatr = mediatr;
         }
 
-        public async Task Handle(PagementoPedidoProcessadoEvent message, CancellationToken cancellationToken)
+        
+        public async Task Handle(PagamentoCartaoProcessadoEvent message)
         {
             if (message.SituacaoPagamento == SituacaoPagamento.Aguardando) return;
 
@@ -26,5 +27,7 @@ namespace DevBoost.DroneDelivery.Application.Events
 
             await _mediatr.EnviarComando(new AtualizarSituacaoPedidoCommand(message.EntityId, statusPedido));
         }
+
+        
     }
 }

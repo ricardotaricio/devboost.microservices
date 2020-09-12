@@ -66,6 +66,7 @@ namespace DevBoost.DroneDelivery.API
                 app.UseDeveloperExceptionPage();
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -78,7 +79,10 @@ namespace DevBoost.DroneDelivery.API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            
+
             app.SwaggerAdd();
+          
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

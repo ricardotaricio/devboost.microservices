@@ -1,7 +1,6 @@
-﻿using DevBoost.DroneDelivery.Core.Domain.Messages;
-using System;
+﻿using System;
 
-namespace DevBoost.DroneDelivery.Application.Events
+namespace DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents
 {
     public class PedidoAdicionadoEvent : Event
     {

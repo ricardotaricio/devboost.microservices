@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
+using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
 using DevBoost.DroneDelivery.Pagamento.Application.Events;
 using DevBoost.DroneDelivery.Pagamento.Application.Queries;
 using DevBoost.DroneDelivery.Pagamento.Domain.Entites;
@@ -33,7 +34,7 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.Commands
             var pagamentoCartao = _mapper.Map<PagamentoCartao>(message);
             await _pagamentoRepository.Adicionar(pagamentoCartao);
             
-            pagamentoCartao.AdicionarEvento(new ProcessarPagamentoCartaoEvent(pagamentoCartao.Id));
+            pagamentoCartao.AdicionarEvento(new PagamentoCartaoAdicionadoEvent(pagamentoCartao.Id));
             return await _pagamentoRepository.UnitOfWork.Commit();
         }
 
@@ -46,7 +47,7 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.Commands
             
             await _pagamentoRepository.Atualizar(pagamento);
 
-            pagamento.AdicionarEvento(new AtualizarSituacaoPedidoEvent(pagamento.PedidoId, pagamento.Id, pagamento.Situacao));
+            pagamento.AdicionarEvento(new PagamentoCartaoProcessadoEvent(entityId: pagamento.Id,pagamento.PedidoId, pagamento.Situacao));
             return await _pagamentoRepository.UnitOfWork.Commit();
         }
 

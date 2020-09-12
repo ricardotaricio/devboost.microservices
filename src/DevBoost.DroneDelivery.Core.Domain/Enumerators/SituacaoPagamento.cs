@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DevBoost.DroneDelivery.Core.Domain.Enumerators
+﻿namespace DevBoost.DroneDelivery.Core.Domain.Enumerators
 {
     public enum SituacaoPagamento
     {

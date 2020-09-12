@@ -1,21 +1,31 @@
 ﻿using AutoMapper;
+using Confluent.Kafka;
 using DevBoost.DroneDelivery.Application.Bus;
 using DevBoost.DroneDelivery.Application.Commands;
 using DevBoost.DroneDelivery.Application.Events;
 using DevBoost.DroneDelivery.Application.Queries;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
+using DevBoost.DroneDelivery.Domain.Interfaces;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.ValueObjects;
+using DevBoost.DroneDelivery.Infrastructure.AcessoAoUsuario;
 using DevBoost.DroneDelivery.Infrastructure.AutoMapper;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using DevBoost.DroneDelivery.Infrastructure.Data.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Security;
 using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Rebus.Kafka;
+using Rebus.Persistence.InMem;
+using Rebus.Routing.TypeBased;
+using Rebus.ServiceProvider;
 using System;
 using System.Diagnostics.CodeAnalysis;
+
 
 namespace DevBoost.DroneDelivery.CrossCutting.IOC
 {
@@ -25,13 +35,25 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
     {
         public static IServiceCollection Register(this IServiceCollection services, IConfiguration configuration)
         {
-            
-            
+           
+
             services.AddScoped<IDroneItinerarioRepository, DroneItinerarioRepository>();
             services.AddScoped<IDroneRepository, DroneRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
+
+            services.AddScoped<IUsuarioAutenticado, UsuarioAutenticado>();
+
+            
+            //Queries  DroneItinerario
+            services.AddScoped<IDroneItinerarioQueries, DroneItinerarioQueries>();
+
+            //Queries  Usuario
+            services.AddScoped<IUsuarioQueries, UsuarioQueries>();
+
+            //Queries  Pedido
+            services.AddScoped<IPedidoQueries, PedidoQueries>();
 
             //Queries Cliente
             services.AddScoped<IClienteQueries, ClienteQueries>();
@@ -66,31 +88,38 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
             //Command Drone Itinerario 
             services.AddScoped<IRequestHandler<AdicionarDroneItinerarioCommand, bool>, DroneItinerarioCommandHandler>();
 
-            
+
 
 
             TokenGenerator.TokenConfig = configuration.GetSection("Token").Get<Token>();
-            var localizacao = configuration.GetSection("Token").Get<Localizacao>();
+            //var localizacao = configuration.GetSection("Token").Get<Localizacao>();
 
 
             var assembly = AppDomain.CurrentDomain.Load("DevBoost.DroneDelivery.Application");
             services.AddMediatR(assembly);
             services.AddTransient<IMediatrHandler, MediatrHandler>();
 
-            
-            services.AddAutoMapper(typeof(DtoToCommandMappingProfile), 
-                typeof(CommandToDomainMappingProfile), 
-                typeof(ViewModelToCommandMappingProfile), 
+
+            services.AddAutoMapper(typeof(DtoToCommandMappingProfile),
+                typeof(CommandToDomainMappingProfile),
+                typeof(ViewModelToCommandMappingProfile),
                 typeof(DomainToDtoMappingProfile),
                 typeof(ViewModelToDomainMappingProfile));
 
-            
+
 
             services.AddDbContext<DCDroneDelivery>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            
+
 
 
             return services;
+        }
+
+        public static IApplicationBuilder Register(this IApplicationBuilder app)
+        {
+            app.ApplicationServices.UseRebus();
+
+            return app;
         }
     }
 }

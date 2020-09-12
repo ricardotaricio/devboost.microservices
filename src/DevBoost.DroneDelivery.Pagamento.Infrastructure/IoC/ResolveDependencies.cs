@@ -34,7 +34,7 @@ namespace DevBoost.DroneDelivery.Pagamento.Infrastructure.IOC
 
             services.AddScoped<IRequestHandler<AdicionarPagamentoCartaoCommand, bool>, PagamentoCommandHandler>();
             services.AddScoped<IRequestHandler<AtualizarSituacaoPagamentoCartaoCommand, bool>, PagamentoCommandHandler>();
-            services.AddScoped<INotificationHandler<ProcessarPagamentoCartaoEvent>, PagamentoEventHandler>();
+            services.AddScoped<INotificationHandler<PagamentoCartaoProcessadoEvent>, PagamentoEventHandler>();
             services.AddScoped<IPagamentoQueries, PagamentoQueries>();
 
             services.AddAutoMapper(typeof(DtoToCommandMappingProfile), typeof(CommandToDomainMappingProfile), typeof(ViewModelToCommandMappingProfile), typeof(DomainToDtoMappingProfile));

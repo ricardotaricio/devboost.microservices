@@ -16,37 +16,41 @@ using DevBoost.DroneDelivery.Application.Extensions;
 using System;
 using DevBoost.Dronedelivery.Domain.Enumerators;
 using DevBoost.DroneDelivery.Core.Domain.Enumerators;
+using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
+using AutoMapper;
 
 namespace DevBoost.DroneDelivery.Application.Commands
 {
     public class PedidoCommandHandler : IRequestHandler<AdicionarPedidoCommand, bool>, IRequestHandler<AtualizarSituacaoPedidoCommand, bool>, IRequestHandler<DespacharPedidoCommand, bool>
     {
         private readonly IPedidoRepository _pedidoRepository;
+        private readonly IClienteQueries _clienteQueries;
         private readonly IDroneRepository _droneRepository;
-        private readonly IUsuarioAutenticado _usuarioAutenticado;
+    
         private readonly IUserRepository _userRepository;
         private readonly IMediatrHandler _mediatr;
         public readonly IPedidoQueries _pedidoQueries;
         public readonly IDroneItinerarioQueries  _droneItinerarioQueries;
-
-        public PedidoCommandHandler(IDroneItinerarioQueries droneItinerarioQueries, IPedidoQueries pedidoQueries, IDroneRepository droneRepository, IMediatrHandler mediatr, IPedidoRepository repositoryPedido, IUsuarioAutenticado usuarioAutenticado, IUserRepository userRepository)
+        private readonly IMapper _mapper;
+        public PedidoCommandHandler(IMapper mapper,IClienteQueries clienteQueries, IDroneItinerarioQueries droneItinerarioQueries, IPedidoQueries pedidoQueries, IDroneRepository droneRepository, IMediatrHandler mediatr, IPedidoRepository repositoryPedido, IUserRepository userRepository)
         {
             _pedidoRepository = repositoryPedido;
-            _usuarioAutenticado = usuarioAutenticado;
+            
             _userRepository = userRepository;
             _mediatr = mediatr;
             _droneRepository = droneRepository;
             _pedidoQueries = pedidoQueries;
             _droneItinerarioQueries = droneItinerarioQueries;
+            _clienteQueries = clienteQueries;
+            _mapper = mapper;
+
         }
 
         public async Task<bool> Handle(AdicionarPedidoCommand message, CancellationToken cancellationToken)
         {
             if (!ValidarComando(message)) return false;
 
-            var user = await _userRepository.ObterPorNome(_usuarioAutenticado.GetCurrentUserName());
-            if (user.Cliente == null)
-                return false;
+
 
             //TODO: avaliar regra !!!
 
@@ -62,9 +66,9 @@ namespace DevBoost.DroneDelivery.Application.Commands
 
             //if (tempoTrajetoCompleto > drone.Autonomia)
             //    return "Fora da área de entrega.";
-
+            var cliente = await _clienteQueries.ObterPorId(message.ClienteId);
             var pedido = new Pedido(message.Peso, message.DataHora, message.Status, message.Valor);
-            pedido.InformarCliente(user.Cliente);
+            pedido.InformarCliente(_mapper.Map<Cliente>(cliente));
 
             pedido.AdicionarEvento(new PedidoAdicionadoEvent(pedido.Id, pedido.Valor,message.BandeiraCartao,message.NumeroCartao,message.MesVencimentoCartao,message.AnoVencimentoCartao ));
             await _pedidoRepository.Adicionar(pedido);

@@ -8,10 +8,12 @@ using DevBoost.DroneDelivery.Application.Events;
 using DevBoost.DroneDelivery.Application.Queries;
 using DevBoost.DroneDelivery.Application.Commands;
 using Microsoft.AspNetCore.Authorization;
+using Rebus.Bus;
+using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
 
 namespace DevBoost.DroneDelivery.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PedidoController : ControllerBase
@@ -20,25 +22,28 @@ namespace DevBoost.DroneDelivery.API.Controllers
         private readonly IUsuarioQueries _usuarioQueries;
         private readonly IClienteQueries _clienteQueries;
         private readonly IMediatrHandler _mediator;
- 
+        
         public PedidoController(IPedidoQueries pedidoQueries, IUsuarioQueries usuarioQueries, IClienteQueries clienteQueries, IMediatrHandler mediatr)
         {
             _usuarioQueries = usuarioQueries;
             _clienteQueries = clienteQueries;
             _mediator = mediatr;
             _pedidoQueries = pedidoQueries;
+            
         }
 
 
-        
+
         [HttpGet]
         public async Task<IActionResult> GetPedido()
         {
+            //await _bus.Publish(new PedidoAdicionadoEvent(Guid.NewGuid(), 12, "", "", 12, 12));
+
             return Ok(await _pedidoQueries.ObterTodos());
         }
 
 
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPedido(Guid id)
         {
@@ -46,24 +51,24 @@ namespace DevBoost.DroneDelivery.API.Controllers
             var pedido = await _pedidoQueries.ObterPorId(id);
 
             if (pedido == null) return NotFound();
-           
+
             return Ok(pedido);
         }
 
-        
+
         [HttpPost]
         public async Task<IActionResult> AdicionarPedido(AdicionarPedidoViewModel pedidoViewModel)
         {
-            
 
-            var username = User.Identities.FirstOrDefault().Name;
-            var user = await _usuarioQueries.ObterPorNome(username);
-            var cliente = await _clienteQueries.ObterPorId(user.ClienteId);
 
-            if (cliente == null)
-                return BadRequest();
+            //var username = User.Identities.FirstOrDefault().Name;
+            //var user = await _usuarioQueries.ObterPorNome(username);
+            //var cliente = await _clienteQueries.ObterPorId(user.ClienteId);
 
-            await _mediator.EnviarComando(new AdicionarPedidoCommand(cliente.Id,pedidoViewModel.Valor,pedidoViewModel.Peso,DateTime.Now, pedidoViewModel.Bandeira, pedidoViewModel.NumeroCartao,pedidoViewModel.MesVencimento,pedidoViewModel.AnoVencimento));
+            //if (cliente == null)
+            //    return BadRequest();
+
+            //await _mediator.EnviarComando(new AdicionarPedidoCommand(cliente.Id, pedidoViewModel.Valor, pedidoViewModel.Peso, DateTime.Now, pedidoViewModel.Bandeira, pedidoViewModel.NumeroCartao, pedidoViewModel.MesVencimento, pedidoViewModel.AnoVencimento));
 
             return Ok();
         }

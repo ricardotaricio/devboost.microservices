@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
 using DevBoost.DroneDelivery.Pagamento.Application.Commands;
 using DevBoost.DroneDelivery.Pagamento.Application.DTOs;
 using DevBoost.DroneDelivery.Pagamento.Application.Events;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace DevBoost.DroneDelivery.Pagamento.Application.Events
 {
-    public class PagamentoEventHandler : INotificationHandler<ProcessarPagamentoCartaoEvent>
+    public class PagamentoEventHandler : INotificationHandler<PagamentoCartaoProcessadoEvent>
     {
         private readonly IPagamentoQueries _pagamentoQueries;
         private readonly IMediatrHandler _bus;
@@ -27,7 +28,7 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.Events
             _mapper = mapper;
         }
 
-        public async Task Handle(ProcessarPagamentoCartaoEvent message, CancellationToken cancellationToken)
+        public async Task Handle(PagamentoCartaoAdicionadoEvent  message, CancellationToken cancellationToken)
         {
             var pagamentoCartao = await _pagamentoQueries.ObterPorId(message.EntityId);
 
@@ -49,12 +50,12 @@ namespace DevBoost.DroneDelivery.Pagamento.Application.Events
             }
         }
 
-        public async Task Handle(AtualizarSituacaoPedidoEvent message, CancellationToken cancellationToken)
+        public async Task Handle(PagamentoCartaoProcessadoEvent message, CancellationToken cancellationToken)
         {
-            var body = _mapper.Map<AtualizarSituacaoPedidoDTO>(message);
+            //var body = _mapper.Map<AtualizarSituacaoPedidoDTO>(message);
 
-            using (HttpClient client = new HttpClient())
-                await client.PatchAsync("https://localhost/api/pedido", new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
+            //using (HttpClient client = new HttpClient())
+            //    await client.PatchAsync("https://localhost/api/pedido", new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
         }
     }
 }

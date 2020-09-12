@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Enumerators\" />
     <Folder Include="ValueObjects\" />
   </ItemGroup>
 
