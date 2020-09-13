@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
+using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
 using DevBoost.DroneDelivery.Pagamento.Application.Bus;
 using DevBoost.DroneDelivery.Pagamento.Application.Commands;
 using DevBoost.DroneDelivery.Pagamento.Application.Events;

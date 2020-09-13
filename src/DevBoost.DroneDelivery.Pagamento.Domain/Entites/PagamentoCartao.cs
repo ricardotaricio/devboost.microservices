@@ -1,5 +1,5 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Entities;
-using DevBoost.DroneDelivery.Pagamento.Domain.Enumerators;
+using DevBoost.DroneDelivery.Core.Domain.Enumerators;
 using System;
 
 namespace DevBoost.DroneDelivery.Pagamento.Domain.Entites

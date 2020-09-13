@@ -5,7 +5,6 @@ using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
 using DevBoost.DroneDelivery.Pagamento.Application.Events;
 using DevBoost.DroneDelivery.Pagamento.Application.Queries;
 using DevBoost.DroneDelivery.Pagamento.Domain.Entites;
-using DevBoost.DroneDelivery.Pagamento.Domain.Enumerators;
 using DevBoost.DroneDelivery.Pagamento.Domain.Interfaces.Repositories;
 using MediatR;
 using System.Threading;

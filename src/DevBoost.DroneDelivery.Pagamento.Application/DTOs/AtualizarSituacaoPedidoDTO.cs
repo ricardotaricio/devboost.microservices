@@ -1,7 +1,5 @@
-﻿using DevBoost.DroneDelivery.Pagamento.Domain.Enumerators;
+﻿using DevBoost.DroneDelivery.Core.Domain.Enumerators;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevBoost.DroneDelivery.Pagamento.Application.DTOs
 {

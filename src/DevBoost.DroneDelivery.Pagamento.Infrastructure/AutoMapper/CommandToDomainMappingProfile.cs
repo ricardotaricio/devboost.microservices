@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using DevBoost.DroneDelivery.Core.Domain.Enumerators;
 using DevBoost.DroneDelivery.Pagamento.Application.Commands;
 using DevBoost.DroneDelivery.Pagamento.Domain.Entites;
-using DevBoost.DroneDelivery.Pagamento.Domain.Enumerators;
 
 namespace DevBoost.DroneDelivery.Pagamento.Infrastructure.AutoMapper
 {

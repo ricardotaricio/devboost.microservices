@@ -1,6 +1,6 @@
-﻿using DevBoost.DroneDelivery.Core.Domain.Messages;
+﻿using DevBoost.DroneDelivery.Core.Domain.Enumerators;
+using DevBoost.DroneDelivery.Core.Domain.Messages;
 using DevBoost.DroneDelivery.Pagamento.Application.Validations;
-using DevBoost.DroneDelivery.Pagamento.Domain.Enumerators;
 using System;
 
 namespace DevBoost.DroneDelivery.Pagamento.Application.Commands
