@@ -1,5 +1,6 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Domain.Entities;
+using DevBoost.DroneDelivery.Domain.Extensions;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Repositories
 
         public async Task<Usuario> ObterCredenciais(string username, string password)
         {
-            return await _context.User.AsNoTracking().Where(u => u.UserName == username && u.Password == password).FirstOrDefaultAsync();
+            return await _context.User.AsNoTracking().Where(u => u.UserName == username && u.Password == password.ObterHash()).FirstOrDefaultAsync();
         }
 
     }

@@ -4,14 +4,16 @@ using DevBoost.DroneDelivery.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DevBoost.DroneDelivery.Infrastructure.Migrations
 {
     [DbContext(typeof(DCDroneDelivery))]
-    partial class DCDroneDeliveryModelSnapshot : ModelSnapshot
+    [Migration("20200912204256_hashUsuario")]
+    partial class hashUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,7 +102,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Migrations
                     b.Property<DateTime>("DataHora")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("DroneId")
+                    b.Property<Guid>("DroneId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Peso")
@@ -165,7 +167,8 @@ namespace DevBoost.DroneDelivery.Infrastructure.Migrations
 
                     b.HasOne("DevBoost.DroneDelivery.Domain.Entities.Drone", "Drone")
                         .WithMany()
-                        .HasForeignKey("DroneId");
+                        .HasForeignKey("DroneId")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DevBoost.DroneDelivery.Domain.Entities.Usuario", b =>

@@ -4,6 +4,7 @@ using DevBoost.DroneDelivery.Application.Bus;
 using DevBoost.DroneDelivery.Application.Commands;
 using DevBoost.DroneDelivery.Application.Events;
 using DevBoost.DroneDelivery.Application.Queries;
+using DevBoost.DroneDelivery.Application.Resources;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
 using DevBoost.DroneDelivery.Domain.Interfaces;
@@ -92,8 +93,9 @@ namespace DevBoost.DroneDelivery.CrossCutting.IOC
 
 
             TokenGenerator.TokenConfig = configuration.GetSection("Token").Get<Token>();
-            //var localizacao = configuration.GetSection("Token").Get<Localizacao>();
+            Loja.Localizacao = configuration.GetSection("Localizacao").Get<Localizacao>();
 
+           
 
             var assembly = AppDomain.CurrentDomain.Load("DevBoost.DroneDelivery.Application");
             services.AddMediatR(assembly);

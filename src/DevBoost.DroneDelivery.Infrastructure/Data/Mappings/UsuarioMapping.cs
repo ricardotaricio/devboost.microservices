@@ -11,7 +11,7 @@ namespace DevBoost.DroneDelivery.Infrastructure.Data.Mappings
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.UserName).HasColumnType("Varchar(50)").IsRequired();
-            builder.Property(c => c.Password).HasColumnType("Varchar(30)").IsRequired();
+            builder.Property(c => c.Password).HasColumnType("Varchar(max)").IsRequired();
             builder.Property(c => c.Role).IsRequired();
 
             builder.HasOne(c => c.Cliente);

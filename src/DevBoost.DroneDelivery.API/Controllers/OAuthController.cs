@@ -22,8 +22,6 @@ namespace DevBoost.DroneDelivery.API.Controllers
         [Route("login")]
         public async Task<ActionResult> Authenticate([FromBody] LoginViewModel  loginViewModel)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(x => x.Errors));
-
             var user = await _usuarioQueries.ObterPorCredenciais(loginViewModel.Nome, loginViewModel.Senha);
 
             if (user == null)

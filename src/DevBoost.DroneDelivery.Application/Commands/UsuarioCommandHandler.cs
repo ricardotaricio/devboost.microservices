@@ -3,6 +3,7 @@ using DevBoost.DroneDelivery.Application.Queries;
 using DevBoost.DroneDelivery.Core.Domain.Interfaces.Handlers;
 using DevBoost.DroneDelivery.Core.Domain.Messages;
 using DevBoost.DroneDelivery.Domain.Entities;
+using DevBoost.DroneDelivery.Domain.Extensions;
 using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using MediatR;
 using System.Threading;
@@ -16,7 +17,7 @@ namespace DevBoost.DroneDelivery.Application.Commands
         private IUserRepository _usuariorRepository;
         private IClienteQueries _clienteQueries;
         private IMapper _mapper;
-        public UsuarioCommandHandler(IClienteQueries clienteQueries,IMapper mapper, IMediatrHandler mediatr, IUserRepository userRepository)
+        public UsuarioCommandHandler(IClienteQueries clienteQueries, IMapper mapper, IMediatrHandler mediatr, IUserRepository userRepository)
         {
             _mediatr = mediatr;
             _mapper = mapper;
@@ -28,9 +29,8 @@ namespace DevBoost.DroneDelivery.Application.Commands
         {
             if (!ValidarComando(message)) return false;
 
-           //TODO: criptografar senha!!
             var usuario = _mapper.Map<Usuario>(message);
-
+            usuario.Password = usuario.Password.ObterHash();
             await _usuariorRepository.Adicionar(usuario);
 
             return await _usuariorRepository.UnitOfWork.Commit();

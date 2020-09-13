@@ -19,7 +19,7 @@ namespace DevBoost.DroneDelivery.Domain.Entities
         
         public Guid DroneId { get; private set; }
         public EnumStatusDrone StatusDrone { get; private set; }
-
+        public int Controle { get; set; }
         public Drone Drone { get; set; }
         public void InformarStatusDrone(EnumStatusDrone statusDrone)
         {

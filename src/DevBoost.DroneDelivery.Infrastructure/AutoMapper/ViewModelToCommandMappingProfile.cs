@@ -17,7 +17,12 @@ namespace DevBoost.DroneDelivery.Infrastructure.AutoMapper
                 .ForMember(d => d.Senha, o => o.MapFrom(o => o.Senha))
                 .ForMember(d => d.Usuario, o => o.MapFrom(o => o.Usuario));
 
-            CreateMap<AdicionarDroneViewModel, AdicionarDroneCommand>().ReverseMap();
+
+            CreateMap<AdicionarDroneViewModel, AdicionarDroneCommand>();
+
+            CreateMap<AdicionarDroneViewModel,AdicionarDroneCommand>()
+                .ConstructUsing(d => new AdicionarDroneCommand(d.Capacidade, d.Velocidade,d.Autonomia));
+
             
         }
     }

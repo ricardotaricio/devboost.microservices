@@ -1,4 +1,5 @@
 ﻿using DevBoost.DroneDelivery.Core.Domain.Entities;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DevBoost.DroneDelivery.Domain.Entities
@@ -28,5 +29,7 @@ namespace DevBoost.DroneDelivery.Domain.Entities
         {
             this.AutonomiaRestante = autonomia;
         }
+
+        
     }
 }

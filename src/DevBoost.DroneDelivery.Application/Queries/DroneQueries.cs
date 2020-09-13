@@ -28,6 +28,10 @@ namespace DevBoost.DroneDelivery.Application.Queries
             return _mapper.Map<IEnumerable<Drone>, IEnumerable<DroneViewModel>>(await _droneRepository.ObterTodos());
         }
 
-        
+        public async Task<IEnumerable<DroneViewModel>> ObterSituacao()
+        {
+            return _mapper.Map<IEnumerable<Drone>, IEnumerable<DroneViewModel>>(await _droneRepository.ObterTodos());
+        }
+
     }
 }

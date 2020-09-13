@@ -20,7 +20,6 @@ namespace DevBoost.DroneDelivery.Domain.Entities
         public double Valor { get; set; }
         public DateTime DataHora { get; private set; }
         public Drone Drone { get; set; }
-        public Guid DroneId { get; set; }
         public EnumStatusPedido Status { get; private set; }
         public Cliente Cliente { get; private set; }
 

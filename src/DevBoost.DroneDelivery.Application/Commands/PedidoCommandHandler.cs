@@ -1,5 +1,4 @@
-﻿using DevBoost.DroneDelivery.Domain.Interfaces;
-using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
+﻿using DevBoost.DroneDelivery.Domain.Interfaces.Repositories;
 using DevBoost.DroneDelivery.Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -15,24 +14,24 @@ using DevBoost.DroneDelivery.Domain.ValueObjects;
 using DevBoost.DroneDelivery.Application.Extensions;
 using System;
 using DevBoost.Dronedelivery.Domain.Enumerators;
-using DevBoost.DroneDelivery.Core.Domain.Enumerators;
 using DevBoost.DroneDelivery.Core.Domain.Messages.IntegrationEvents;
 using AutoMapper;
+using DevBoost.DroneDelivery.Application.Resources;
 
 namespace DevBoost.DroneDelivery.Application.Commands
 {
     public class PedidoCommandHandler : IRequestHandler<AdicionarPedidoCommand, bool>, IRequestHandler<AtualizarSituacaoPedidoCommand, bool>, IRequestHandler<DespacharPedidoCommand, bool>
     {
         private readonly IPedidoRepository _pedidoRepository;
-        private readonly IClienteQueries _clienteQueries;
+        private readonly IClienteRepository  _clienteRepository;
         private readonly IDroneRepository _droneRepository;
-    
+        private readonly Localizacao _localizacaoLoja;
         private readonly IUserRepository _userRepository;
         private readonly IMediatrHandler _mediatr;
         public readonly IPedidoQueries _pedidoQueries;
         public readonly IDroneItinerarioQueries  _droneItinerarioQueries;
         private readonly IMapper _mapper;
-        public PedidoCommandHandler(IMapper mapper,IClienteQueries clienteQueries, IDroneItinerarioQueries droneItinerarioQueries, IPedidoQueries pedidoQueries, IDroneRepository droneRepository, IMediatrHandler mediatr, IPedidoRepository repositoryPedido, IUserRepository userRepository)
+        public PedidoCommandHandler(IMapper mapper, IClienteRepository clienteRepository, IDroneItinerarioQueries droneItinerarioQueries, IPedidoQueries pedidoQueries, IDroneRepository droneRepository, IMediatrHandler mediatr, IPedidoRepository repositoryPedido, IUserRepository userRepository)
         {
             _pedidoRepository = repositoryPedido;
             
@@ -41,9 +40,9 @@ namespace DevBoost.DroneDelivery.Application.Commands
             _droneRepository = droneRepository;
             _pedidoQueries = pedidoQueries;
             _droneItinerarioQueries = droneItinerarioQueries;
-            _clienteQueries = clienteQueries;
+            _clienteRepository = clienteRepository;
             _mapper = mapper;
-
+            _localizacaoLoja = Loja.Localizacao;
         }
 
         public async Task<bool> Handle(AdicionarPedidoCommand message, CancellationToken cancellationToken)
@@ -51,26 +50,30 @@ namespace DevBoost.DroneDelivery.Application.Commands
             if (!ValidarComando(message)) return false;
 
 
+            var cliente = await _clienteRepository.ObterPorId(message.ClienteId);
+            var drone = _droneRepository.ObterTodos().Result.OrderByDescending(d=>d.Autonomia).FirstOrDefault(d => d.Capacidade >= message.Peso);
 
-            //TODO: avaliar regra !!!
+            if (drone == null)
+            {
+                await _mediatr.PublicarNotificacao(new DomainNotification(message.MessageType, "Pedido acima do peso máximo aceito."));
+                return false;
+            }
 
-            //var drone = _droneRepository.ObterTodos().Result.FirstOrDefault(d => d.Capacidade >= pedido.Peso);
+            double distancia = _localizacaoLoja.CalcularDistanciaEmKilometros(new Localizacao(cliente.Latitude, cliente.Longitude));
+            distancia *= 2;
 
-            //if (drone == null)
-            //    return "Pedido acima do peso máximo aceito.";
+            int tempoTrajetoCompleto = distancia.CalcularTempoTrajetoEmMinutos(drone.Velocidade);
 
-            //double distancia = _localizacaoLoja.CalcularDistanciaEmKilometros(new Localizacao(pedido.Cliente.Latitude, pedido.Cliente.Longitude));
-            //distancia *= 2;
-
-            //int tempoTrajetoCompleto = _localizacaoLoja.CalcularTempoTrajetoEmMinutos(distancia, drone.Velocidade);
-
-            //if (tempoTrajetoCompleto > drone.Autonomia)
-            //    return "Fora da área de entrega.";
-            var cliente = await _clienteQueries.ObterPorId(message.ClienteId);
+            if (tempoTrajetoCompleto > drone.Autonomia)
+            {
+                await _mediatr.PublicarNotificacao(new DomainNotification(message.MessageType, "Fora da área de entrega."));
+                return false;
+            }
+                
             var pedido = new Pedido(message.Peso, message.DataHora, message.Status, message.Valor);
-            pedido.InformarCliente(_mapper.Map<Cliente>(cliente));
+            pedido.InformarCliente(cliente);
 
-            pedido.AdicionarEvento(new PedidoAdicionadoEvent(pedido.Id, pedido.Valor,message.BandeiraCartao,message.NumeroCartao,message.MesVencimentoCartao,message.AnoVencimentoCartao ));
+            pedido.AdicionarEvento(new PedidoAdicionadoEvent(pedido.Id, pedido.Valor, message.BandeiraCartao, message.NumeroCartao, message.MesVencimentoCartao, message.AnoVencimentoCartao));
             await _pedidoRepository.Adicionar(pedido);
             return await _pedidoRepository.UnitOfWork.Commit();
         }

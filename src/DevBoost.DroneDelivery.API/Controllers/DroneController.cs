@@ -76,9 +76,9 @@ namespace DevBoost.DroneDelivery.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostDrone(AdicionarDroneViewModel droneViewModel)
         {
-            var suvesso = await _mediatr.EnviarComando(_mapper.Map<AdicionarDroneCommand>(droneViewModel));
+            var sucesso = await _mediatr.EnviarComando(_mapper.Map<AdicionarDroneCommand>(droneViewModel));
 
-            if (!suvesso) return BadRequest();
+            if (!sucesso) return BadRequest();
 
             return Ok();
 

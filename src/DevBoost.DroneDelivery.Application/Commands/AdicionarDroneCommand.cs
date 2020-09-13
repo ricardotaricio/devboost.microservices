@@ -7,12 +7,12 @@ namespace DevBoost.DroneDelivery.Application.Commands
 {
     public class AdicionarDroneCommand : Command
     {
-        public AdicionarDroneCommand(int capacidade, int velocidade, int autonomia, int carga)
+        public AdicionarDroneCommand(int capacidade, int velocidade, int autonomia)
         {
             Capacidade = capacidade;
             Velocidade = velocidade;
             Autonomia = autonomia;
-            Carga = carga;
+            Carga = 60;
             AutonomiaRestante = autonomia;
             StatusDrone = EnumStatusDrone.Disponivel;
             DataHora = DateTime.Now;
